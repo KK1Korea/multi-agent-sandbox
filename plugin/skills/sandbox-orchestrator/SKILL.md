@@ -432,7 +432,33 @@ Append to MasterLog.md (unclassified staging area):
   태그: [구상]
 ```
 
-If separated issues noted, append to `research_queue.md`.
+### Research Queue Update (mandatory after recording)
+
+After MasterLog recording, update `.context/research_queue.md` with debate-derived items:
+
+1. Extract from the structured report:
+   - [Unverified Items] → each becomes a research queue entry
+   - [Separated Issues] → each becomes a research queue entry
+   - Any falsification conditions proposed but not yet tested
+
+2. Format per entry:
+```
+## [RQ-N] {title} — [대기] {priority: HIGH/MEDIUM/LOW}
+- 출처: MasterLog [{N}] {debate reference}
+- 내용: {what needs to be verified/tested}
+- 측정: {how to measure success/failure}
+- 성공 기준: {what constitutes pass/fail}
+- 관련: {related log entries}
+```
+
+3. Priority assignment:
+   - HIGH: Blocks project progress or invalidates a key assumption
+   - MEDIUM: Improves confidence but not blocking
+   - LOW: Nice to know, no urgency
+
+4. Also sync to `github-repo/docs/context/research_queue.md` if the repo exists.
+
+This step is mandatory — the research queue is how the user tracks what needs to be proven next to advance the project.
 
 ### MasterLog Review
 

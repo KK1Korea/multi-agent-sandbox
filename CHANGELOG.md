@@ -12,6 +12,15 @@
 - 버전 기반 구형 데이터 탐지
 - /review 커맨드
 
+## cpas-sandbox v0.9.5 — 2026-03-14 세션 #8
+- Skeptic: O-3-4 [Mandatory WebSearch] — 턴당 최소 1회 웹 검색 필수 (최신 데이터 주입 보장)
+- sandbox-orchestrator: Research Queue 업데이트 단계 추가 (토의 후 필수)
+  - [미검증 항목] + [분리 쟁점] → research_queue.md 자동 등록
+  - 우선순위 체계 (HIGH/MEDIUM/LOW) + 성공 기준 포맷
+- Fail_Log 비대칭 전략 명시적 폐기: 양쪽 동일 데이터 수신이 올바른 설계
+  - Skeptic은 지적을 위해, Advocate는 진행을 위해 같은 데이터를 다르게 활용
+- v0.9.4 벤치마크 완료: v0.9.2 동일 주제 재실행, Accept→Redirect→Propose 패턴 실증
+
 ## cpas-sandbox v0.9.4 — 2026-03-14 세션 #8
 - Advocate 프롬프트 전면 재설계: "유연하고 능력있는 사원" 역할
   - O-1-4 [Project Direction Anchor]: current_task.md `[지금 해야 할 일]` 기반 방향 앵커
