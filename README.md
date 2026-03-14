@@ -13,20 +13,20 @@ Core principle: **"Observe but never interfere"** — the orchestrator never gen
 ## Architecture
 
 ```
-v0.9 — 2-Level Architecture
+v0.9.1 — 2-Level Architecture
 
-┌────────────────────────┐
-│     Orchestrator        │  ← Debate loop control + observation + judgment
-│     (Main Agent)        │     Tag stripping, convergence, imbalance detection
-└──┬──────┬──────┬───────┘
-   │      │      │
-┌──▼──┐┌──▼──┐┌─▼───────────┐
-│Adv. ││Skep.││ Data-Filter  │
-│     ││     ││   (Haiku)    │
-└─────┘└─────┘└──────────────┘
- WebSearch  WebSearch   MasterLog/
- WebFetch   WebFetch    True_Log
- Read       Read, Grep  Fail_Log filtering
+┌──────────────────────────────────────────┐
+│              Orchestrator                 │  ← Debate loop control
+│              (Main Agent)                 │     + observation + judgment
+└──┬──────┬──────┬──────┬──────┬──────────┘
+   │      │      │      │      │  spawns directly
+┌──▼──┐┌──▼──┐┌──▼───┐┌─▼───┐┌─▼───┐
+│Adv. ││Skep.││ML-Flt││TL-Flt││FL-Flt│
+│Opus ││Opus ││Haiku ││Haiku ││Haiku │
+└─────┘└─────┘└──────┘└─────┘└──────┘
+ WebSearch WebSearch  MasterLog True_Log Fail_Log
+ WebFetch  WebFetch   (MEDIUM)  (HIGH)   (HIGH)
+ Read      Read,Grep  ↑ 3 parallel filters, 1 file each ↑
 ```
 
 The ideal 3-level design (Orchestrator → Observer → Agents) was built for Claude Code. Due to Cowork's "subagents cannot spawn subagents" constraint, the Observer layer was absorbed into the orchestrator — resulting in the current 2-level architecture. See `docs/ko/Observer.md` for the ideal 3-level design.
@@ -51,7 +51,7 @@ Each agent self-evaluates its state on 5 axes every turn:
 Phase 1: Pre-Debate Setup
   Step 0 — Verify workspace structure
   Step 1 — Collect project state (current_task.md, memory)
-  Step 2 — Data-Filter extracts relevant internal data (MasterLog, True_Log, Fail_Log)
+  Step 2 — 3 Data-Filters run in parallel (1 Haiku per log file)
   Step 3 — Assess internal data sufficiency
   Step 4 — Load tag protocol (required)
 
@@ -79,12 +79,15 @@ Phase 3: Post-Debate Processing
 
 ```
 plugin/
-├── .claude-plugin/plugin.json    ← Plugin metadata (v0.9.0)
+├── .claude-plugin/plugin.json    ← Plugin metadata (v0.9.1)
 ├── agents/
 │   ├── advocate.md               ← Pro agent prompt
 │   ├── skeptic.md                ← Con agent prompt
+│   ├── masterlog-filter.md       ← MasterLog filter (Haiku)
+│   ├── truelog-filter.md         ← True_Log filter (Haiku)
+│   ├── faillog-filter.md        ← Fail_Log filter (Haiku)
 │   ├── observer.md               ← [IDEAL ONLY] For Claude Code 3-level
-│   └── data-filter.md            ← Internal data filter (Haiku)
+│   └── data-filter.md            ← [LEGACY] Single filter (replaced by 3 above)
 ├── skills/
 │   ├── sandbox-orchestrator/     ← Core orchestrator skill
 │   │   ├── SKILL.md
@@ -158,7 +161,7 @@ The contribution is not inventing these theories but **integrating them into a w
 ## Version
 
 - **Ideal (Claude Code)**: 3-level architecture with independent Observer
-- **Current (Cowork) v0.9**: 2-level optimized — orchestrator absorbs Observer functions
+- **Current (Cowork) v0.9.1**: 2-level optimized — orchestrator absorbs Observer functions, 3 parallel data filters
 
 ## License
 

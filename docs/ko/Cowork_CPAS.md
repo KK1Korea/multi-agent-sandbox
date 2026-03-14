@@ -20,7 +20,8 @@
 
 [Cowork_CPAS 방향]
   · Observer 제거. 메인 에이전트가 토의 루프 제어 + 관찰 + 판단 직접 수행.
-  · 2단계만 사용: 메인 → {Advocate, Skeptic, Data-Filter}
+  · 2단계만 사용: 메인 → {Advocate, Skeptic, MasterLog-Filter, TrueLog-Filter, FailLog-Filter}
+  · Data-Filter 3분할: 로그 파일별 Haiku 1개씩 병렬 소환 (스케일링 대비)
   · 컨텍스트 오염이 아님: 토의 내용을 보되 건드리지 않음. 관찰과 판단의 겸용.
   · "토의를 건드리는 게 아니니까" — 사용자 판단 근거
 
@@ -60,12 +61,13 @@
   │  │ · 쟁점 구조화         │ │
   │  │ · 최종 보고서 작성    │ │
   │  └───────────────────────┘ │
-  └──┬──────┬──────┬──────────┘
-     │      │      │ 직접 소환
-  ┌──▼──┐┌─▼────┐┌▼─────────┐
-  │Adv. ││Skep. ││DataFilter│
-  │(Sub)││(Sub) ││(Sub/Haiku│
-  └─────┘└──────┘└──────────┘
+  └──┬──────┬──────┬──────┬──────┬────┘
+     │      │      │      │      │ 직접 소환
+  ┌──▼──┐┌──▼──┐┌─▼────┐┌▼────┐┌▼────┐
+  │Adv. ││Skep.││ML-Flt││TL-Flt││FL-Flt│
+  │(Sub)││(Sub)││Haiku ││Haiku ││Haiku │
+  └─────┘└─────┘└──────┘└─────┘└──────┘
+                  ↑ 3개 병렬 소환 (각 1파일 전담)
 
   장점: Cowork 플랫폼 호환, 단순한 구조
   단점: 오케스트레이터 컨텍스트에 토의 데이터 축적
@@ -77,15 +79,18 @@
 
 [실증 완료 — 2026-03-14 세션 #4]
 
-  | 에이전트    | WebSearch | WebFetch | Read | Grep | Agent | Bash |
-  |------------|-----------|----------|------|------|-------|------|
-  | Advocate   | ✓         | ✓        | ✓    | ✗    | ✗     | ✗    |
-  | Skeptic    | ✓         | ✓        | ✓    | ✓    | ✗     | ✗    |
-  | DataFilter | ✓         | ✓        | ✓    | ✓    | ✗     | ✗    |
+  | 에이전트          | WebSearch | WebFetch | Read | Grep | Agent | Bash |
+  |------------------|-----------|----------|------|------|-------|------|
+  | Advocate         | ✓         | ✓        | ✓    | ✗    | ✗     | ✗    |
+  | Skeptic          | ✓         | ✓        | ✓    | ✓    | ✗     | ✗    |
+  | MasterLog-Filter | ✗         | ✗        | ✓    | ✓    | ✗     | ✗    |
+  | TrueLog-Filter   | ✗         | ✗        | ✓    | ✓    | ✗     | ✗    |
+  | FailLog-Filter   | ✗         | ✗        | ✓    | ✓    | ✗     | ✗    |
 
   핵심:
   · Advocate/Skeptic 모두 WebSearch 가능 → 외부 검색 기반 토의 정상 작동
-  · Skeptic은 Grep 추가 → 내부 데이터 직접 검색 가능 (Data-Filter 보완)
+  · Skeptic은 Grep 추가 → 내부 데이터 직접 검색 가능 (Filter 보완)
+  · Filter 3종은 Read/Grep만 → 각자 담당 로그 파일 1개만 읽음 (최소 권한)
   · Agent 도구 미제공 확인 → 서브에이전트 재귀 호출 불가 재확인
   · Bash 미제공 → 로컬 명령 실행 불가 (설계에 영향 없음)
 
@@ -145,15 +150,19 @@
     · current_task.md 읽기
     · → {MEMORY_CONTEXT} 조합
 
-  Step 2. Data-Filter 소환 (Haiku)
-    · data-filter 에이전트 소환
-    · True_Log (HIGH), Fail_Log (HIGH), MasterLog (MEDIUM) 읽기
-    · → {FILTERED_DATA} 수신
+  Step 2. Data-Filter 3개 병렬 소환 (각 Haiku)
+    · masterlog-filter — MasterLog.md 전담 (MEDIUM)
+    · truelog-filter — True_Log.md 전담 (HIGH)
+    · faillog-filter — Fail_Log.md 전담 (HIGH)
+    · 3개 동시 소환 (병렬 실행) → 각 결과 병합 → {FILTERED_DATA}
+    · 병합 순서: HIGH(True_Log, Fail_Log) → MEDIUM(MasterLog)
+    · 이유: 로그 파일 증가 시 단일 에이전트 컨텍스트 초과 방지
 
   Step 3. 내부 데이터 충분성 평가
-    · 2+ 관련 항목 → sufficient
-    · 0-1 관련 항목 → thin
-    · "No relevant data" → search-only
+    · 3개 필터 결과 합산하여 판정
+    · 2+ 관련 항목 (합계) → sufficient
+    · 0-1 관련 항목 (합계) → thin
+    · 3개 모두 "No relevant data" → search-only
 
 [Phase 2 — 토의 루프] (핵심 변경)
 

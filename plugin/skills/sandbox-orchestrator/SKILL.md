@@ -15,7 +15,7 @@ version: 0.9.0
 The orchestrator handles ALL phases: pre-debate setup, debate loop control, and post-debate analysis.
 No Observer agent. The orchestrator directly spawns Advocate/Skeptic and performs observation + judgment.
 
-Architecture: Main (Orchestrator) → {Advocate, Skeptic, Data-Filter} — 2-level only.
+Architecture: Main (Orchestrator) → {Advocate, Skeptic, MasterLog-Filter, TrueLog-Filter, FailLog-Filter} — 2-level only.
 
 ## Phase 1 — Pre-Debate Setup
 
@@ -40,39 +40,60 @@ Combine into `{MEMORY_CONTEXT}` — concise summary of:
 - Current active tasks
 - Relevant boundaries
 
-### Step 2 — Data Filter Agent (Haiku)
+### Step 2 — Data Filter Agents (3× Haiku, Parallel)
 
-Spawn the `data-filter` agent:
+Spawn THREE filter agents in parallel — each handles one log file:
+
+**Agent 1: masterlog-filter**
 ```
-Debate topic: {TOPIC}
-
-Read the following project files and extract ONLY entries relevant to the debate topic:
-
-[HIGH RELIABILITY]:
-- True_Log.md — Verified facts (tag as "HIGH — verified")
-- Fail_Log.md — Verified failures (tag as "HIGH — verified failure")
-
-[MEDIUM RELIABILITY]:
-- MasterLog.md — Unclassified entries (tag as "MEDIUM — unclassified")
-
-[LOW RELIABILITY]:
-- Plans/*.md — Reference only (tag as "LOW — reference only")
-
-Do NOT read:
-- Dummy_Log/*.md — Already classified as low-value
-- .context/research_queue.md — Unverified research items
-
-Deliver filtered results in your structured format.
+Agent tool call:
+  subagent_type: "cpas-sandbox:masterlog-filter"
+  prompt: |
+    Debate topic: {TOPIC}
+    Read MasterLog.md and extract ONLY entries relevant to the debate topic.
+    Deliver filtered results in your structured format.
 ```
 
-Capture output as `{FILTERED_DATA}`.
+**Agent 2: truelog-filter**
+```
+Agent tool call:
+  subagent_type: "cpas-sandbox:truelog-filter"
+  prompt: |
+    Debate topic: {TOPIC}
+    Read True_Log.md and extract ONLY entries relevant to the debate topic.
+    Deliver filtered results in your structured format.
+```
+
+**Agent 3: faillog-filter**
+```
+Agent tool call:
+  subagent_type: "cpas-sandbox:faillog-filter"
+  prompt: |
+    Debate topic: {TOPIC}
+    Read Fail_Log.md and extract ONLY entries relevant to the debate topic.
+    Deliver filtered results in your structured format.
+```
+
+IMPORTANT: Launch all 3 agents in a SINGLE message (parallel execution).
+Each agent reads only its assigned file — no overlap, no duplication.
+
+Capture outputs and merge into `{FILTERED_DATA}`:
+```
+{truelog-filter output}
+
+{faillog-filter output}
+
+{masterlog-filter output}
+```
+
+Order: HIGH reliability first (True_Log, Fail_Log), then MEDIUM (MasterLog).
 
 ### Step 3 — Assess Internal Data Sufficiency
 
-From data-filter output:
-- **2+ relevant entries** → sufficient
-- **0-1 relevant entries** → thin
-- **"No relevant internal data found"** → search-only
+From merged filter outputs (count across all 3):
+- **2+ relevant entries total** → sufficient
+- **0-1 relevant entries total** → thin
+- **All three report "No relevant data"** → search-only
 
 ### Step 4 — Load Tag Protocol (MANDATORY)
 
