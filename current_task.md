@@ -1,35 +1,26 @@
 # current_task.md
 
+## [작업 버전]
+v0.9.3 : cpas-manager 플러그인 분리, masterlog-review → project-review 독립, ET 사용자 승인, stale check, current_task 버전 추적
+v0.9.2 : Data-Filter 3분할, Opus 벤치마크 2회 완료 (388K/524K 토큰), 볼륨 분할 규칙, API 비용 추산
+v0.9.1 : Data-Filter 3분할 초안, 기존 data-filter.md 레거시 보존
+v0.9.0 : Observer 제거, 2-level 아키텍처, Cowork_CPAS 분리, 서브에이전트 도구 실증
+v0.6.0 : Observer 루프 제어 첫 벤치마크 → 실패 (미스폰 [17])
+v0.5.0 : 열세 감지 + 확장사고 활성화, 메모리 경계 주입
+v0.4.0 : Haiku 데이터 필터, masterlog-review 스킬, workspace-init
+v0.3.0 : 시스템 개입 제거, 고정 섹션 구조
+v0.2.0 : 태그 스펙트럼 확장 (R,C,A:1-13 / S:1-19), D Ref 태그
+v0.1.0 : 초기 플러그인 — Advocate/Skeptic/Observer 프롬프트, 5축 태그 시스템
+
 ## [현재 상황]
-Phase A — Cowork_CPAS v0.9.2 벤치마크 2회 완료, 데이터 품질 정리 진행 중
-플러그인 v0.9.2 + masterlog-review v0.3 업데이트 완료
+Phase A — Cowork_CPAS v0.9.3 프로젝트 관리 분리, 데이터 품질 정리 완료 단계
 
-## [핵심 진행 — v0.9.2 벤치마크 결과]
-- 1차 토의 (외부 주제: 오픈소스 LLM 추월 가능성): 3섹션 18턴, Skeptic 우위, 자연 수렴
-- 2차 토의 (내부 주제: CPAS 실용성): 3섹션 18턴, Skeptic 결정적 승리, Advocate 항복(S-4)
-- 실측 토큰: 1차 ~388K / 2차 ~524K (Opus 4.6 기준)
-- API 비용: 1차 ~$2.80 / 2차 ~$4.70 (ET 활성화로 증가)
-- Data Filter(Haiku×3) 정상 작동 확인
-- 외부/내부 주제 모두 검증 → 시스템 기본 동작 확인됨
-
-## [미결 쟁점 — MasterLog [26]]
-- CPAS 실용성 비교 프레이밍 재정의 완료:
-  · ❌ "CPAS vs 사용자+Opus" (경쟁자 구도)
-  · ✅ "CPAS 구조화 보고서의 의사결정 입력 품질" vs "자유 대화의 입력 품질"
-- 비용 차이: CPAS ~3-5배 비쌈 → 품질 차이가 정당화하는가?
-- 벤치마크 데이터 n=2로 불충분 — 결론 보류
-
-## [최근 완료 작업 — 세션 #6~#7]
-- True_Log [21] 수정: 16-22K 설계 추정치 표기 + 실측값 추가 + API 비용 추산
-- True_Log [3] 수정: 확장사고 → 사용자 승인 후 활성화 (비용 폭발 방지)
-- True_Log [7] 미결사항 추가: 2컨텍스트에서 블랙박스 보장 미검증
-- True_Log [6],[12] → Dummy_Log 이동 (구버전, 후속에 대체됨)
-- masterlog-review v0.3: 모델 고정 제거 + True_Log 잔류 기준 강화 + 5종 태그 연동
-- sandbox-orchestrator SKILL.md: ET 사용자 승인 절차 추가
-- CLAUDE.md: masterlog-review 모델 고정 해제 반영
-- README: Open Question: Practicality 섹션 추가
-- MasterLog [26]: 실용성 비교 재정의 — 미결사항 기록
-- GitHub push 완료 (de87647)
+## [지금 해야 할 일]
+1. cpas-manager 플러그인 검증 — /review 명령 실행 테스트
+2. 하위 모델(Sonnet/Haiku) 토의 에이전트 비용 최적화 벤치마크
+3. MasterLog [2][23][24] 분류 검토 (masterlog-review → project-review 이관)
+4. CPAS 실용성 비교 추가 벤치마크 (n=2 불충분 — 다양한 주제 필요)
+5. "의사결정 입력 품질" 정량적 평가 방법론 설계
 
 ## [로그 현황]
 - True_Log: [1][3][4][5][7][10][11][13][14][15][17][19][20][21][22] (15건)
@@ -37,19 +28,12 @@ Phase A — Cowork_CPAS v0.9.2 벤치마크 2회 완료, 데이터 품질 정리
 - Dummy_Log: [6][8][9][12] (4건)
 - MasterLog: [2][23][24][25][26] (5건 — [2] 확정, [23][24] 확정, [25][26] 구상)
 
-## [지금 해야 할 일]
-1. 플러그인 업데이트 로그 (CHANGELOG.md) 생성 — 버전별 변경사항 추적
-2. sandbox-orchestrator에 stale check 단계 추가 (토의 전 로그 상태 권고)
-3. 하위 모델(Sonnet/Haiku) 토의 에이전트 비용 최적화 벤치마크 — [미착수]
-4. MasterLog [25] 분류 (벤치마크 데이터 → True 후보 검토)
-5. MasterLog [2][23][24] → True_Log 이동 대상 검토 (masterlog-review 실행)
-
 ## [진행도]
 Phase A: ████████████████████ 95%
   - 설계: ████████████████████ 100% (Cowork_CPAS v0.9.2)
-  - 플러그인 패키징: ████████████████████ 100% (v0.9.2 + masterlog-review v0.3)
+  - 플러그인 패키징: ████████████████████ 100% (cpas-sandbox v0.9.3 + cpas-manager v1.0)
   - 벤치마크: ████████████████░░░░ 80% (2회 완료, Opus 기준 — 하위 모델 미검증)
-  - 데이터 품질: ██████████████░░░░░░ 70% (True_Log 감사 완료, MasterLog 정리 진행 중)
-  - 튜닝: ████░░░░░░░░░░░░░░░░ 20% (ET 승인제 도입, 하위 모델 최적화 미착수)
+  - 데이터 품질: ████████████████░░░░ 80% (True_Log 감사 완료, project-review 분리)
+  - 튜닝: ████░░░░░░░░░░░░░░░░ 20% (ET 승인제 도입, 하위 모델 미착수)
 
 ## [최종 갱신] 2026-03-14 세션 #7

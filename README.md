@@ -92,7 +92,6 @@ plugin/
 │   ├── sandbox-orchestrator/     ← Core orchestrator skill
 │   │   ├── SKILL.md
 │   │   └── references/tag-protocol.md
-│   ├── masterlog-review/         ← Log classification skill (inherits user's model)
 │   └── workspace-init/           ← Initialization skill
 └── commands/
     ├── sandbox.md                ← /sandbox command
@@ -106,8 +105,10 @@ plugin/
 ├── CLAUDE.md                     ← Session startup rules
 ├── CHANGELOG.md                  ← Plugin version history
 ├── current_task.md               ← Current project state
-├── cpas-sandbox.plugin           ← Installable plugin file
-├── plugin/                       ← Plugin source code
+├── cpas-sandbox.plugin           ← Debate plugin (installable)
+├── cpas-manager.plugin           ← Project management plugin (installable)
+├── plugin/                       ← Debate plugin source
+├── cpas-manager/                 ← Project management plugin source
 ├── docs/
 │   ├── ko/                       ← Korean design documents
 │   │   ├── Cowork_CPAS.md        ← Cowork_CPAS architecture design (SSOT)

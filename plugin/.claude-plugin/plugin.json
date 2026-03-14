@@ -1,9 +1,9 @@
 {
   "name": "cpas-sandbox",
-  "version": "0.9.2",
-  "description": "CPAS Sandbox Debate System (Cowork_CPAS) — 2-level architecture. Orchestrator directly controls Advocate, Skeptic, and dynamic Data Filters (1 Haiku per log volume, auto-scaling at 1500 lines). Observer removed (reserved for CPAS ideal/Claude Code). Includes MasterLog review skill.",
+  "version": "0.9.3",
+  "description": "CPAS Sandbox Debate System (Cowork_CPAS) — 2-level architecture. Orchestrator directly controls Advocate, Skeptic, and dynamic Data Filters (1 Haiku per log volume, auto-scaling at 1500 lines). Observer removed (reserved for CPAS ideal/Claude Code). Log management moved to cpas-manager plugin.",
   "author": {
     "name": "CPAS"
   },
-  "keywords": ["debate", "sandbox", "decision-making", "multi-agent", "masterlog"]
+  "keywords": ["debate", "sandbox", "decision-making", "multi-agent"]
 }

@@ -1,15 +1,22 @@
-# CHANGELOG — cpas-sandbox Plugin
+# CHANGELOG — CPAS Plugins
 
 플러그인 버전별 변경사항 기록. 최신이 위.
 
 ================================================================================
 
-## v0.9.3 — 2026-03-14 세션 #7
-- masterlog-review v0.3: 모델 고정(Sonnet) 제거 → 사용자 모델 상속
-- masterlog-review v0.3: True_Log 잔류 기준 강화 (지속 참조 가치 필수)
-- masterlog-review v0.3: 5종 상태 태그([구상]/[진행]/[보류]/[폐기]/[확정]) 분류 연동
-- masterlog-review v0.3: Dummy 분류에 "구버전 설계" + "True_Log 재평가 대상" 추가
+## cpas-manager v1.0.0 — 2026-03-14 세션 #7
+- 신규 플러그인: 프로젝트 관리 전담 (cpas-sandbox에서 분리)
+- project-review 스킬: MasterLog/True/Fail/Dummy 로그 분류 + 이동
+- True_Log/Fail_Log 재평가 (구형 데이터 → Dummy 자동 이동)
+- current_task.md 버전 추적 ([작업 버전] 섹션)
+- 버전 기반 구형 데이터 탐지
+- /review 커맨드
+
+## cpas-sandbox v0.9.3 — 2026-03-14 세션 #7
+- masterlog-review 스킬 제거 → cpas-manager 플러그인으로 이관
 - sandbox-orchestrator: 확장사고 활성화 → 사용자 승인 필수 (비용 폭발 방지)
+- sandbox-orchestrator Step 0.5: stale check → cpas-manager `/review` 권고로 변경
+- sandbox-orchestrator Step 1: `{MEMORY_CONTEXT}`에 `[지금 해야 할 일]`만 포함 (버전/로그 현황 제외)
 
 ## v0.9.2 — 2026-03-14 세션 #5~#6
 - Data-Filter 3분할: masterlog-filter + truelog-filter + faillog-filter (Haiku×3 병렬)

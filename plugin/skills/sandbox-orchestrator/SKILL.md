@@ -29,35 +29,32 @@ Check if the CPAS file structure exists in the workspace:
 
 ### Step 0.5 — Log Freshness Check
 
-Before starting the debate, check the health of project logs:
+Before starting the debate, do a lightweight check on project log health:
 
-1. **MasterLog staleness**: Count entries with `[구상]` or `[진행]` tags that have been in MasterLog for 3+ sessions (check session numbers vs current session).
-2. **True_Log superseded check**: Quick scan — are there entries referencing versions that have been replaced by later entries?
-3. **current_task.md freshness**: Is `[최종 갱신]` more than 2 sessions behind?
+1. **current_task.md freshness**: Read `[최종 갱신]` — is it 2+ sessions behind?
+2. **MasterLog staleness**: Count entries with `[구상]`/`[진행]` tags older than 3 sessions.
 
 **Actions:**
-- If stale entries ≥ 3: Recommend user to run `masterlog-review` before debate.
-  · Format: "MasterLog에 3세션 이상 미분류 항목이 {N}건 있습니다. 토의 전에 masterlog-review를 실행하시겠습니까?"
-  · If user approves → run masterlog-review, then continue to Step 1
+- If stale entries ≥ 3 OR current_task.md outdated:
+  · Recommend: "프로젝트 로그가 오래됐습니다. 토의 전에 /review (cpas-manager)를 실행하시겠습니까?"
+  · If user approves → user runs cpas-manager `/review` separately, then restart debate
   · If user declines → proceed normally (data filters will handle relevance anyway)
-- If current_task.md is stale: Warn user.
-  · Format: "current_task.md가 세션 #{N}에서 멈춰있습니다. 토의 경계 조건이 outdated일 수 있습니다. 업데이트할까요?"
 - If everything fresh → proceed silently
 
-**IMPORTANT**: This is a lightweight check, NOT a full masterlog-review. Read headers/tags only — do NOT read full entry contents.
+**IMPORTANT**: This is a lightweight check. Read headers/tags only — do NOT read full entry contents. Log classification is cpas-manager 플러그인의 역할이다.
 
 ### Step 1 — Memory & Live State Collection
 
-Collect the project's live state:
+Collect the project's live state for debate boundary context:
 
 1. **Claude Memory** (built-in): Accumulated project context, user preferences, confirmed decisions. Automatically available.
-2. **current_task.md**: Real-time project state.
+2. **current_task.md `[지금 해야 할 일]`**: Current active tasks — the debate must stay relevant to these.
 
 Combine into `{MEMORY_CONTEXT}` — concise summary of:
 - Project identity and current phase
+- Current active tasks (from `[지금 해야 할 일]`)
 - Key constraints and confirmed decisions
-- Current active tasks
-- Relevant boundaries
+- ★ `[작업 버전]`이나 `[로그 현황]`은 포함하지 않음 — 토의 쟁점 집중을 위해
 
 ### Step 2 — Data Filter Agents (Haiku, Parallel)
 
