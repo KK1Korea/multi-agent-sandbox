@@ -1,7 +1,8 @@
-# CPAS 데이터 필터(Data Filter) 설계 v0.2
+# CPAS 데이터 필터(Data Filter) 설계 v0.3
 # 언어: 한글 (설계용) — 실행본은 플러그인 agents/{masterlog,truelog,faillog}-filter.md (영어)
-# 모델: Haiku × 3 (각 로그 파일 전담)
+# 모델: Haiku × N (파일당 1개, 볼륨 분할 시 동적 증가)
 # v0.2 변경: 단일 에이전트 → 3분할 병렬 구조 (로그 스케일링 대비)
+# v0.3 변경: 볼륨 분할 대응 규칙 추가 (1파일 = 1 Haiku, 1500줄 제한)
 #
 # [v0.2 아키텍처 변경 사유]
 # - 기존: data-filter (Haiku 1개)가 MasterLog + True_Log + Fail_Log 모두 처리
@@ -10,8 +11,15 @@
 #   · masterlog-filter → MasterLog.md (MEDIUM)
 #   · truelog-filter → True_Log.md (HIGH)
 #   · faillog-filter → Fail_Log.md (HIGH)
-# - 오케스트레이터가 3개 결과를 병합하여 {FILTERED_DATA} 생성
+# - 오케스트레이터가 결과를 병합하여 {FILTERED_DATA} 생성
 # - 병합 순서: HIGH(True_Log, Fail_Log) → MEDIUM(MasterLog)
+#
+# [v0.3 볼륨 분할 스케일링 규칙]
+# - 로그 파일 1500줄 초과 시 볼륨 분할: True_Log_1.md, True_Log_2.md...
+# - 볼륨당 전담 Haiku 1개 배치 (동일 subagent_type, 프롬프트에서 파일명 지정)
+# - MasterLog는 볼륨 분할 안 함 (초과분 → Dummy_Log 이동)
+# - 오케스트레이터가 토의 전 볼륨 수 자동 감지 → 해당 수만큼 Haiku 소환
+# - 비용 원칙: 확장사고 대신 Haiku 다중 병렬로 품질 보완
 #
 # [각 에이전트 공통 원칙]
 # - 아래 v0.1 설계의 선서문/금지/공리는 3개 에이전트 모두에 동일 적용

@@ -150,13 +150,25 @@
     · current_task.md 읽기
     · → {MEMORY_CONTEXT} 조합
 
-  Step 2. Data-Filter 3개 병렬 소환 (각 Haiku)
-    · masterlog-filter — MasterLog.md 전담 (MEDIUM)
-    · truelog-filter — True_Log.md 전담 (HIGH)
-    · faillog-filter — Fail_Log.md 전담 (HIGH)
-    · 3개 동시 소환 (병렬 실행) → 각 결과 병합 → {FILTERED_DATA}
+  Step 2. Data-Filter 병렬 소환 (각 Haiku)
+
+    Step 2.0 — 볼륨 감지:
+    · MasterLog.md → 항상 단일 파일 (초과분 → Dummy_Log)
+    · True_Log.md 또는 True_Log_1.md, True_Log_2.md... → 볼륨 수 확인
+    · Fail_Log.md 또는 Fail_Log_1.md, Fail_Log_2.md... → 볼륨 수 확인
+    · 볼륨 분할 트리거: 파일 1500줄 초과 시
+
+    Step 2.1 — 에이전트 소환:
+    · 기본: masterlog-filter(1) + truelog-filter(1) + faillog-filter(1) = 3개
+    · 볼륨 존재 시: 볼륨당 Haiku 1개 추가 배치
+      예) True_Log 2볼륨 → truelog-filter 2개 (각각 다른 볼륨 파일 지정)
+    · 전부 단일 메시지로 병렬 소환
+    · 규칙: 1파일 = 1 Haiku, 최대 ~1500줄/파일/에이전트
+
+    Step 2.2 — 결과 병합:
     · 병합 순서: HIGH(True_Log, Fail_Log) → MEDIUM(MasterLog)
-    · 이유: 로그 파일 증가 시 단일 에이전트 컨텍스트 초과 방지
+    · 복수 볼륨 시 볼륨 순서대로 연결
+    · → {FILTERED_DATA}
 
   Step 3. 내부 데이터 충분성 평가
     · 3개 필터 결과 합산하여 판정

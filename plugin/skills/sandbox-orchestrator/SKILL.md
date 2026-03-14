@@ -40,9 +40,31 @@ Combine into `{MEMORY_CONTEXT}` — concise summary of:
 - Current active tasks
 - Relevant boundaries
 
-### Step 2 — Data Filter Agents (3× Haiku, Parallel)
+### Step 2 — Data Filter Agents (Haiku, Parallel)
 
-Spawn THREE filter agents in parallel — each handles one log file:
+#### Step 2.0 — Volume Detection
+
+Before spawning filter agents, detect how many log volumes exist:
+
+```
+Check workspace for log files:
+  - MasterLog.md (always single file — overflow goes to Dummy_Log)
+  - True_Log.md OR True_Log_1.md, True_Log_2.md, ...
+  - Fail_Log.md OR Fail_Log_1.md, Fail_Log_2.md, ...
+```
+
+Rules:
+- If `True_Log.md` exists (single file) → 1 truelog-filter agent
+- If `True_Log_1.md`, `True_Log_2.md`, ... exist (volume split) → 1 truelog-filter agent PER volume
+- Same logic for Fail_Log
+- MasterLog is always 1 agent (overflow → Dummy, not volume split)
+- Volume split trigger: any log file exceeding ~1500 lines
+
+#### Step 2.1 — Spawn Filter Agents
+
+**Base case (no volumes — most common):**
+
+Spawn 3 filter agents in parallel:
 
 **Agent 1: masterlog-filter**
 ```
@@ -74,19 +96,38 @@ Agent tool call:
     Deliver filtered results in your structured format.
 ```
 
-IMPORTANT: Launch all 3 agents in a SINGLE message (parallel execution).
-Each agent reads only its assigned file — no overlap, no duplication.
+**Volume case (when split files detected):**
 
-Capture outputs and merge into `{FILTERED_DATA}`:
+Spawn 1 agent per volume file. Example with True_Log split into 2 volumes:
+
 ```
-{truelog-filter output}
+Agent tool calls (ALL in a SINGLE message):
+  - masterlog-filter → MasterLog.md
+  - truelog-filter (1) → prompt includes "Read True_Log_1.md" (NOT True_Log.md)
+  - truelog-filter (2) → prompt includes "Read True_Log_2.md"
+  - faillog-filter → Fail_Log.md
+```
 
-{faillog-filter output}
+Each volume agent uses the SAME subagent_type (e.g., `cpas-sandbox:truelog-filter`)
+but with a modified prompt specifying the exact volume filename to read.
+
+IMPORTANT: Launch ALL agents in a SINGLE message (parallel execution).
+Each agent reads only its assigned file — no overlap, no duplication.
+Scaling rule: 1 file = 1 Haiku. Max ~1500 lines per file per agent.
+
+#### Step 2.2 — Merge Filter Outputs
+
+Capture all outputs and merge into `{FILTERED_DATA}`:
+```
+{truelog-filter output(s) — combine if multiple volumes}
+
+{faillog-filter output(s) — combine if multiple volumes}
 
 {masterlog-filter output}
 ```
 
 Order: HIGH reliability first (True_Log, Fail_Log), then MEDIUM (MasterLog).
+If multiple volumes exist for a log type, concatenate their outputs in volume order.
 
 ### Step 3 — Assess Internal Data Sufficiency
 

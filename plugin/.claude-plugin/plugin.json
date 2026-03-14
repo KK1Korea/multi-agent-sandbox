@@ -1,7 +1,7 @@
 {
   "name": "cpas-sandbox",
-  "version": "0.9.1",
-  "description": "CPAS Sandbox Debate System (Cowork_CPAS) — 2-level architecture. Orchestrator directly controls Advocate, Skeptic, and 3 parallel Data Filters (MasterLog/TrueLog/FailLog). Observer removed (reserved for CPAS ideal/Claude Code). Includes MasterLog review skill.",
+  "version": "0.9.2",
+  "description": "CPAS Sandbox Debate System (Cowork_CPAS) — 2-level architecture. Orchestrator directly controls Advocate, Skeptic, and dynamic Data Filters (1 Haiku per log volume, auto-scaling at 1500 lines). Observer removed (reserved for CPAS ideal/Claude Code). Includes MasterLog review skill.",
   "author": {
     "name": "CPAS"
   },
