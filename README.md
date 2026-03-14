@@ -133,13 +133,29 @@ Every design decision is recorded in "symptom → cause → resolution → lesso
 
 ## Benchmark Results
 
-v0.9 first benchmark topic: *"Does a multi-agent structured debate system like this already exist as prior art?"*
+All benchmarks use **Opus 4.6** for both debate agents — deliberately choosing the highest-performance model as the baseline to measure maximum achievable debate quality before optimizing for cost.
 
-2 sections, 12 turns, both sides converged:
+### v0.9 Benchmark — *"Does this system already exist as prior art?"*
 
-> **This is a systems engineering innovation, not a theoretical invention** — the first working implementation that integrates established argumentation theory (Dung AAF, Toulmin Model, Computational Argumentation) into a multi-agent debate system with real-time anchoring, imbalance correction, and context isolation.
+2 sections, 12 turns, both sides converged. Conclusion: **systems engineering innovation, not theoretical invention**. Full record at `logs/True_Log.md` [22].
 
-Debate quality: High (both sides C≥7, S naturally converged, D-H never reached). Full record at `logs/True_Log.md` [22].
+### v0.9.2 Benchmark 1 — External Topic: *"Can open-source LLMs surpass commercial models within 3 years?"*
+
+3 sections, 18 turns, Skeptic advantage. Natural convergence (Advocate self-revised timeline from 3yr to 4-5yr). Data filters correctly returned "No relevant data" for external topic. Full record at `logs/MasterLog.md` [25].
+
+### v0.9.2 Benchmark 2 — Internal Topic: *"Is CPAS itself practical? Does decision quality improvement justify the token cost vs single-model Extended Thinking?"*
+
+3 sections, 18 turns, Skeptic decisive victory. Advocate conceded (S-4) with 4 key admissions: insufficient benchmark sample (n=1), web search hallucination unresolvable by MasterLog, 3-context separation impossible in Cowork, pure reasoning performance alone doesn't justify cost. Data filters found 13 relevant internal entries (True_Log 7, Fail_Log 2, MasterLog 4) — validating filter effectiveness for internal topics.
+
+### Measured Token Costs
+
+| Benchmark | Sections | Turns | Sub-agent API Tokens | Notes |
+|-----------|----------|-------|---------------------|-------|
+| v0.9.2 #1 (external) | 3 | 18 | ~388K | Standard Opus, no Extended Thinking |
+| v0.9.2 #2 (internal) | 3 | 18 | ~524K | S2/S3 Advocate Extended Thinking activated |
+| Data Filters (Haiku×3) | — | — | ~50-55K per debate | Parallel execution |
+
+**Important note on token accounting**: The `~16-22K` figure referenced in `logs/True_Log.md` [21] is a **design-time estimate** of orchestrator context window overhead — not measured total debate cost. The actual measured costs above are significantly higher due to cumulative context growth across resumed agent turns. See [21] amendment history for details.
 
 ## Theoretical Background
 
