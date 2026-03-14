@@ -190,7 +190,9 @@ The contribution is not inventing these theories but **integrating them into a w
 
 The core question for CPAS is not "AI vs AI debate" as an end in itself, but whether CPAS provides **better decision input** for the user compared to free-form conversation with a single model.
 
-CPAS was always designed with the user as the final authority — the system produces structured analysis, and the user makes the call. The real comparison is therefore: **quality of structured debate output as decision input** vs **quality of free conversation as decision input**, and whether the quality gap justifies the cost difference (~3-5x with Opus). This remains an open research question with insufficient benchmark data (n=2) to answer definitively.
+CPAS was always designed with the user as the final authority — the system produces structured analysis, and the user makes the call. The real comparison is therefore: **quality of structured debate output as decision input** vs **quality of free conversation as decision input**, and whether the quality gap justifies the cost difference (~3-5x with Opus on API pricing). This remains an open research question with insufficient benchmark data (n=2) to answer definitively.
+
+**Note on flat-rate plans**: Under subscription plans (e.g., Claude Max, Claude Code Max), the per-token cost difference becomes irrelevant — leaving pure quality comparison as the only metric. However, plan terms and usage limits are subject to change by Anthropic at any time.
 
 ## Version
 
