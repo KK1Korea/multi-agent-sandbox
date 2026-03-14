@@ -175,11 +175,14 @@ The debate produced actionable research items (recorded in `research_queue.md`) 
 
 ### Measured Token Costs
 
-| Benchmark | Sections | Turns | Sub-agent API Tokens | Notes |
-|-----------|----------|-------|---------------------|-------|
-| v0.9.2 #1 (external) | 3 | 18 | ~388K | Standard Opus, no Extended Thinking |
-| v0.9.2 #2 (internal) | 3 | 18 | ~524K | S2/S3 Advocate Extended Thinking activated |
-| Data Filters (Haiku×3) | — | — | ~50-55K per debate | Parallel execution |
+| Benchmark | Sections | Turns | Sub-agent API Tokens | ET Activated | Skeptic WebSearch | Notes |
+|-----------|----------|-------|---------------------|-------------|-------------------|-------|
+| v0.9.2 #1 (external) | 3 | 18 | ~388K | No | Yes | Standard Opus |
+| v0.9.2 #2 (internal) | 3 | 18 | ~524K | Yes (S2/S3) | Yes | Advocate S-4 collapse triggered ET |
+| v0.9.4 #3 (internal, re-run) | 3 | 18 | ~513K | No | **Zero** | Advocate S-7 min, no ET needed |
+| Data Filters (Haiku×3) | — | — | ~50-55K per debate | — | — | Parallel execution |
+
+**v0.9.4 observation**: Skeptic performed **0 WebSearch calls across all 9 turns**, relying entirely on internal data (True_Log/Fail_Log/MasterLog). This produced strong arguments but created an echo chamber risk — leading to the v0.9.5 mandatory WebSearch rule (O-3-4: minimum 1 search per turn).
 
 **Important note on token accounting**: The `~16-22K` figure referenced in `logs/True_Log.md` [21] is a **design-time estimate** of orchestrator context window overhead — not measured total debate cost. The actual measured costs above are significantly higher due to cumulative context growth across resumed agent turns. See [21] amendment history for details.
 
