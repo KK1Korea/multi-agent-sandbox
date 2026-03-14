@@ -780,3 +780,53 @@ CPAS — MasterLog — 미분류 항목 (스테이징)
 
 ================================================================================
 
+[23] Data-Filter 3분할 + GitHub 리포 생성 — 2026-03-14 세션 #5
+────────────────────────────────────────
+
+  ■ 증상:
+    Data-Filter(Haiku 1개)가 MasterLog + True_Log + Fail_Log 3개 파일을 모두 처리하는 구조.
+    현재는 로그 총량이 적어 문제없으나, 로그가 커지면 단일 Haiku 컨텍스트 초과 위험.
+
+  ■ 원인:
+    v0.1 설계 시 로그 스케일링 미고려. "일단 동작하는 구조"로 단일 에이전트 설계.
+
+  ■ 해결:
+    1. Data-Filter를 3개 전문 에이전트로 분할:
+       · masterlog-filter → MasterLog.md 전담 (MEDIUM reliability)
+       · truelog-filter → True_Log.md 전담 (HIGH reliability)
+       · faillog-filter → Fail_Log.md 전담 (HIGH reliability)
+    2. 오케스트레이터가 3개를 병렬 소환 (단일 메시지)
+    3. 각 에이전트는 자기 파일만 읽음 (최소 권한 원칙)
+    4. 결과 병합 순서: HIGH(True_Log, Fail_Log) → MEDIUM(MasterLog)
+    5. 기존 data-filter.md는 레거시로 보존
+
+  ■ 변경 파일:
+    - plugin/agents/masterlog-filter.md — 신규
+    - plugin/agents/truelog-filter.md — 신규
+    - plugin/agents/faillog-filter.md — 신규
+    - plugin/skills/sandbox-orchestrator/SKILL.md — Phase 1 Step 2 전면 개정
+    - docs/ko/Cowork_CPAS.md — 아키텍처 다이어그램 + 도구 표 + Step 2 갱신
+    - docs/ko/DataFilter.md — v0.2 헤더 + 3분할 사유 추가
+    - plugin/.claude-plugin/plugin.json — v0.9.1
+    - plugin/README.md — 컴포넌트 테이블 갱신
+    - README.md (영문) — 아키텍처 다이어그램 + 플러그인 구조 갱신
+    - cpas-sandbox.plugin — 재패키징
+
+  ■ GitHub 리포 생성:
+    - 리포명: multi-agent-sandbox (Public, MIT)
+    - URL: https://github.com/KK1Korea/multi-agent-sandbox
+    - README 영문 전환 — 핵심은 "멀티에이전트 구조화 토의 시스템", Cowork는 실행 환경
+    - 포지셔닝: "시스템 엔지니어링 혁신" (MasterLog [22] 벤치마크 결론 채택)
+    - gh CLI v2.88.1 설치 + KK1Korea 계정 인증 + push 완료
+
+  ■ 교훈:
+    - "일단 동작"과 "스케일링 대비"는 별개 — 로그가 쌓이는 시스템에서 단일 처리는 시한폭탄
+    - 파일당 에이전트 1개 = 최소 권한 + 병렬 실행 + 독립 장애 — 3중 이점
+    - 플러그인 포지셔닝: Cowork 전용 → 범용 시스템(Cowork에서 실행) 전환이 정확
+    - README 영문 + 로그 한글 = 진입 장벽 낮추면서 원본성 보존하는 현실적 전략
+
+  태그: [확정]
+  관련: [21][22], DataFilter.md v0.2, Cowork_CPAS.md v1.0, SKILL.md v0.9.1
+
+================================================================================
+
