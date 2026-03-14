@@ -185,7 +185,7 @@ CPAS was always designed with the user as the final authority — the system pro
 ## Version
 
 - **Ideal (Claude Code)**: 3-level architecture with independent Observer
-- **Current (Cowork) v0.9.2**: 2-level optimized — orchestrator absorbs Observer functions, 3 parallel data filters
+- **Current (Cowork) v0.9.3**: 2-level optimized — orchestrator absorbs Observer functions, 3 parallel data filters, project management separated to cpas-manager plugin
 
 ## License
 

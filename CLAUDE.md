@@ -28,5 +28,7 @@
 - 누락/압축/요약 절대 금지
 
 ## MasterLog 정리 규칙
-- masterlog-review 스킬이 수행 (모델 고정 없음 — 사용자가 사용 중인 모델이 그대로 실행)
+- cpas-manager 플러그인의 project-review 스킬이 수행 (/review 커맨드)
+- 사용자가 사용 중인 모델이 그대로 실행 (모델 고정 없음)
 - True_Log 잔류 기준: 핵심 검증사항 + 계속 참조 가능한 것만. 구버전/대체된 항목 → Dummy, 실패 확인 → Fail
+- current_task.md의 [작업 버전] 히스토리 기반으로 구형 데이터 탐지
