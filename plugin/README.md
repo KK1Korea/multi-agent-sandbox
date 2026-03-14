@@ -1,4 +1,4 @@
-# CPAS Sandbox Plugin v0.9.1
+# CPAS Sandbox Plugin v0.9.2
 
 Structured multi-agent debate system for high-stakes decision making. 2-level architecture — orchestrator directly controls all agents.
 

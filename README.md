@@ -13,7 +13,7 @@ Core principle: **"Observe but never interfere"** — the orchestrator never gen
 ## Architecture
 
 ```
-v0.9.1 — 2-Level Architecture
+v0.9.2 — 2-Level Architecture
 
 ┌──────────────────────────────────────────┐
 │              Orchestrator                 │  ← Debate loop control
@@ -79,7 +79,7 @@ Phase 3: Post-Debate Processing
 
 ```
 plugin/
-├── .claude-plugin/plugin.json    ← Plugin metadata (v0.9.1)
+├── .claude-plugin/plugin.json    ← Plugin metadata (v0.9.2)
 ├── agents/
 │   ├── advocate.md               ← Pro agent prompt
 │   ├── skeptic.md                ← Con agent prompt
@@ -119,8 +119,8 @@ plugin/
 │       ├── session_log.md        ← Session log
 │       └── research_queue.md     ← Unresolved research items
 └── logs/                         ← Full development logs
-    ├── MasterLog.md              ← Staging area (22 entries)
-    ├── True_Log.md               ← Verified successes ([7][11][17])
+    ├── MasterLog.md              ← Staging area (3 entries: [2][23][24])
+    ├── True_Log.md               ← Verified successes (17 entries)
     ├── Fail_Log.md               ← Verified failures ([16][18])
     └── Dummy_Log/                ← Low-value/duplicate ([8][9])
 ```
@@ -139,7 +139,7 @@ v0.9 first benchmark topic: *"Does a multi-agent structured debate system like t
 
 > **This is a systems engineering innovation, not a theoretical invention** — the first working implementation that integrates established argumentation theory (Dung AAF, Toulmin Model, Computational Argumentation) into a multi-agent debate system with real-time anchoring, imbalance correction, and context isolation.
 
-Debate quality: High (both sides C≥7, S naturally converged, D-H never reached). Full record at `logs/MasterLog.md` [22].
+Debate quality: High (both sides C≥7, S naturally converged, D-H never reached). Full record at `logs/True_Log.md` [22].
 
 ## Theoretical Background
 
@@ -161,7 +161,7 @@ The contribution is not inventing these theories but **integrating them into a w
 ## Version
 
 - **Ideal (Claude Code)**: 3-level architecture with independent Observer
-- **Current (Cowork) v0.9.1**: 2-level optimized — orchestrator absorbs Observer functions, 3 parallel data filters
+- **Current (Cowork) v0.9.2**: 2-level optimized — orchestrator absorbs Observer functions, 3 parallel data filters
 
 ## License
 

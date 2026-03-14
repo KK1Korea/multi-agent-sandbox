@@ -304,7 +304,7 @@
 
   [변경]
   · sandbox-orchestrator SKILL.md → Phase 2 전면 개정 (Observer 소환 → 직접 루프)
-  · plugin.json → v0.9.0
+  · plugin.json → v0.9.2
 
 ================================================================================
 [SSOT: 이 문서는 Cowork_CPAS 아키텍처의 유일한 진실이다]

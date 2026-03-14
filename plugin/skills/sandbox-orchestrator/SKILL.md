@@ -7,10 +7,10 @@ description: >
   Orchestrates Advocate and Skeptic agents directly in a 2-level architecture.
   The orchestrator controls the debate loop, strips tags, analyzes quality,
   detects imbalance, and produces the final structured report.
-version: 0.9.0
+version: 0.9.2
 ---
 
-# Sandbox Debate Orchestrator — Cowork_CPAS v0.9
+# Sandbox Debate Orchestrator — Cowork_CPAS v0.9.2
 
 The orchestrator handles ALL phases: pre-debate setup, debate loop control, and post-debate analysis.
 No Observer agent. The orchestrator directly spawns Advocate/Skeptic and performs observation + judgment.
