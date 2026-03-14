@@ -210,6 +210,11 @@ For each section, execute 3 exchanges (6 turns total):
        Debate topic: {TOPIC}
        You are arguing FOR this position. Drive the discussion toward the project's current goals.
        When the opponent raises valid concerns, acknowledge them and propose adjusted paths forward.
+
+       OUTPUT FORMAT: Your response MUST begin with meta tags on the FIRST LINE:
+       [D-{L/M/H}] [R-{1-13}] [C-{1-13}] [A-{1-13}] [S-{1-19}]
+       ---
+       (then your argument)
    ```
 
    Where {CURRENT_DIRECTION} is extracted from current_task.md `[지금 해야 할 일]` section.
@@ -270,6 +275,11 @@ For each section, execute 3 exchanges (6 turns total):
        Internal data for your use:
        Assessment: {sufficient / thin / search-only}
        {FILTERED_DATA}
+
+       OUTPUT FORMAT: Your response MUST begin with meta tags on the FIRST LINE:
+       [D-{L/M/H}] [R-{1-13}] [C-{1-13}] [A-{1-13}] [S-{1-19}]
+       ---
+       (then your argument)
 
        Present your counterargument.
    ```
