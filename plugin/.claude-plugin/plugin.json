@@ -1,0 +1,9 @@
+{
+  "name": "cpas-sandbox",
+  "version": "0.9.0",
+  "description": "CPAS Sandbox Debate System (Cowork_CPAS) — 2-level architecture. Orchestrator directly controls Advocate, Skeptic, and Data Filter. Observer removed (reserved for CPAS ideal/Claude Code). Includes MasterLog review skill.",
+  "author": {
+    "name": "CPAS"
+  },
+  "keywords": ["debate", "sandbox", "decision-making", "multi-agent", "masterlog"]
+}
