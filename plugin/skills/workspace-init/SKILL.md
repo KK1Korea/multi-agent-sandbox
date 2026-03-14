@@ -208,4 +208,4 @@ Ready for sandbox debates and project tracking.
 - NEVER modify existing MasterLog entries
 - Project name must be sanitized for filenames (no spaces → underscores, no special chars)
 - Date format: YYYY-MM-DD
-- All templates are bilingual (Korean tags, English structure) for CPAS compatibility
+- **사용자 언어 기반 기록**: 템플릿과 초기 내용은 사용자가 사용하는 언어로 작성한다. 사용자가 한국어면 한국어, 영어면 영어. 구조 태그([확정], [폐기] 등)는 한국어 고정 (CPAS 내부 프로토콜).

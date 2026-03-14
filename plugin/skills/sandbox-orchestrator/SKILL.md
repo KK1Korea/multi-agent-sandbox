@@ -401,6 +401,8 @@ Assess recording worthiness from the analysis:
 
 ### Recording (if approved)
 
+**Language rule**: Write the MasterLog entry in the **user's language** (the language they used to request the debate). If the user spoke Korean, record in Korean. If English, record in English.
+
 Append to MasterLog.md (unclassified staging area):
 ```
 [N] Sandbox: {topic} — {date}
@@ -422,7 +424,8 @@ If separated issues noted, append to `research_queue.md`.
 
 ### MasterLog Review
 
-If session wrapping up, invoke `masterlog-review` skill.
+Log classification is handled by `cpas-manager` plugin (`/review` command).
+If the user wants to classify logs after debate, recommend running `/review` separately.
 
 ### Memory Update
 

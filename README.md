@@ -71,15 +71,25 @@ Phase 3: Post-Debate Processing
 
 ### Cowork (Claude Desktop)
 
-1. Install the `cpas-sandbox.plugin` file in Claude Desktop
-2. Run with `/sandbox` command or ask to "run a debate on this topic"
-3. First run: initialize workspace with `/cpas-init`
+**Two plugins are required for full functionality:**
+
+1. **`cpas-sandbox.plugin`** — Structured debate system
+   - Install in Claude Desktop
+   - Run with `/sandbox` command or ask to "run a debate on this topic"
+   - First run: initialize workspace with `/cpas-init`
+
+2. **`cpas-manager.plugin`** — Project data management
+   - Install in Claude Desktop
+   - Run with `/review` command to classify logs and update project state
+   - Manages: MasterLog/True/Fail/Dummy classification, current_task.md versioning, stale data cleanup
+
+Both plugins operate independently — you can run debates without cpas-manager, but log quality will degrade over time without periodic `/review` runs.
 
 ### Plugin Structure
 
 ```
-plugin/
-├── .claude-plugin/plugin.json    ← Plugin metadata (v0.9.2)
+plugin/                           ← cpas-sandbox source
+├── .claude-plugin/plugin.json    ← Plugin metadata (v0.9.3)
 ├── agents/
 │   ├── advocate.md               ← Pro agent prompt
 │   ├── skeptic.md                ← Con agent prompt
