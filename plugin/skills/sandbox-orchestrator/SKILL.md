@@ -52,9 +52,13 @@ Collect the project's live state for debate boundary context:
 
 Combine into `{MEMORY_CONTEXT}` — concise summary of:
 - Project identity and current phase
-- Current active tasks (from `[지금 해야 할 일]`)
 - Key constraints and confirmed decisions
 - ★ `[작업 버전]`이나 `[로그 현황]`은 포함하지 않음 — 토의 쟁점 집중을 위해
+
+Extract `{CURRENT_DIRECTION}` — current_task.md의 `[지금 해야 할 일]` 섹션 원문.
+- 이 컨텍스트는 **Advocate에만** 전달됨 (Advocate의 방향 앵커)
+- Skeptic에는 전달하지 않음 — Skeptic은 과거 데이터와 위험으로 독립 판단
+- Advocate가 이 방향을 중심으로 토의를 진행하고, Skeptic의 지적을 수용하면서도 방향을 유지
 
 ### Step 2 — Data Filter Agents (Haiku, Parallel)
 
@@ -199,9 +203,17 @@ For each section, execute 3 exchanges (6 turns total):
        {MEMORY_CONTEXT}
        === END CONTEXT ===
 
+       === CURRENT DIRECTION (your north star) ===
+       {CURRENT_DIRECTION}
+       === END DIRECTION ===
+
        Debate topic: {TOPIC}
-       You are arguing FOR this position. Present your case.
+       You are arguing FOR this position. Drive the discussion toward the project's current goals.
+       When the opponent raises valid concerns, acknowledge them and propose adjusted paths forward.
    ```
+
+   Where {CURRENT_DIRECTION} is extracted from current_task.md `[지금 해야 할 일]` section.
+   This gives the Advocate its project direction anchor — it argues not just "for" but "forward."
 
    SUBSEQUENT EXCHANGES within same section (resume same agent):
    ```
@@ -212,7 +224,7 @@ For each section, execute 3 exchanges (6 turns total):
        ---
        {stripped Skeptic text from previous exchange}
        ---
-       Present your counterargument.
+       Address their concerns and drive the discussion forward.
    ```
 
    NEW SECTION (spawn fresh agent, do NOT resume):
@@ -220,7 +232,7 @@ For each section, execute 3 exchanges (6 turns total):
    Agent tool call:
      subagent_type: "cpas-sandbox:advocate"
      prompt: |
-       [same as first exchange prompt above — fresh context]
+       [same as first exchange prompt above — fresh context with CURRENT_DIRECTION]
    ```
 
 2. **Capture Advocate's full raw output** (tags + text). Store it.

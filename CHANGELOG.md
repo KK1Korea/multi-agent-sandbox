@@ -12,6 +12,17 @@
 - 버전 기반 구형 데이터 탐지
 - /review 커맨드
 
+## cpas-sandbox v0.9.4 — 2026-03-14 세션 #8
+- Advocate 프롬프트 전면 재설계: "유연하고 능력있는 사원" 역할
+  - O-1-4 [Project Direction Anchor]: current_task.md `[지금 해야 할 일]` 기반 방향 앵커
+  - O-3-4 [Partial Acceptance Protocol]: Accept → Redirect → Propose 3단계 패턴
+  - X-0 공리 갱신: 방어자 → 프로젝트 추진자
+- sandbox-orchestrator: `{CURRENT_DIRECTION}` 컨텍스트 추가
+  - Advocate에만 전달 (Skeptic 독립성 보장)
+  - Advocate spawn 프롬프트에 방향 앵커 블록 삽입
+  - Resume 프롬프트: "Address their concerns and drive the discussion forward."
+- 토의 역학 변경: 무조건적 공방 → Advocate 방향 추진 + Skeptic 스트레스 테스트 → 정제된 결론
+
 ## cpas-sandbox v0.9.3 — 2026-03-14 세션 #7
 - masterlog-review 스킬 제거 → cpas-manager 플러그인으로 이관
 - sandbox-orchestrator: 확장사고 활성화 → 사용자 승인 필수 (비용 폭발 방지)
