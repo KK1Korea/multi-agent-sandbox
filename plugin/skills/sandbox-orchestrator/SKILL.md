@@ -27,6 +27,25 @@ Check if the CPAS file structure exists in the workspace:
   - Use the debate topic as the project name (ask user to confirm)
   - Wait for initialization to complete before proceeding
 
+### Step 0.5 — Log Freshness Check
+
+Before starting the debate, check the health of project logs:
+
+1. **MasterLog staleness**: Count entries with `[구상]` or `[진행]` tags that have been in MasterLog for 3+ sessions (check session numbers vs current session).
+2. **True_Log superseded check**: Quick scan — are there entries referencing versions that have been replaced by later entries?
+3. **current_task.md freshness**: Is `[최종 갱신]` more than 2 sessions behind?
+
+**Actions:**
+- If stale entries ≥ 3: Recommend user to run `masterlog-review` before debate.
+  · Format: "MasterLog에 3세션 이상 미분류 항목이 {N}건 있습니다. 토의 전에 masterlog-review를 실행하시겠습니까?"
+  · If user approves → run masterlog-review, then continue to Step 1
+  · If user declines → proceed normally (data filters will handle relevance anyway)
+- If current_task.md is stale: Warn user.
+  · Format: "current_task.md가 세션 #{N}에서 멈춰있습니다. 토의 경계 조건이 outdated일 수 있습니다. 업데이트할까요?"
+- If everything fresh → proceed silently
+
+**IMPORTANT**: This is a lightweight check, NOT a full masterlog-review. Read headers/tags only — do NOT read full entry contents.
+
 ### Step 1 — Memory & Live State Collection
 
 Collect the project's live state:

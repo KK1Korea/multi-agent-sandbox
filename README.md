@@ -104,6 +104,7 @@ plugin/
 ```
 ├── README.md                     ← This document
 ├── CLAUDE.md                     ← Session startup rules
+├── CHANGELOG.md                  ← Plugin version history
 ├── current_task.md               ← Current project state
 ├── cpas-sandbox.plugin           ← Installable plugin file
 ├── plugin/                       ← Plugin source code
@@ -119,7 +120,7 @@ plugin/
 │       ├── session_log.md        ← Session log
 │       └── research_queue.md     ← Unresolved research items
 └── logs/                         ← Full development logs
-    ├── MasterLog.md              ← Staging area (3 entries: [2][23][24])
+    ├── MasterLog.md              ← Staging area (5 entries: [2][23][24][25][26])
     ├── True_Log.md               ← Verified successes (15 entries)
     ├── Fail_Log.md               ← Verified failures ([16][18])
     └── Dummy_Log/                ← Low-value/duplicate ([6][8][9][12])
