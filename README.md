@@ -92,7 +92,7 @@ plugin/
 │   ├── sandbox-orchestrator/     ← Core orchestrator skill
 │   │   ├── SKILL.md
 │   │   └── references/tag-protocol.md
-│   ├── masterlog-review/         ← Log classification skill (Sonnet)
+│   ├── masterlog-review/         ← Log classification skill (inherits user's model)
 │   └── workspace-init/           ← Initialization skill
 └── commands/
     ├── sandbox.md                ← /sandbox command
@@ -120,9 +120,9 @@ plugin/
 │       └── research_queue.md     ← Unresolved research items
 └── logs/                         ← Full development logs
     ├── MasterLog.md              ← Staging area (3 entries: [2][23][24])
-    ├── True_Log.md               ← Verified successes (17 entries)
+    ├── True_Log.md               ← Verified successes (15 entries)
     ├── Fail_Log.md               ← Verified failures ([16][18])
-    └── Dummy_Log/                ← Low-value/duplicate ([8][9])
+    └── Dummy_Log/                ← Low-value/duplicate ([6][8][9][12])
 ```
 
 ## Why Include Logs?
@@ -173,6 +173,12 @@ The contribution is not inventing these theories but **integrating them into a w
 - **Tag blackbox**: Tags are never shared between agents. Enforced at the architecture level.
 - **Append-only logging**: MasterLog is never edited, only appended. No omission, compression, or summarization.
 - **User final authority**: Orchestrator assessments are recommendations. The user always makes the final call.
+
+## Open Question: Practicality
+
+The core question for CPAS is not "AI vs AI debate" as an end in itself, but whether CPAS provides **better decision input** for the user compared to free-form conversation with a single model.
+
+CPAS was always designed with the user as the final authority — the system produces structured analysis, and the user makes the call. The real comparison is therefore: **quality of structured debate output as decision input** vs **quality of free conversation as decision input**, and whether the quality gap justifies the cost difference (~3-5x with Opus). This remains an open research question with insufficient benchmark data (n=2) to answer definitively.
 
 ## Version
 

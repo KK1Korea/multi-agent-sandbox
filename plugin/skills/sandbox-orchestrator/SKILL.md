@@ -280,7 +280,10 @@ The orchestrator produces ZERO debate content. It only strips tags, stores tags,
      · One side reached S-1 or S-2 (surrender/near-surrender)
      · One side's C consistently ≤ 3 while the other's C ≥ 7 (evidence gap)
    - If Imbalanced:
-     · Activate Extended Thinking for the losing side in Section 2.
+     · ⚠ MANDATORY: Ask the user for approval before activating Extended Thinking.
+     · Format: "불균형 감지: {side} 열세 (S≤4 연속). 확장사고를 활성화하면 토큰 비용이 ~2-3배 증가합니다. 활성화할까요?"
+     · If approved: Activate Extended Thinking for the losing side in Section 2.
+     · If denied: Proceed with standard Opus for both sides.
      · Add `model: "opus"` with extended thinking hint in the agent prompt.
      · The agent does not know why — blackbox preserved.
      · This is environment adjustment, not content intervention.
