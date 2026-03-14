@@ -32,3 +32,31 @@
 - 사용자가 사용 중인 모델이 그대로 실행 (모델 고정 없음)
 - True_Log 잔류 기준: 핵심 검증사항 + 계속 참조 가능한 것만. 구버전/대체된 항목 → Dummy, 실패 확인 → Fail
 - current_task.md의 [작업 버전] 히스토리 기반으로 구형 데이터 탐지
+
+## GitHub Push 방법 (Cowork VM 환경)
+Cowork VM은 세션마다 환경이 리셋되므로 gh CLI를 매번 설치 + 인증해야 함.
+
+```bash
+# 1. gh CLI 설치 (sudo 불가 환경)
+mkdir -p ~/.local/bin
+curl -L https://github.com/cli/cli/releases/download/v2.63.2/gh_2.63.2_linux_amd64.tar.gz -o /tmp/gh.tar.gz
+tar -xzf /tmp/gh.tar.gz -C /tmp
+cp /tmp/gh_2.63.2_linux_amd64/bin/gh ~/.local/bin/gh
+chmod +x ~/.local/bin/gh
+export PATH="$HOME/.local/bin:$PATH"
+
+# 2. GitHub 웹 인증 (사용자 브라우저 필요)
+gh auth login --web
+# → 화면에 one-time code 출력됨
+# → 사용자가 https://github.com/login/device 에서 코드 입력
+# → 인증 완료 후 gh가 credential 저장
+
+# 3. Push
+cd github-repo
+gh auth setup-git   # git credential helper 설정
+git push origin main
+```
+
+- repo 위치: `github-repo/` (워크스페이스 루트 내)
+- remote: `https://github.com/KK1Korea/multi-agent-sandbox.git`
+- push 전 워크스페이스 파일 → repo 동기화 필요 (current_task.md, logs/, docs/ 등)
