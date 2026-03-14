@@ -89,7 +89,7 @@ Both plugins operate independently — you can run debates without cpas-manager,
 
 ```
 plugin/                           ← cpas-sandbox source
-├── .claude-plugin/plugin.json    ← Plugin metadata (v0.9.3)
+├── .claude-plugin/plugin.json    ← Plugin metadata (v0.9.5)
 ├── agents/
 │   ├── advocate.md               ← Pro agent prompt
 │   ├── skeptic.md                ← Con agent prompt
@@ -131,7 +131,7 @@ plugin/                           ← cpas-sandbox source
 │       ├── session_log.md        ← Session log
 │       └── research_queue.md     ← Unresolved research items
 └── logs/                         ← Full development logs
-    ├── MasterLog.md              ← Staging area (5 entries: [2][23][24][25][26])
+    ├── MasterLog.md              ← Staging area (6 entries: [2][23][24][25][26][27])
     ├── True_Log.md               ← Verified successes (15 entries)
     ├── Fail_Log.md               ← Verified failures ([16][18])
     └── Dummy_Log/                ← Low-value/duplicate ([6][8][9][12])
@@ -158,6 +158,20 @@ All benchmarks use **Opus 4.6** for both debate agents — deliberately choosing
 ### v0.9.2 Benchmark 2 — Internal Topic: *"Is CPAS itself practical? Does decision quality improvement justify the token cost vs single-model Extended Thinking?"*
 
 3 sections, 18 turns, Skeptic decisive victory. Advocate conceded (S-4) with 4 key admissions: insufficient benchmark sample (n=1), web search hallucination unresolvable by MasterLog, 3-context separation impossible in Cowork, pure reasoning performance alone doesn't justify cost. Data filters found 13 relevant internal entries (True_Log 7, Fail_Log 2, MasterLog 4) — validating filter effectiveness for internal topics.
+
+### v0.9.4 Benchmark 3 — Same Topic Re-run: *"Is CPAS itself practical?"* (Advocate redesign comparison)
+
+3 sections, 18 turns, same topic as v0.9.2 Benchmark 2 — re-run after Advocate redesign (Accept→Redirect→Propose pattern + {CURRENT_DIRECTION} anchor). Skeptic advantage but **productive convergence** instead of collapse. Key differences vs v0.9.2:
+
+| Metric | v0.9.2 | v0.9.4 |
+|--------|--------|--------|
+| Advocate lowest S | S-4 (surrender) | S-7 (balanced) |
+| Debate outcome | Advocate collapse, no next steps | Choice A/B framework, 4-gate falsification, 3-path test design |
+| Strategic concessions | 4 (led to collapse) | 6+ (each redirected to project direction) |
+| New ideas generated | Limited | 3-path test, 4-gate framework, portfolio analysis, Choice A/B |
+| Debate dynamic | Attack → collapse | Drive → stress-test → convergence |
+
+The debate produced actionable research items (recorded in `research_queue.md`) instead of a defeat declaration. Full record at `logs/MasterLog.md` [27].
 
 ### Measured Token Costs
 
@@ -197,7 +211,7 @@ CPAS was always designed with the user as the final authority — the system pro
 ## Version
 
 - **Ideal (Claude Code)**: 3-level architecture with independent Observer
-- **Current (Cowork) v0.9.3**: 2-level optimized — orchestrator absorbs Observer functions, 3 parallel data filters, project management separated to cpas-manager plugin
+- **Current (Cowork) v0.9.5**: 2-level optimized — orchestrator absorbs Observer functions, 3 parallel data filters, Advocate direction anchor + Partial Acceptance Protocol, Skeptic mandatory WebSearch, research_queue auto-update, project management separated to cpas-manager plugin
 
 ## License
 
