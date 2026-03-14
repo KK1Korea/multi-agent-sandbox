@@ -16,11 +16,11 @@ v0.2.0 : 태그 스펙트럼 확장 (R,C,A:1-13 / S:1-19), D Ref 태그
 v0.1.0 : 초기 플러그인 — Advocate/Skeptic/Observer 프롬프트, 5축 태그 시스템
 
 ## [현재 상황]
-Phase A — Cowork_CPAS v0.9.6, RQ-1 초회 실험 완료, RQ-2 D-2/D-5 토의 완료 (50% non-clear), RQ-5 부분 해결
+Phase A — Cowork_CPAS v0.9.6, RQ-1 초회 실험 완료, RQ-2 D-2/D-5 완료 (mixed 25% + 쟁점 재정의: mixed→clear 전환), RQ-5 부분 해결
 
 ## [지금 해야 할 일]
 1. [RQ-1] 결론 확정 대기 — 초회 실험 완료, CPAS 고유 가치 = "깊이 기반 결론 신뢰성" 잠정 도출. 추가 주제로 재검증 필요 (HIGH)
-2. [RQ-2] D-5(conflicted), D-2(mixed) 완료. TTS 12건 중 mixed 3건(25%, 기준선 도달). 단 D8/D9 미검증 → 하락 리스크. CPAS 내부 정상 경로([28])에서도 mixed 1건 확인. 외부 데이터 수동 주입 경로 신뢰도 차이 있음. 자연 축적 데이터로 정밀화 필요 (HIGH)
+2. [RQ-2] D-5(conflicted), D-2(mixed) 완료. TTS 12건 중 mixed 3건(25%, 기준선 도달). 단 D8/D9 미검증 → 하락 리스크. CPAS 내부 정상 경로([28])에서도 mixed 1건 확인. 추가 발견: RQ-1~5 자체가 내부 경로 mixed 증거 (결론 미도출 = mixed 정의). 쟁점 재정의: "mixed 비율 충분한가?" → **"CPAS가 mixed → clear 전환 가능한가?"**. 현재 전환 증거 3건(D-5, D-2, [28]) 전부 성공, 단 내부 경로 n=1. 자연 축적 데이터로 전환율 정밀화 필요 (HIGH)
 3. [RQ-4] 하위 모델(Sonnet/Haiku) 토의 에이전트 품질 하한선 벤치마크 (MEDIUM)
 4. [RQ-5] 부분 해결 — Choice B 기본 경로, RQ-1 결과에 따라 Choice A 전환. 20주 순차 계획 ($99K) 합의 (MEDIUM)
 5. [v0.9.6] Skeptic 태그 미출력 수정 — 완료 (DONE)

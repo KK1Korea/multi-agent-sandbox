@@ -21,7 +21,9 @@
 * 측정: 결정 유형별 분포 (clear / mixed / sparse / conflicted)
 * 성공 기준: ≥25% mixed → CPAS 적용 범위 충분. <20% → CPAS는 니치 도구.
 * 현황: TTS 프로젝트 12건 분류 완료 → mixed 3건(25%, 기준선 도달), non-clear 전체 6건(50%). D-5(conflicted), D-2(mixed) 토의 검증 2건, 나머지 10건은 오케스트레이터 수동 분류(미검증). CPAS 내부 데이터 정상 경로([28] RQ-5)에서도 mixed 1건 확인 (n=1). 단, TTS 토의는 외부 데이터 수동 주입 경로 → 정상 필터 경로와 신뢰도 차이. D8/D9는 미검증 mixed로 토의 시 clear 전환 가능성 있음 → mixed 비율 하락 리스크.
-* 관련: True_Log [27], MasterLog [29]
+* 내부 경로 추가 증거 (세션 #11): RQ-1~5 자체가 내부 정상 경로 sandbox 토의([22],[27])에서 결론 미도출로 파생 = mixed의 정의. 외부 주입(TTS)보다 신뢰도 높음. 단 동일 토의 동시 파생이므로 독립 결정 포인트 5건으로 세기엔 과대 계상 우려.
+* 쟁점 재정의 (세션 #11): 진짜 질문은 "mixed 비율이 충분한가?"가 아니라 **"CPAS가 mixed → clear 전환을 달성할 수 있는가?"**. 현재 전환 증거: D-5(conflicted→clear), D-2(mixed→clear), [28] RQ-5(mixed→clear) = 3건 전부 전환 성공. 단 D-5/D-2는 외부 경로, [28]만 내부 경로(n=1).
+* 관련: True_Log [27], MasterLog [29], [28]
 
 ## [RQ-3] 구체성 강제 → 실행 오류 감소 인과관계 — [대기] MEDIUM
 
