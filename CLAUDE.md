@@ -34,10 +34,11 @@
 - current_task.md의 [작업 버전] 히스토리 기반으로 구형 데이터 탐지
 
 ## GitHub Push 방법 (Cowork VM 환경)
-Cowork VM은 세션마다 환경이 리셋되므로 gh CLI를 매번 설치 + 인증해야 함.
+Cowork VM은 세션마다 환경이 리셋되므로 gh CLI 설치는 매번 필요.
+단, 인증은 한번 완료된 채팅방(세션) 내에서는 유지됨 — **push/commit 실패 시에만 인증 절차 수행**.
 
 ```bash
-# 1. gh CLI 설치 (sudo 불가 환경)
+# 1. gh CLI 설치 (sudo 불가 환경 — 매 세션 필요)
 mkdir -p ~/.local/bin
 curl -L https://github.com/cli/cli/releases/download/v2.63.2/gh_2.63.2_linux_amd64.tar.gz -o /tmp/gh.tar.gz
 tar -xzf /tmp/gh.tar.gz -C /tmp
@@ -45,16 +46,17 @@ cp /tmp/gh_2.63.2_linux_amd64/bin/gh ~/.local/bin/gh
 chmod +x ~/.local/bin/gh
 export PATH="$HOME/.local/bin:$PATH"
 
-# 2. GitHub 웹 인증 (사용자 브라우저 필요)
+# 2. Push 시도
+cd github-repo
+gh auth setup-git
+git push origin main
+
+# 3. push 실패 시 → 인증 절차 (사용자 브라우저 필요)
 gh auth login --web
 # → 화면에 one-time code 출력됨
 # → 사용자가 https://github.com/login/device 에서 코드 입력
 # → 인증 완료 후 gh가 credential 저장
-
-# 3. Push
-cd github-repo
-gh auth setup-git   # git credential helper 설정
-git push origin main
+# → 다시 push 시도
 ```
 
 - repo 위치: `github-repo/` (워크스페이스 루트 내)
