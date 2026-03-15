@@ -1,6 +1,8 @@
 # current_task.md
 
 ## [작업 버전]
+v0.9.8 : 2세션 16턴 구조 (탐색전 8T + 공방전 8T), 최후의 진술 세션당 2턴, 세션 1 결론→세션 2 주입, S≤4 불균형 감지 1턴으로 강화, Skeptic O-1-2 WebSearch 필수 명시
+v0.9.7 : 8턴 포맷 (6T+최후의진술 2T), Output Example→Condition 포맷, Skeptic WebSearch Condition 강화, 한글 프롬프트 v0.9.7 동기화
 v0.9.6 : Skeptic 태그 미출력 수정 완료 (OUTPUT FORMAT 주입), plugin.json 누락 방지 (build-plugin.sh + plugin-meta-backup.json), GitHub repo v0.9.6 동기화
 v0.9.5 : Skeptic 필수 WebSearch(턴당 1+), research_queue 자동 업데이트, Fail_Log 비대칭 폐기, v0.9.4 벤치마크 완료
 v0.9.4 : Advocate 재설계 — 방향 앵커({CURRENT_DIRECTION}), Partial Acceptance Protocol(Accept→Redirect→Propose), 프로젝트 추진자 역할
@@ -16,7 +18,7 @@ v0.2.0 : 태그 스펙트럼 확장 (R,C,A:1-13 / S:1-19), D Ref 태그
 v0.1.0 : 초기 플러그인 — Advocate/Skeptic/Observer 프롬프트, 5축 태그 시스템
 
 ## [현재 상황]
-Phase A — Cowork_CPAS v0.9.6, RQ-1 초회 실험 완료, RQ-2 D-2/D-5 완료 (mixed 25% + 쟁점 재정의: mixed→clear 전환), RQ-5 부분 해결
+Phase A — Cowork_CPAS v0.9.8 [구상], RQ-1 초회 실험 완료, RQ-2 D-2/D-5 완료 (mixed 25% + 쟁점 재정의: mixed→clear 전환), RQ-5 부분 해결
 
 ## [지금 해야 할 일]
 1. [RQ-1] 결론 확정 대기 — 초회 실험 완료, CPAS 고유 가치 = "깊이 기반 결론 신뢰성" 잠정 도출. 추가 주제로 재검증 필요 (HIGH)
@@ -36,11 +38,11 @@ Phase A — Cowork_CPAS v0.9.6, RQ-1 초회 실험 완료, RQ-2 D-2/D-5 완료 (
 
 ## [진행도]
 Phase A: ████████████████████ 97%
-  - 설계: ████████████████████ 100% (Cowork_CPAS v0.9.6 — Skeptic WebSearch 필수 포함)
+  - 설계: ████████████████████ 100% (Cowork_CPAS v0.9.8 — 2세션 16턴, 최후의 진술, S≤4 1턴 감지)
   - 플러그인 패키징: ████████████████████ 100% (cpas-sandbox v0.9.6 + cpas-manager v1.0)
   - 벤치마크: ████████████████████ 100% (4회 완료 — 외부1, 내부1, v0.9.4 비교1, RQ-1 비교1)
   - 데이터 품질: ████████████████░░░░ 80% (True_Log 감사 완료, project-review 분리)
   - 튜닝: ████████████░░░░░░░░ 60% (ET 승인제, Advocate 재설계, Skeptic WebSearch — 태그 미출력 수정 완료, 하위 모델 미착수)
   - 검증: ██████████████░░░░░░ 55% (RQ-1 초회 완료, RQ-2 D-2/D-5 완료+D-3 취소, RQ-5 부분 해결, RQ-4 미착수)
 
-## [최종 갱신] 2026-03-15 세션 #11
+## [최종 갱신] 2026-03-15 세션 #12

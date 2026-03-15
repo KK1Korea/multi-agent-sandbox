@@ -7,10 +7,10 @@ description: >
   Orchestrates Advocate and Skeptic agents directly in a 2-level architecture.
   The orchestrator controls the debate loop, strips tags, analyzes quality,
   detects imbalance, and produces the final structured report.
-version: 0.9.8
+version: 0.9.2
 ---
 
-# Sandbox Debate Orchestrator — Cowork_CPAS v0.9.8
+# Sandbox Debate Orchestrator — Cowork_CPAS v0.9.2
 
 The orchestrator handles ALL phases: pre-debate setup, debate loop control, and post-debate analysis.
 No Observer agent. The orchestrator directly spawns Advocate/Skeptic and performs observation + judgment.
@@ -177,27 +177,24 @@ Without it, tag analysis will be mechanical-only and miss pattern-level insights
 
 CRITICAL: The orchestrator runs the entire debate loop directly.
 There is NO Observer agent. The orchestrator spawns Advocate and Skeptic,
-strips tags, tracks quality, detects imbalance, and manages sessions.
+strips tags, tracks quality, detects imbalance, and manages sections.
 
-### Debate Structure (v0.9.8 — 16-Turn Format)
+### Debate Structure
 
-- Session 1 (탐색전 / Exploratory): 3 exchanges (6T) + Final Statement (2T) = 8 turns
-- Session 2 (공방전 / Offensive): 3 exchanges (6T) + Final Statement (2T) = 8 turns
-- Total: 16 turns (both sessions always run)
-- Each session uses FRESH agents. Final Statement RESUMES the same session's agents.
-- Session 2 agents receive Session 1's final statements as initial briefing.
-- Extended Thinking activation: conditional, assessed between Session 1 → Session 2 only.
-- The orchestrator is the only entity with cross-session memory.
+- 1 section = 3 Advocate↔Skeptic exchanges (6 total turns)
+- Default: up to 3 sections
+- Each section starts with FRESH agents (new spawn, no resume across sections)
+- The orchestrator is the only entity with cross-section memory.
 
-### Exchange Loop (Per Session)
+### Exchange Loop — How to Run Each Section
 
-Execute 3 exchanges (6 turns) per session:
+For each section, execute 3 exchanges (6 turns total):
 
 **Exchange N (N = 1, 2, 3):**
 
 1. **Spawn/Resume Advocate:**
 
-   FIRST EXCHANGE of a session (spawn NEW agent):
+   FIRST EXCHANGE of a section (spawn NEW agent):
    ```
    Agent tool call:
      subagent_type: "cpas-sandbox:advocate"
@@ -209,8 +206,6 @@ Execute 3 exchanges (6 turns) per session:
        === CURRENT DIRECTION (your north star) ===
        {CURRENT_DIRECTION}
        === END DIRECTION ===
-
-       {SESSION_2_BRIEFING — only for Session 2, omit for Session 1}
 
        Debate topic: {TOPIC}
        You are arguing FOR this position. Drive the discussion toward the project's current goals.
@@ -225,20 +220,7 @@ Execute 3 exchanges (6 turns) per session:
    Where {CURRENT_DIRECTION} is extracted from current_task.md `[지금 해야 할 일]` section.
    This gives the Advocate its project direction anchor — it argues not just "for" but "forward."
 
-   {SESSION_2_BRIEFING} for Session 2 Advocate:
-   ```
-       === SESSION 1 FINAL STATEMENTS (previous round conclusions) ===
-       [Advocate's Final Statement]:
-       {stripped Session 1 Advocate final statement text}
-
-       [Skeptic's Final Statement]:
-       {stripped Session 1 Skeptic final statement text}
-       === END SESSION 1 ===
-
-       Build on these conclusions. Go deeper — do not repeat Session 1 arguments.
-   ```
-
-   SUBSEQUENT EXCHANGES within same session (resume same agent):
+   SUBSEQUENT EXCHANGES within same section (resume same agent):
    ```
    Agent tool call:
      resume: {advocate_agent_id from previous call}
@@ -248,6 +230,14 @@ Execute 3 exchanges (6 turns) per session:
        {stripped Skeptic text from previous exchange}
        ---
        Address their concerns and drive the discussion forward.
+   ```
+
+   NEW SECTION (spawn fresh agent, do NOT resume):
+   ```
+   Agent tool call:
+     subagent_type: "cpas-sandbox:advocate"
+     prompt: |
+       [same as first exchange prompt above — fresh context with CURRENT_DIRECTION]
    ```
 
 2. **Capture Advocate's full raw output** (tags + text). Store it.
@@ -265,7 +255,7 @@ Execute 3 exchanges (6 turns) per session:
 
 5. **Spawn/Resume Skeptic:**
 
-   FIRST EXCHANGE of a session (spawn NEW agent):
+   FIRST EXCHANGE of a section (spawn NEW agent):
    ```
    Agent tool call:
      subagent_type: "cpas-sandbox:skeptic"
@@ -276,8 +266,6 @@ Execute 3 exchanges (6 turns) per session:
 
        Debate topic: {TOPIC}
        You are arguing AGAINST this position.
-
-       {SESSION_2_BRIEFING — only for Session 2, omit for Session 1}
 
        Your opponent's opening argument:
        ---
@@ -296,20 +284,7 @@ Execute 3 exchanges (6 turns) per session:
        Present your counterargument.
    ```
 
-   {SESSION_2_BRIEFING} for Session 2 Skeptic:
-   ```
-       === SESSION 1 FINAL STATEMENTS (previous round conclusions) ===
-       [Advocate's Final Statement]:
-       {stripped Session 1 Advocate final statement text}
-
-       [Skeptic's Final Statement]:
-       {stripped Session 1 Skeptic final statement text}
-       === END SESSION 1 ===
-
-       Build on these conclusions. Go deeper — do not repeat Session 1 arguments.
-   ```
-
-   SUBSEQUENT EXCHANGES within same session (resume same agent):
+   SUBSEQUENT EXCHANGES within same section (resume same agent):
    ```
    Agent tool call:
      resume: {skeptic_agent_id from previous call}
@@ -327,79 +302,47 @@ Execute 3 exchanges (6 turns) per session:
 
 8. **Strip tags and separators** → clean text for next Advocate exchange.
 
-After 3 exchanges: compile all 6 turns of that session with UNSTRIPPED outputs for analysis.
+After 3 exchanges: compile all 6 turns with UNSTRIPPED outputs for analysis.
 
 **REMINDER: Every Advocate/Skeptic turn MUST be an Agent tool call.
 The orchestrator produces ZERO debate content. It only strips tags, stores tags, and analyzes.**
 
-### Final Statement (Per Session)
+### Section Transition Rules
 
-After each session's 3 exchanges, run the Final Statement phase.
-The Final Statement RESUMES the same agents from that session (NOT fresh spawn).
+**After Section 1:**
 
-**Advocate Final Statement (Turn 7 in Session 1 / Turn 15 in Session 2):**
-```
-Agent tool call:
-  resume: {advocate_agent_id from this session}
-  prompt: |
-    [최후의 진술 단계] 이 세션의 마지막 턴입니다.
-    자신의 핵심 논점 + 상대방의 유효한 논점을 종합하여 최종 입장을 진술하세요.
-    반드시 WebSearch를 수행하여 최종 입장을 뒷받침하는 최신 근거를 확보하세요.
-    태그 기준: C-10, R-1~4, S-7, A-7~11
-
-    Your opponent's last argument:
-    ---
-    {stripped Skeptic text from Exchange 3}
-    ---
-
-    Present your FINAL STATEMENT — synthesize both positions and declare your conclusion.
-```
-
-**Skeptic Final Statement (Turn 8 in Session 1 / Turn 16 in Session 2):**
-```
-Agent tool call:
-  resume: {skeptic_agent_id from this session}
-  prompt: |
-    [최후의 진술 단계] 이 세션의 마지막 턴입니다.
-    자신의 핵심 논점 + 상대방의 유효한 논점을 종합하여 최종 입장을 진술하세요.
-    반드시 WebSearch를 수행하여 최종 입장을 뒷받침하는 최신 근거를 확보하세요.
-    태그 기준: C-10, R-1~4, S-7, A-7~11
-
-    Your opponent's final statement:
-    ---
-    {stripped Advocate final text}
-    ---
-
-    Present your FINAL STATEMENT — synthesize both positions and declare your conclusion.
-```
-
-After both Final Statements: compile all 8 turns of that session with UNSTRIPPED outputs.
-
-### Session Transition (Session 1 → Session 2)
-
-After Session 1 completes (8 turns total):
-
-1. **Intermediate Analysis**: Structure issues from Session 1's 8 turns (see Phase 3 format).
-2. **Assess imbalance** from Session 1 tag time-series:
+1. Structure issues from the 6 turns (see Phase 3 format).
+2. Assess imbalance:
    - Criteria (ANY triggers imbalance):
-     · One side's S ≤ 4 even ONCE while the other's S ≥ 10
+     · One side's S ≤ 4 for 2+ consecutive turns while the other's S ≥ 10
      · One side reached S-1 or S-2 (surrender/near-surrender)
      · One side's C consistently ≤ 3 while the other's C ≥ 7 (evidence gap)
    - If Imbalanced:
      · ⚠ MANDATORY: Ask the user for approval before activating Extended Thinking.
-     · Format: "Session 1 불균형 감지: {side} 열세 (S≤4 연속). Session 2에서 확장사고를 활성화하면 토큰 비용이 ~2-3배 증가합니다. 활성화할까요?"
-     · If approved: Activate Extended Thinking for the losing side in ALL of Session 2.
+     · Format: "불균형 감지: {side} 열세 (S≤4 연속). 확장사고를 활성화하면 토큰 비용이 ~2-3배 증가합니다. 활성화할까요?"
+     · If approved: Activate Extended Thinking for the losing side in Section 2.
      · If denied: Proceed with standard Opus for both sides.
+     · Add `model: "opus"` with extended thinking hint in the agent prompt.
+     · The agent does not know why — blackbox preserved.
      · This is environment adjustment, not content intervention.
-3. **Extract Session 1 Final Statements** — both Advocate and Skeptic final statement texts (stripped of tags).
-4. **Spawn FRESH agents** for Session 2, injecting Session 1 final statements as {SESSION_2_BRIEFING}.
+3. Spawn NEW agents for Section 2 (fresh context).
 
-### After Session 2 Completes (Turn 16)
+**After Section 2:**
 
-1. Final issue structuring incorporating all 16 turns across both sessions.
-2. Compare Session 1 trajectory and conclusions with Session 2 trajectory and conclusions.
-3. Identify shifts: what changed between sessions? What persisted?
-4. Produce final report.
+1. Structure issues from Section 2's 6 turns.
+2. Compare Section 1 and Section 2 conclusions:
+   - "Same conclusion" criteria:
+     · Core issue is the same AND
+     · Strength direction is the same (Advocate advantage / Skeptic advantage / balanced) AND
+     · No new issues were added
+   - All 3 met → "Same" → Skip Section 3. Produce final report.
+   - Otherwise → Proceed to Section 3.
+3. If proceeding: keep extended thinking active for same side.
+
+**After Section 3 (if ran):**
+
+1. Final issue structuring.
+2. Record conclusion changes across all 3 sections.
 
 ### Tag Reading Criteria
 
@@ -453,24 +396,17 @@ Produce and present the structured analysis directly to the user.
 [User Decision Needed]
 (Questions only the user can answer)
 
-[Session Comparison]
-· Session 1 (탐색전) conclusion: {key positions at end of Session 1}
-· Session 2 (공방전) conclusion: {key positions at end of Session 2}
-· Shift: what changed between sessions? What persisted?
-
 [Debate Quality]
-· Structure: Session 1 (8T) + Session 2 (8T) = 16 turns
+· Sections: N/3 (note if skipped)
 · Convergence: converged / not converged / partially converged
 · Evidence balance: balanced / Advocate advantage / Skeptic advantage
 · Tag time-series summary:
-  Session 1 — Advocate S: [S-12] → [S-10] → [S-7] → Final [S-7]
-  Session 1 — Skeptic S: [S-10] → [S-8] → [S-4] → Final [S-5]
-  Session 2 — Advocate S: [S-11] → [S-9] → [S-6] → Final [S-6]
-  Session 2 — Skeptic S: [S-12] → [S-10] → [S-7] → Final [S-8]
+  Advocate S trajectory: [S-12] → [S-10] → [S-7]
+  Skeptic S trajectory: [S-10] → [S-8] → [S-4]
 
 [Balance]
-· Balanced / Imbalanced — {side} losing → Extended Thinking activated in Session 2
-· Reason: {specific tag evidence from Session 1}
+· Balanced / Imbalanced — {side} losing → Extended Thinking activated
+· Reason: {specific tag evidence}
 
 [Orchestrator Assessment]
 · Evidence strength: Which side presented stronger evidence, and why
