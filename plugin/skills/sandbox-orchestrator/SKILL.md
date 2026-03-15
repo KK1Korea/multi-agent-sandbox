@@ -332,6 +332,65 @@ After 3 exchanges: compile all 6 turns of that session with UNSTRIPPED outputs f
 **REMINDER: Every Advocate/Skeptic turn MUST be an Agent tool call.
 The orchestrator produces ZERO debate content. It only strips tags, stores tags, and analyzes.**
 
+### Internal Data Integrity Check (Between Exchanges)
+
+After each exchange completes (both Advocate and Skeptic turns done), the orchestrator performs a **data citation validation** on internal project data references.
+
+**What this checks:**
+- References to MasterLog/True_Log/Fail_Log entries (e.g., "[28]", "Entry [31]", "Episode N")
+- Specific claims about internal project data content
+- Only checks against `{FILTERED_DATA}` from Step 2.2 — the actual filter outputs
+
+**What this does NOT check:**
+- External WebSearch citations (논문, URL 등) — these are outside scope
+- Argument quality or logical validity — this is NOT content judgment
+- Tag values or debate strategy — these have their own checks
+
+**Check Flow (symmetric — applies to BOTH agents):**
+
+```
+Exchange N completes:
+  Turn 2N-1: Agent A output stored
+  Turn 2N:   Agent B output stored
+
+  [1] Scan Agent A (Turn 2N-1) for internal data references
+      → Cross-check against {FILTERED_DATA}
+      → Mismatch found?
+        → Did Agent B (Turn 2N) address/correct it?
+          → Yes: No action (cross-correction worked)
+          → No:  Queue DATA_CHECK for Agent A's next turn
+
+  [2] Scan Agent B (Turn 2N) for internal data references
+      → Cross-check against {FILTERED_DATA}
+      → Mismatch found?
+        → Flag as PENDING (will check if Agent A catches it in Exchange N+1)
+
+Exchange N+1 starts:
+  [3] Agent A responds (Turn 2N+1)
+      → Inject queued DATA_CHECK from [1] if any (append to resume prompt)
+      → Check: Did Agent A (Turn 2N+1) catch Agent B's flagged error from [2]?
+        → Yes: Clear flag (cross-correction worked)
+        → No:  Queue DATA_CHECK for Agent B's next turn
+
+  [4] Agent B responds (Turn 2N+2)
+      → Inject queued DATA_CHECK from [3] if any (append to resume prompt)
+```
+
+**DATA_CHECK injection format (append to the erring agent's resume prompt):**
+
+```
+⚠ DATA CHECK: 이전 턴에서 {구체적 인용} 참조 —
+필터 출력 데이터에 해당 항목 없음.
+논리 구조는 유지하되, 존재하지 않는 내부 데이터 인용은 정정하여 계속하시오.
+없는 데이터에서 파생된 주장이 있다면 재점검하시오.
+```
+
+**Key rules:**
+1. DATA_CHECK는 오류를 범한 에이전트에게만 전달 — 상대에게는 보이지 않음
+2. 상대가 이미 오류를 잡았으면 개입하지 않음 (자정작용 우선)
+3. 내부 데이터 존재 여부만 판단 — 논리/품질 판단 아님 (컴파일러 수준)
+4. 오케스트레이터는 {FILTERED_DATA}를 이미 보유 (Step 2.2) — 추가 비용 없음
+
 ### Final Statement (Per Session)
 
 After each session's 3 exchanges, run the Final Statement phase.

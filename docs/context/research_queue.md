@@ -108,11 +108,18 @@
   - 측정: Type-X 발생률, 도메인/복잡도 클러스터링, 전파 카운트
   - 규모: 5 에피소드 × 3 track = 15 에피소드 (축소 버전) 또는 20 에피소드 × 3 track (풀 버전)
 * ⚠ 핵심 제약 유지: 오케스트레이터 실시간 내용 개입은 블랙박스 원칙 위반 — 기각. Track B는 "비평가적 신호"로 제한.
-* 측정: (1) Type-X 발생률 (도메인/복잡도별), (2) Track A/B/C 간 환각 감지율 차이, (3) Track B의 metacognitive 활성화 효과
-* 성공 기준: Track A(자정작용만)의 Type-X < 10% → 현행 충분. Track B가 Track A 대비 유의미한 개선 → salience flags 채택. Track C가 Track A 대비 개선 → async audit 채택.
+* **v0.9.11 부분 해결 — 내부 데이터 무결성 검사 (MasterLog [34])**:
+  - Haiku 필터 무관 확인 — 필터가 "Episode"를 제공한 적 없음. Skeptic의 순수 LLM 환각 (citation format contamination).
+  - 근본 원인: v0.9.4 Advocate 재설계(Accept→Redirect→Propose)로 토의 안정성 확보하되 인용 검증 능력 상실 → Skeptic 오류 미감지(Type-X)
+  - 해결: 오케스트레이터가 교환 간에 {FILTERED_DATA} 대비 내부 데이터 인용 존재 여부 확인
+  - 양방향 대칭 (양쪽 에이전트 동일 적용) + 자정작용 우선 (상대가 잡으면 개입 안 함)
+  - 내용 불간섭 원칙 유지 — "데이터 존재 확인"만, 논리/품질 판단 아님
+  - 이것은 3-track 테스트와 별개 — 현재 아키텍처의 즉시 적용 가능한 안전장치
+* 측정: (1) Type-X 발생률 (도메인/복잡도별), (2) Track A/B/C 간 환각 감지율 차이, (3) Track B의 metacognitive 활성화 효과, (4) v0.9.11 DATA_CHECK 개입 빈도 및 자정작용 대비 효과
+* 성공 기준: Track A(자정작용만)의 Type-X < 10% → 현행 충분. Track B가 Track A 대비 유의미한 개선 → salience flags 채택. Track C가 Track A 대비 개선 → async audit 채택. v0.9.11 DATA_CHECK가 Type-X를 감소시키는지 별도 측정.
 * 의존: 추가 sandbox 에피소드 축적 필요 (15~60 에피소드)
 * 사용자 확인 대기: (1) 테스트 규모(축소 vs 풀), (2) salience flags 포함 여부
-* 관련: MasterLog [31][33], RQ-7, Fail_Log [16]
+* 관련: MasterLog [31][33][34], RQ-7, Fail_Log [16], True_Log [22][27]
 
 ## [RQ-10 후보] Metacognitive Salience Shifting 메커니즘 — [대기] LOW
 
