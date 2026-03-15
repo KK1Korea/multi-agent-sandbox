@@ -5,21 +5,21 @@
 
 ================================================================================
 
-## [RQ-1] Opus 단독 + Fail_Log context vs CPAS 직접 비교 — [진행] HIGH
+## [RQ-1] ET + Fail_Log context vs CPAS 직접 비교 — [진행] HIGH
 
 * 출처: True_Log [27] v0.9.4 벤치마크, Section 3 Skeptic 제안
-* 내용: 동일 의사결정 문제를 (A) CPAS, (B) Opus 단독 + Fail_Log context, (C) Opus 단독 + skeptical prompt로 병렬 실행. CPAS 고유 가치가 있는지 분리 측정.
+* 내용: 동일 의사결정 문제를 (A) CPAS, (B) ET + Fail_Log context, (C) ET + skeptical prompt로 병렬 실행. CPAS 고유 가치가 있는지 분리 측정.
 * 측정: C축 (근거 품질), S축 (수렴 속도), 구체성 커밋 수
 * 성공 기준: CPAS가 B/C 대비 명확한 우위 → CPAS 고유 가치 확인. B/C가 동등 → CPAS는 불필요한 복잡성.
 * 현황: 4차 실험 완료 (MasterLog [33]). RQ-1+RQ-9 결합 토의 — 양방향 교차 교정 구조적 속성 + 오케스트레이터 개입 위험도.
-  - 1차(CPAS 실용성): CPAS R-4이상 18.75%, Opus 단독 42.1%. 결론 방향 일치. CPAS 고유 가치="깊이+집중 vs 넓이+정량".
-  - 3차(Self red-teaming): CPAS R-4이상 **0%**, Opus 단독 **~17%**. **결론 불일치** — CPAS "기각", Opus 단독 "강화". 불일치 원인: CPAS 양방향 교차 교정 — Advocate 환각을 Skeptic이 교정(T13→T14→T15). D-2에서는 Skeptic 오류를 Advocate가 교정(S2-T11). Opus 단독에서는 교정 상대 부재.
+  - 1차(CPAS 실용성): CPAS R-4이상 18.75%, ET-only 42.1%. 결론 방향 일치. CPAS 고유 가치="깊이+집중 vs 넓이+정량".
+  - 3차(Self red-teaming): CPAS R-4이상 **0%**, ET-only **~17%**. **결론 불일치** — CPAS "기각", ET "강화". 불일치 원인: CPAS 양방향 교차 교정 — Advocate 환각을 Skeptic이 교정(T13→T14→T15). D-2에서는 Skeptic 오류를 Advocate가 교정(S2-T11). ET-only에서는 교정 상대 부재.
   - 4차(구조적 속성): **양측 합의 — 양방향 교차 교정은 구조적 속성** ("구조적 vs 우연" 논쟁 종결). **미합의 — 충분성 범위**: Advocate=도메인별 조건부, Skeptic=복잡도 의존적 보편 열화. 3-track 테스트 설계 합의. Skeptic 자체 환각(T10,12,14)=Type-X 오류 증거.
-  - **4차 Opus 단독 비교 완료**: 결론 방향 일치 (3차 불일치→4차 일치). 양쪽 모두 "구조적 속성 + 사후 검증 필수"에 도달. CPAS 우위: 반론 커버리지(measurement confound, propagation risk, complexity degradation — Opus 단독 미등장), 3-track 구체 설계, Type-X 자기발견. Opus 단독 고유: E_structural 분류, Semantically Rich Specs 제안. 아이디어 수 대등(5:5)이나 CPAS는 16턴 검증, Opus 단독은 단일 패스 나열. 비용: CPAS ~600K vs Opus 단독 ~80K 토큰.
+  - **4차 ET-only 비교 완료**: 결론 방향 일치 (3차 불일치→4차 일치). 양쪽 모두 "구조적 속성 + 사후 검증 필수"에 도달. CPAS 우위: 반론 커버리지(measurement confound, propagation risk, complexity degradation — ET 미등장), 3-track 구체 설계, Type-X 자기발견. ET 고유: E_structural 분류, Semantically Rich Specs 제안. 아이디어 수 대등(5:5)이나 CPAS는 16턴 검증, ET는 단일 패스 나열. 비용: CPAS ~600K vs ET ~80K 토큰.
   - CPAS 고유 가치 정밀화: (1) R축 수렴 강제력, (2) **양방향 교차 교정(bidirectional cross-correction)** — 구조적 속성 확정(양측 합의), (3) ⚠ 복잡도 의존적 한계 — 고복잡도에서 교차 교정 열화 가능성.
-  - R축 패턴 일관: CPAS=깊이+집중(R-1 고정), Opus 단독=넓이+확장(권고/실험 설계로 파생).
-  - ⚠ n=3(비교 가능 실험, 4회 비교). 4차에서 구조적 속성 합의 + Opus 단독과 결론 방향 일치. 충분성은 미해결. 외부 주제 추가 + 3-track 테스트로 진전 가능.
-  - **누적 패턴 (4회 비교)**: 1차 일치, 3차 불일치, 4차 일치. R축 4회 연속 동일(CPAS=깊이 R-1~4, Opus 단독=넓이 R-3~6). CPAS 고유 가치 최종: (1) R축 수렴 강제력, (2) 양방향 교차 교정(구조적 확정), (3) 반론 검증 robustness, (4) Type-X 자기발견.
+  - R축 패턴 일관: CPAS=깊이+집중(R-1 고정), ET=넓이+확장(권고/실험 설계로 파생).
+  - ⚠ n=3(비교 가능 실험, 4회 비교). 4차에서 구조적 속성 합의 + ET-only와 결론 방향 일치. 충분성은 미해결. 외부 주제 추가 + 3-track 테스트로 진전 가능.
+  - **누적 패턴 (4회 비교)**: 1차 일치, 3차 불일치, 4차 일치. R축 4회 연속 동일(CPAS=깊이 R-1~4, ET=넓이 R-3~6). CPAS 고유 가치 최종: (1) R축 수렴 강제력, (2) 양방향 교차 교정(구조적 확정), (3) 반론 검증 robustness, (4) Type-X 자기발견.
 * 관련: [26], True_Log [21][27][31][32], MasterLog [28][30][33]
 
 ## [RQ-2] 포트폴리오 내 혼합 증거 결정 비율 — [진행] HIGH
@@ -140,5 +140,43 @@
 * 성공 기준: 교차 교정 성공률이 복잡도 증가에도 안정적(편차 < 15%) → CPAS 교차 교정이 복잡도 열화를 완화. 성공률이 복잡도와 함께 하락 → 고복잡도 보완 메커니즘 필요.
 * 의존: 복잡도 수준 정의 + 각 수준별 최소 3 에피소드
 * 관련: MasterLog [33], RQ-9, RQ-1
+
+## [RQ-12 후보] Entropy-based Uncertainty Quantification의 CPAS 적용 — [대기] MEDIUM
+
+* 출처: MasterLog [37] 분리 쟁점, 세션 #18 (Advocate 세션 2 전략 전환 제안)
+* 내용: CPAS 토의 결과를 불확실성 정량화(UQ)로 변환하는 Entropy-based 프레임워크 실현 가능성 검증. Advocate가 CPAS의 재정위로 제안 — Skeptic은 "이론적으로 유효하나 실행 검증 불가"로 반론.
+* 측정: (1) CPAS 5축 태그에서 Entropy 지표 추출 가능성, (2) 추출된 UQ와 실제 결정 품질 간 상관, (3) 기존 UQ 방법론(Semantic Uncertainty 등) 대비 부가가치
+* 성공 기준: CPAS 태그 기반 UQ가 결정 품질과 유의미한 상관 → 재정위 근거. 무상관 → 재정위 근거 부족.
+* 의존: RQ-1 충분성 결론, RQ-9 3-track 결과
+* 관련: MasterLog [37], RQ-1, RQ-9
+
+## [RQ-13 후보] Monoculture Collapse 리스크 — 동일 LLM 기반 에이전트 다양성 — [대기] LOW
+
+* 출처: MasterLog [37] 분리 쟁점, 세션 #18
+* 내용: 동일 LLM(Opus)에서 파생된 Advocate/Skeptic의 인식론적 독립성이 실제로 존재하는지. "Bias in the Mirror"(ACL 2025) 지적: 같은 사전학습 편향을 공유하는 에이전트 간 토의는 편향 교정 불가.
+* ⚠ 핵심 제약 (MAD 문헌): 이종 모델 도입 시 **능력 수준이 동등해야 함**. ICLR 2025 MAD 연구 — 약한 모델(예: 8B급)은 다수 압력에 굴복하여 오히려 성능 저하. "Stop Overvaluing MAD"(arXiv 2502.08788) — 내재적 추론 능력(intrinsic reasoning capability)이 MAD 성공의 핵심 드라이버이며, 능력 차이가 큰 이종 조합은 다양성이 아니라 품질 저하를 초래. 따라서 Opus ↔ Haiku 같은 능력 격차 큰 조합은 부적합하며, Opus ↔ 동급 외부 모델(GPT-4o, Gemini Ultra 등) 비교만 유효.
+* 측정: (1) 동급 이종 모델(Opus vs 동급 외부 모델) 간 토의 결과 비교, (2) 동일 LLM 내 편향 상관도 측정
+* 성공 기준: 동급 이종 모델 토의가 동종 대비 편향 감소 → 아키텍처 변경 필요. 차이 미미 → 현행 유지.
+* 의존: RQ-4(하위 모델 품질 — 능력 하한선 확인), 동급 이종 모델 접근 가능성
+* 관련: MasterLog [37], RQ-4, "Bias in the Mirror" ACL 2025, ICLR 2025 MAD Blog, arXiv 2502.08788
+
+## [RQ-14 후보] Poisoning-Aware Validation 프레임워크 — [대기] HIGH
+
+* 출처: MasterLog [38] 분리 쟁점 1, 세션 #18
+* 내용: CPAS 토의에서 synchronized poisoning(동기화 중독 — 양 에이전트가 같은 방향으로 오염)이 발생할 때 이를 감지하는 poisoning-aware validation 프레임워크 설계. Conformal prediction의 multi-partition cross-validation을 CPAS 토의 구조에 적용 가능한지 검증.
+* 배경: MasterLog [38] 토의에서 Skeptic이 "noise floor를 poisoned data에서 도출하면 구조적 측정 혼란" 지적. ICLR 2025 conformal prediction 연구가 해법 후보이나 CPAS 규모/도메인 적용 미검증.
+* 측정: (1) CPAS 2-session 구조에서 partition disagreement rate 추출 가능성, (2) 동기화 중독 시나리오(인위적 주입) → 감지율, (3) Held-out clean reference set 대비 감지 정확도
+* 성공 기준: Partition-based 감지율 ≥ 80% + held-out 대비 오차 ≤ 10% → 프레임워크 유효. 감지율 < 60% → 독립 참조셋 필수(Skeptic 수렴 조건 확정).
+* 의존: Track A 실행 데이터, ICLR 2025 conformal prediction 구현
+* 관련: MasterLog [38], RQ-9, RQ-12
+
+## [RQ-15 후보] Debate vs Voting 등가성의 CPAS 16턴 구조 적용 — [대기] MEDIUM
+
+* 출처: MasterLog [38] 분리 쟁점 2, 세션 #18
+* 내용: arXiv 2511.07784 "debate = expensive voting" (martingale property)가 CPAS의 16턴 2-session 구조에도 동일하게 적용되는지 검증. CPAS는 단순 다수결이 아닌 태그 기반 품질 추적 + 불균형 감지 + 데이터 무결성 검사를 포함 — 이 구조적 차이가 martingale property를 깨뜨리는지.
+* 측정: (1) CPAS 16턴 결론 vs 동일 입력에 대한 다수결(3-agent voting) 비교, (2) 일치율 + 불일치 시 CPAS가 추가 정보를 제공하는지, (3) 토큰 비용 대비 정보 부가가치
+* 성공 기준: CPAS가 다수결 대비 ≥ 15% 추가 정보 부가가치 → 토의 구조 가치 확인. 차이 < 5% → "expensive voting" 확정, 구조 간소화 필요.
+* 의존: Track A 실행, 다수결 기준선 구현
+* 관련: MasterLog [38], arXiv 2511.07784, arXiv 2508.17536
 
 ================================================================================

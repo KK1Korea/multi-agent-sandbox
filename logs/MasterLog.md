@@ -637,9 +637,6 @@ CPAS — MasterLog — 미분류 항목 (스테이징)
     - 따라서 "Opus 단독이 CPAS의 1/12 비용으로 80% 품질" 같은 단순 비율 비교는 부적절
     - 정확한 해석: "CPAS 고유 장치 없이, 동일 데이터만으로, Opus 단독이 도달 가능한 상한선" 측정
 
-  태그: [구상]
-  관련: [33], [28], RQ-1, True_Log [31][32]
-
 [36] RQ-1 5차 실험: Opus 확장 추론(Extended Thinking) ON 1패스 분석 — 3조건 비교 — 2026-03-15 세션 #17
 ────────────────────────────────────────
 
@@ -651,6 +648,7 @@ CPAS — MasterLog — 미분류 항목 (스테이징)
   ■ 실험 설계:
     - 주제: [33]/[35]와 동일 — "양방향 교차 교정 구조적 속성 + RQ-9 오케스트레이터 개입 위험도"
     - 데이터: [33] Haiku 필터 출력을 요약 정리한 패키지 (Fail_Log [16][18], MasterLog [28][29][30][31], True_Log [31][32])
+    - ⚠ 데이터 성격: 이 입력 데이터는 날것이 아님 — CPAS 파이프라인이 18세션에 걸쳐 결정화한 구조화된 지식 자산 (증상→원인→해결→교훈 구조, 태그 분류, 교차참조 포함). Haiku 필터가 주제 관련 엔트리만 추출. 즉, 확장 추론의 고품질 출력은 CPAS 지식 결정화 파이프라인의 산출물을 입력받은 결과이기도 함.
     - 조건: Opus 4.6 + 확장 추론 ON, 1패스, WebSearch 활용
     - 프롬프트 구조: 찬성 최강 논증 → 반대 최강 논증 → 재반론 → 최종 판단 → 새 아이디어
     - ⚠ [35]와의 차이: [35]는 8턴 자체토의(3교환+최후진술), 본 실험은 1패스 단일 분석. 턴 구조가 다르므로 직접 비교에 한계.
@@ -729,6 +727,168 @@ CPAS — MasterLog — 미분류 항목 (스테이징)
 
   태그: [구상]
   관련: [33], [35], [28], RQ-1, True_Log [31][32][34]
+
+================================================================================
+
+[37] Sandbox: CPAS 프로젝트 존속 여부 종합 토의 — 6대 쟁점 통합 16턴 — 2026-03-15 세션 #18
+────────────────────────────────────────
+
+  ■ 토의 범위: 6대 쟁점 통합
+    1. CPAS가 확장 추론 모델 대비 구조적 우위를 증명했는가?
+    2. 자기참조 연구는 순환논증인가 유효한 자기검증인가?
+    3. 485K 토큰/16턴 vs 확장 추론 1-pass 비용이 정당화되는가?
+    4. MAD-3/MAD-5/MAD-6 논문이 CPAS에 유리한가 불리한가?
+    5. 추가 연구(RQ 추가)가 필요한가?
+    6. CPAS 프로젝트 자체를 계속할 의미가 있는가?
+
+  ■ 쟁점: CPAS의 구조적 우위 vs 자기참조 검증 한계 — 프로젝트 존속 여부
+
+  ■ 평가자(Advocate) 근거:
+    - 양방향 교차 교정은 4차 실험에서 "구조적 속성" 양측 합의 (MasterLog [33]) — 신뢰도 HIGH
+    - Type-X 자기발견: Skeptic 자체 환각 감지 에피소드 (내부 n=3) — 신뢰도 MEDIUM
+    - MasterLog [36]: 확장 추론도 "양비론" 생산, CPAS 고유 개념(Type-X, measurement confound) 1-pass 미출현 — 신뢰도 MEDIUM
+    - 세션 2 전환: "CPAS를 불확실성 분류기(Entropy-based UQ)로 재정위" 제안 — 원래 비전에서 대폭 후퇴
+
+  ■ 비평자(Skeptic) 근거:
+    - 편향 강화 (Bias in the Mirror, ACL 2025): 동일 모델 다중에이전트 토의 → 편향 교정이 아닌 강화. DReaMAD: 과신도 72.9%→83.3% — 신뢰도 HIGH
+    - LLM-as-Judge 한계 (Rating Roulette, EMNLP 2025): 형식적 특성 편향, CPAS 자체평가 메커니즘이 동일 한계 상속 — 신뢰도 HIGH
+    - 재귀적 검증 함정: 인식론적 순환(epistemological congruence) — 같은 증거 기반에서 독립성 확보 불가 — 신뢰도 MEDIUM
+    - Type-X 검증 공백: 외부 ground truth 비교 없이 "실제 감지" vs "패턴 매칭" 구별 불가 — 신뢰도 MEDIUM
+    - 대안: MoE, Semantic Uncertainty, Human-in-the-loop 등 검증된 방법론 존재 — 신뢰도 HIGH
+
+  ■ 핵심 차이: 검증 가능성 — Advocate는 구조적 속성 확인 + 외부 검증 보강 가능, Skeptic은 자기참조 시스템은 원리적으로 자체 검증 불가
+
+  ■ 미검증:
+    1. Type-X 자기발견의 진정성 (외부 ground truth 비교 미실시)
+    2. Entropy-based UQ의 CPAS 적용 실현 가능성 (이론적 제안만)
+    3. 3-track 테스트(Track A/B/C) 미실행 (설계 합의만 완료)
+    4. 하위 모델(Sonnet/Haiku) 품질 하한선 (RQ-4 미착수)
+    5. 도메인별 성능 편차 — "충분성 범위" 미해결
+
+  ■ 분리 쟁점:
+    1. Entropy-based Uncertainty Quantification — CPAS와 별개의 연구 주제
+    2. Monoculture collapse 리스크 — 동일 LLM 기반 다양성 부재, 별도 아키텍처 검토. 단, MAD 문헌 제약: 이종 모델은 능력 수준이 동등해야 함 (ICLR 2025, arXiv 2502.08788). 약한 모델은 다수 압력에 굴복 → 성능 저하. Opus↔Haiku 부적합, Opus↔동급 외부 모델만 유효.
+    3. 비용 효율 기준선 — 품질 비교 기준 미합의
+
+  ■ 토의 품질:
+    - 구조: Session 1 (탐색전 8T) + Session 2 (공방전 8T) = 16 turns
+    - 수렴: 부분 수렴 (양측 최종 S-7, 프로젝트 방향 최종 합의 미달)
+    - 근거 균형: Skeptic 근소 우위 (외부 peer-reviewed 학술 근거 다수)
+    - 태그 시계열:
+      Session 1 — Advocate S: 13→10→10→Final 8
+      Session 1 — Skeptic S:  13→15→16→Final 16
+      Session 2 — Advocate S: 11→12→10→Final 7
+      Session 2 — Skeptic S:   9→11→12→Final 7
+    - 주요 전환점: T4(Skeptic C-16, ACL 2025 근거), T11(Advocate 전략 전환 — UQ 재정위)
+    - 태그 미출력: 16턴 전체 — v0.9.10 수정(NO PREAMBLE)이 에이전트에 미반영. 모든 태그 추정치.
+
+  ■ 세션 비교:
+    - Session 1 (탐색전): Skeptic 주도 — 학술 근거로 CPAS 구조적 결함 입증, Advocate "조건부 GO"로 후퇴
+    - Session 2 (공방전): Advocate 적응 — 4대 공격 모두 수용 후 "불확실성 분류기 재정위" 제안, 양측 S-7 수렴
+    - 변화: Advocate 입장 극적 이동 ("증명됨"→"조건부 GO"→"재정위 필요")
+    - 지속: 외부 검증 없이는 어떤 내부 결과도 신뢰 불가 (Skeptic 일관 주장)
+
+  ■ 오케스트레이터 평가:
+    - 근거 강도: Skeptic 우위 — 외부 peer-reviewed 자료 > 내부 소수 실험
+    - 실현 가능성: Advocate 최종안(Entropy-based UQ 재정위)은 이론적 흥미 있으나 현 아키텍처 연결 미구체화
+    - 권고: 범위 축소 + 외부 검증 프레임 추가 (Track A 우선 실행 → 결과에 따라 계속/축소/종료)
+    - 최종 결정은 사용자의 몫
+
+  ■ 사용자 확인 필요:
+    1. 프로젝트 방향: (A) 외부 검증 추가 후 계속 / (B) 축소(불확실성 분류기) / (C) 종료+대안 전환?
+    2. 3-track 테스트 실행 여부 및 규모?
+    3. Entropy-based UQ를 새 RQ로 등록?
+    4. 추가 extended reasoning 비교 필요성?
+
+  ■ 메타 관찰 — 재귀적 자기실증:
+    이 토의는 "CPAS가 유용한가?"를 CPAS로 토의한 자기참조 구조.
+    토의 결과: 결정을 내리지 못함 (양측 S-7 동등, 합의 미달).
+    그러나 토의 과정 자체가 "결정은 못 내리지만 결정에 필요한 정보를 구조화해준다"는 것을 보여줌.
+    이것은 RQ-5 Choice B(프로세스 개선 도구) 포지셔닝과 정확히 일치.
+    즉, 토의 **내용**이 아니라 토의의 **작동 방식** 자체가 Choice B의 실증 데이터.
+    — 미검증 5개 추출, 분리 쟁점 3개 분류, Advocate 입장 변형 추적 = 프로세스 개선 기능의 시연.
+    — 의도하지 않았으나 자기참조 역설이 자기 정체성을 증명하는 데이터가 됨.
+    ⚠ 단, 이 관찰 자체도 자기참조 안에 있음 — "프로세스 개선 효과가 있다"는 판단도 CPAS 내부 산출물.
+    외부에서 "이 구조화가 실제로 더 나은 결정으로 이어졌는지" 확인하지 않는 한 순환 미해소.
+
+  태그: [구상]
+  관련: [33], [34], [35], [36], RQ-1, RQ-2, RQ-4, RQ-5, RQ-7, RQ-9
+
+================================================================================
+
+[38] Sandbox: 지식 결정화 파이프라인 + 프로젝트 존속 재토의 — 2026-03-15
+────────────────────────────────────────
+
+  ■ 쟁점: MasterLog [37] 합의 미달 + 지식 결정화 파이프라인 발견 후, CPAS 프로젝트를 계속할 가치가 있는가?
+    - 6개 세부 논점: (1) 파이프라인=실체 vs 사후합리화, (2) MeMAD 차별점, (3) 자기참조 해소, (4) 프로세스 개선 도구 재정위, (5) 전문성 수준 상승, (6) RAG/CAG+MAD+환류 프레이밍
+
+  ■ 평가자 근거:
+    - 지식 결정화 파이프라인은 artifact trail ([28]→[37])에서 관찰 가능한 실체
+    - DCI (arXiv 2603.11781) 비일상적 과제 +0.95 개선 — CPAS 도메인 일치
+    - MeMAD 대비: episodic vs iterative-crystalline (피드백 루프 폐합)
+    - Conformal prediction (ICLR 2025) multi-partition cross-validation → poisoning 조기 감지
+    - Track A ($15K, 4주) → Track B (Snopes25 병행) → Track C (조건부) — "disciplined optionality"
+    - 반증 조건: 기준선 동등→중단, 허위양성 n≥3→중단, Kappa 불안정→무효
+    - 출처: arXiv 2603.11781, ICLR 2025, GKMAD, Snopes25 | 신뢰도: MEDIUM
+
+  ■ 비평자 근거:
+    - Debate = expensive voting (arXiv 2511.07784 martingale property, -39% 다중턴 열화)
+    - Failure attribution 53.5% accuracy, failure-step 14.2% precision
+    - Synchronized poisoning → false consensus → debate가 오류 확인
+    - Noise floor를 poisoned data에서 도출 = 구조적 측정 혼란 (measurement confound)
+    - 원래 6개 가설 중 4개 포기 = dissolution, not iteration
+    - Session 1: TERMINATE 권고 → Session 2: 조건부 수렴으로 전환
+    - 수렴 조건: held-out clean reference set 사후 감사 추가 시 합의 가능
+    - 출처: arXiv 2511.07784, 2505.06120, 2508.17536, ICLR 2025 poisoning | 신뢰도: HIGH
+
+  ■ 핵심 차이: Track A noise floor를 poisoned data 자체에서 도출 가능한가?
+    - Advocate: conformal prediction multi-partition으로 가능
+    - Skeptic: 독립 참조셋(held-out clean reference) 없이는 구조적 불가
+
+  ■ 미검증:
+    1. Conformal prediction이 CPAS 규모에서 실제 작동하는지
+    2. Snopes25가 CPAS 도메인(비일상적 조직 결정)에 적용 가능한지
+    3. "Detection + debate ≥ 15~20% incremental precision" 실현 가능성
+    4. Memory poisoning이 2-session 구조에서 실제 발생하는지
+
+  ■ 분리 쟁점:
+    1. Poisoning-aware validation 프레임워크 → RQ-14 후보
+    2. "Debate vs voting" 등가성의 CPAS 16턴 구조 적용 여부 → RQ-15 후보
+
+  ■ 토의 품질:
+    - 구조: Session 1 (8T 탐색전) + Session 2 (8T 공방전) = 16 turns
+    - 수렴: 부분 수렴 — Track A→B→C 순서 합의, noise floor 독립성 미합의
+    - 근거 균형: Skeptic 우위 (C-16 다수 vs Advocate C-10)
+    - 태그 시계열:
+      Session 1 — Advocate S: 13→12→11→7, Skeptic S: 8→10→9→12
+      Session 2 — Advocate S: 13→10→9→7, Skeptic S: 11→10→10→13
+
+  ■ 세션 비교:
+    - Session 1: Advocate 극적 후퇴 (6개 가설→2개), Skeptic TERMINATE 권고
+    - Session 2: Skeptic이 "disciplined optionality" 방향 수용 + 수렴 조건 제시
+    - Shift: "프로젝트 존폐" 논쟁 → "Track A 실행 조건 합의"
+
+  ■ 오케스트레이터 평가:
+    - 근거 강도: Skeptic 우위 — martingale property + failure attribution precision + poisoning 증거 다수
+    - 실현 가능성: Track A ($15K, 4주) 양측 합의. Held-out reference set 추가 비용 미미하나 도메인 적합 데이터셋 확보가 관건.
+    - 권고: Track A 즉시 실행 + held-out reference set 포함 (Skeptic 수렴 조건 수용). 15% incremental 초기 기준, Track A에서 noise floor 측정 후 adaptive 조정. 방법론 논문 병행 검토.
+    - 최종 결정은 사용자의 몫
+
+  ■ 사용자 확인 필요:
+    1. Track C gate에 held-out clean reference set 감사 추가 여부? (Skeptic 수렴 조건)
+    2. 반증 기준: 15% vs 20% incremental precision?
+    3. Track A 예산/일정 확정 ($15K, 4주)?
+    4. MasterLog [27]-[37] 방법론 논문 출판 병행?
+
+  ■ 메타 관찰 — Session 간 입장 진화:
+    [37] 토의(1차): 양측 S-7 동등, 합의 미달 → TERMINATE vs 계속
+    [38] 토의(2차): Skeptic TERMINATE→조건부 수렴. 지식 결정화 파이프라인 프레이밍이
+    토의 구조를 변화시킴 — "프로젝트 존폐" 이분법에서 "반증 프로토콜 설계" 합의로 전환.
+    이것 자체가 [37]의 메타 관찰(프로세스 개선 기능)의 2차 실증.
+    ⚠ 단, poisoning-aware validation 논의에서 동질 에이전트 한계 재확인 — 순환은 여전.
+
+  태그: [구상]
+  관련: [37], [33], [34], [36], RQ-1, RQ-5, RQ-9, RQ-12, RQ-13
 
 ================================================================================
 
