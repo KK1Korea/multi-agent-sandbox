@@ -12,6 +12,38 @@
 - 버전 기반 구형 데이터 탐지
 - /review 커맨드
 
+## cpas-sandbox v0.9.8 — 2026-03-15 세션 #12
+- 토의 구조 전면 개편: 2세션 16턴 (탐색전 + 공방전)
+  - Session 1 (탐색전): 3교환 6턴 + 최후의 진술 2턴 = 8턴
+  - Session 2 (공방전): 3교환 6턴 + 최후의 진술 2턴 = 8턴
+  - 항상 2세션 스트레이트 진행 (기존 "권장 2세션"에서 필수로 변경)
+- 최후의 진술 (Final Statement): 세션당 2턴 추가
+  - 세션 내 동일 에이전트 resume, WebSearch 필수, 양측 논점 종합
+- 세션 간 결론 주입: Session 1 최후의 진술 → Session 2 초기 컨텍스트 (SESSION_2_BRIEFING)
+  - Session 2 에이전트는 FRESH spawn (동조 편향 리셋)
+  - "Build on these conclusions. Go deeper — do not repeat Session 1 arguments."
+- 확장사고(ET) 조건부 활성화: 세션 1 → 세션 2 전환 시에만 판단
+  - 승인 시 열세 측 세션 2 전체에 ET 적용
+- 불균형 감지 기준 강화: S ≤ 4 "2턴 연속" → "1턴이라도" 감지
+- Skeptic O-1-2 [Weapons/Search]: "Can use web search tools" → "MANDATORY every turn" 명시
+- Phase 3 보고서: [Session Comparison] 섹션 추가 (세션 간 궤적/결론 비교)
+- plugin.json v0.9.8
+
+## cpas-sandbox v0.9.7 — 2026-03-15 세션 #11
+- 토의 구조 축소: 3세션 18턴 → 1세션 8턴 (6턴 정규 + 2턴 최후의 진술)
+  - v0.9.8에서 2세션 16턴으로 재확장됨
+- Output Example → "Condition:" 포맷 변경 (태그 누락 방지)
+  - "⚠ The tag line + separator format above is MANDATORY" 경고 추가
+- Skeptic O-3-4 [Mandatory WebSearch]: Condition 강화 + D-2 자기검증 교훈 반영
+- 한글 프롬프트 v0.9.7 동기화 (Advocate v0.4→v0.9.7, Skeptic v0.5→v0.9.7, Cowork_CPAS v1.0→v0.9.7)
+  - O-1-4 [프로젝트 방향 앵커], O-3-4 [부분 수용 프로토콜] 한글 추가 (v0.9.4 기능)
+- 백업 폴더 생성: Prompts/backup_v0.9.6/
+
+## cpas-sandbox v0.9.6 — 2026-03-15 세션 #10
+- Skeptic 태그 미출력 수정: OUTPUT FORMAT 주입 방식으로 개선
+- plugin.json 누락 방지: build-plugin.sh 빌드 스크립트 + plugin-meta-backup.json 백업 체계
+- GitHub repo v0.9.6 전체 동기화
+
 ## cpas-sandbox v0.9.5 — 2026-03-14 세션 #8
 - Skeptic: O-3-4 [Mandatory WebSearch] — 턴당 최소 1회 웹 검색 필수 (최신 데이터 주입 보장)
 - sandbox-orchestrator: Research Queue 업데이트 단계 추가 (토의 후 필수)
