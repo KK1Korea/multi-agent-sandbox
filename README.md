@@ -1,5 +1,8 @@
 # Multi-Agent Sandbox
 
+> **Project Status: Research Suspended**
+> Core architecture (v0.9.11) is functional, but the fundamental research question — whether the system independently contributes to knowledge crystallization or merely serves as a UI for user judgment — remains unresolvable at individual project scale. See [Suspended Research: The Attribution Problem](#suspended-research-the-attribution-problem) for details.
+
 Structured multi-agent debate system for high-stakes decision making. Two AI agents argue opposing sides with real-time web search while an orchestrator controls the environment, monitors debate quality through a 5-axis anchoring tag system, and produces a structured analysis — without ever interfering in what agents say.
 
 ## What Is This?
@@ -232,6 +235,25 @@ The core question for CPAS is not "AI vs AI debate" as an end in itself, but whe
 CPAS was always designed with the user as the final authority — the system produces structured analysis, and the user makes the call. The real comparison is therefore: **quality of structured debate output as decision input** vs **quality of free conversation as decision input**, and whether the quality gap justifies the cost difference (~3-5x with Opus on API pricing). This remains an open research question with insufficient benchmark data (n=2) to answer definitively.
 
 **Note on flat-rate plans**: Under subscription plans (e.g., Claude Max, Claude Code Max), the per-token cost difference becomes irrelevant — leaving pure quality comparison as the only metric. However, plan terms and usage limits are subject to change by Anthropic at any time.
+
+## Suspended Research: The Attribution Problem
+
+After 10 benchmark debates and 38 MasterLog entries, a fundamental question emerged that the system cannot answer about itself:
+
+**When knowledge crystallizes across debate sessions, is the system doing the crystallization — or is the user?**
+
+CPAS always routes final decisions back to the user. The orchestrator presents options; the user chooses. This means every successful outcome has the user's judgment baked in, making it impossible to isolate the system's independent contribution (the attribution problem).
+
+**Proposed experiment (not executed):** Remove the user from the loop entirely — have the orchestrator auto-select the highest-probability option after each debate and feed it into the next cycle, repeated n times. Compare against single-agent auto-progression and ensemble voting baselines. If quality holds without user intervention, the system has independent crystallization value. If it degrades, the user was the real engine.
+
+**Why this remains suspended:**
+
+- Running sandbox debates on the system's own methodology (MasterLog [37], [38]) produced **expansion rather than convergence** — each debate generated more open questions than it resolved, suggesting self-referential evaluation has inherent limits
+- The experiment requires independent ground truth evaluation (the system's creator evaluating the system reintroduces bias)
+- Cross-session knowledge crystallization has no prior literature — this could mean unexplored territory, or it could mean others tried and found negative results that were never published (publication bias)
+- Scale exceeds individual project scope: automated multi-session loops, independent evaluators, statistical significance across domains
+
+The experiment design is recorded in `docs/context/research_queue.md` (RQ-1, RQ-6, RQ-14, RQ-15) for anyone who wants to pick it up.
 
 ## Version
 
