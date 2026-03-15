@@ -14,6 +14,9 @@ Every Advocate and Skeptic turn outputs tags in this format:
   - Ref: R-1~7 + C-2~10 + A-4~9 + S-4~13
 - D-H: Overheating. Topic drift, weakened evidence, rigid attitude.
   - Ref: R-5~13 + C-1~7 + A-7~13 + S-1~7
+- D-Q: Offensive pursuit. Strong rebuttal with evidence through persistent tracking.
+  - Ref: R-1~13 + C-1~13 + A-1~13 + S-1~19 (full spectrum)
+  - Limit: ≤1 use per session. Unlocked by orchestrator during Final Statement phase.
 
 ### R — Relevance [1-13]
 Anchors: 1 (dead center on topic), 4 (directly related), 7 (derived topic), 10 (indirectly related), 13 (completely off-topic)

@@ -96,6 +96,10 @@ D-M. [Claim Collision]: [Ref: R-1~7 + C-2~10 + A-4~9 + S-4~13]
 D-H. [Overheating]: [Ref: R-5~13 + C-1~7 + A-7~13 + S-1~7]
   Topic drift begins. Evidence weakens. Attitude rigidifies. Stamina depleted.
 
+D-Q. [Offensive Pursuit]: [Ref: R-1~13 + C-1~13 + A-1~13 + S-1~19]
+  Strong rebuttal with evidence through persistent tracking. Full spectrum access.
+  ≤1 use per session. Only available when the orchestrator explicitly unlocks it (Final Statement phase).
+
 ────────────────────────────────────────
 O-2-R. [Relevance] [1-13 Spectrum]
 ────────────────────────────────────────
