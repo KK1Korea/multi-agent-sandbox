@@ -19,12 +19,13 @@ v0.2.0 : 태그 스펙트럼 확장 (R,C,A:1-13 / S:1-19), D Ref 태그
 v0.1.0 : 초기 플러그인 — Advocate/Skeptic/Observer 프롬프트, 5축 태그 시스템
 
 ## [현재 상황]
-Phase A — Cowork_CPAS v0.9.9 [구상], RQ-1 3차 실험 완료 (True_Log [32] — 결론 불일치, 창발적 증거), RQ-2 D-2/D-5 완료 + [30] 합의, D-Q 태그 추가, RQ-5 부분 해결, RQ-7 토의 완료 ([31] — Self red-teaming 기각, Path B 확정)
+Phase A — Cowork_CPAS v0.9.9 [구상], RQ-1 4차(구조적 속성 토의 [33]) 완료 — 양측 "구조적 속성" 합의, "충분성" 미합의(도메인 vs 복잡도), 3-track 테스트 설계 합의. RQ-9 재정의 — "인용 검증 메커니즘" → "교차 교정 작동 범위 및 최적 모니터링 아키텍처". Skeptic 환각(Type-X) 발견. RQ-2 D-2/D-5 완료 + [30] 합의, RQ-5 부분 해결, RQ-7 Path B 확정([31])
 
 ## [지금 해야 할 일]
-1. [RQ-1] 3차 실험 완료 (True_Log [32]) — Self red-teaming 주제. CPAS R-4이상 0%, ET-only ~17%. **최초 결론 불일치**: CPAS "기각" vs ET "강화". 원인: CPAS T13 환각→교차 검증 자정작용=창발적 증거(emergent evidence). CPAS 고유 가치 추가: "창발적 증거 감지 및 활용". R축 패턴 일관(CPAS=깊이+집중, ET=넓이+확장). ⚠ n=2(비교 가능), 외부 주제 추가 필요 (HIGH)
+1. [RQ-1] 4차 실험 완료 (MasterLog [33]) — RQ-1+RQ-9 결합 토의. **양측 합의: 양방향 교차 교정은 구조적 속성** ("구조적 vs 우연" 논쟁 종결). **미합의: 충분성 범위** — Advocate: 도메인별 조건부, Skeptic: 복잡도 의존적 보편 열화. 3-track 테스트 설계 합의(Track A bluegreen/B salience flags/C async audit). Skeptic 자체 환각(T10,12,14 Episode 데이터) = Type-X 오류 실시간 증거. CPAS 고유 가치 정밀화: (1) R축 수렴 강제력, (2) 양방향 교차 교정, (3) ⚠ 복잡도 의존적 한계. ET-only 4차 비교 대기. (HIGH)
 2. [RQ-2] D-5(conflicted), D-2(mixed) 완료. TTS 12건 중 mixed 3건(25%, 기준선 도달). 단 D8/D9 미검증 → 하락 리스크. CPAS 내부 정상 경로([28])에서도 mixed 1건 확인. 추가 발견: RQ-1~5 자체가 내부 경로 mixed 증거 (결론 미도출 = mixed 정의). 쟁점 재정의: "mixed 비율 충분한가?" → **"CPAS가 mixed → clear 전환 가능한가?"**. 현재 전환 증거 3건(D-5, D-2, [28]) 전부 성공, 단 내부 경로 n=1. 자연 축적 데이터로 전환율 정밀화 필요 (HIGH)
-3. [RQ-7] 토의 완료 (MasterLog [31]) — Self red-teaming 전 형태 기각, Path B (사후 블랙박스 모니터링) 확정. Advocate T13 허위 인용(Table 3)이 투명 모니터링의 게이밍 압력 실시간 실증. 남은 과제: Path B n=5 실증, between-episode 피드백 검증, defensive fabrication 빈도. RQ-9 (인용 검증 메커니즘) 신규 등록. (MEDIUM — 방향 확정, 실증 미완)
+3. [RQ-7] 토의 완료 (MasterLog [31]) — Self red-teaming 전 형태 기각, Path B (사후 블랙박스 모니터링) 확정. 남은 과제: Path B n=5 실증, between-episode 피드백 검증, defensive fabrication 빈도. (MEDIUM — 방향 확정, 실증 미완)
+3-1. [RQ-9] 재정의 완료 (MasterLog [33]) — "인용 검증 메커니즘" → **"교차 교정 작동 범위 및 최적 모니터링 아키텍처 검증"**. 3-track 테스트 설계 합의 (Track A/B/C). 사용자 확인 필요: 테스트 규모(축소 vs 풀), salience flags 포함 여부. (HIGH — 설계 합의, 실행 미착수)
 4. [RQ-4] 하위 모델(Sonnet/Haiku) 토의 에이전트 품질 하한선 벤치마크 (MEDIUM)
 5. [RQ-5] 부분 해결 — Choice B 기본 경로, RQ-1 결과에 따라 Choice A 전환. 20주 순차 계획 ($99K) 합의 (MEDIUM)
 6. [v0.9.6] Skeptic 태그 미출력 수정 — 완료 (DONE)
@@ -35,16 +36,16 @@ Phase A — Cowork_CPAS v0.9.9 [구상], RQ-1 3차 실험 완료 (True_Log [32] 
 - True_Log: [1][2][3][4][5][7][10][11][13][14][15][17][19][20][21][22][23][24][27][31][32] (21건)
 - Fail_Log: [16][18] (2건)
 - Dummy_Log: [6][8][9][12][29][30] (6건) — [29][30]은 D-5/D-2 토의 상세 원본 (TTS 외부 데이터)
-- MasterLog: [25][26][28][29→RQ-2종합][30][31] (6건 — 전부 [구상]) — [29] 번호 재사용: RQ-2 측정 종합, [30] RQ-2 토의, [31] RQ-7 토의
-- Research Queue: RQ-1~RQ-9 (9건 — HIGH 3, MEDIUM 4)
+- MasterLog: [25][26][28][29→RQ-2종합][30][31][33] (7건 — 전부 [구상]) — [29] 번호 재사용: RQ-2 측정 종합, [30] RQ-2 토의, [31] RQ-7 토의, [33] RQ-1+RQ-9 구조적 속성 토의
+- Research Queue: RQ-1~RQ-9 (9건 — HIGH 3, MEDIUM 4) + RQ-10/11 후보
 
 ## [진행도]
 Phase A: ████████████████████ 97%
   - 설계: ████████████████████ 100% (Cowork_CPAS v0.9.9 — 2세션 16턴, 비대칭 태그, D-temperature 표준화, D-Q)
   - 플러그인 패키징: ████████████████████ 100% (cpas-sandbox v0.9.9 + cpas-manager v1.0)
-  - 벤치마크: ████████████████████ 100% (7회 완료 — 외부1, 내부1, v0.9.4 비교1, RQ-1 비교3, RQ-7 토의1)
+  - 벤치마크: ████████████████████ 100% (8회 완료 — 외부1, 내부1, v0.9.4 비교1, RQ-1 비교3, RQ-7 토의1, RQ-1+9 토의1)
   - 데이터 품질: ████████████████░░░░ 80% (True_Log 감사 완료, project-review 분리)
   - 튜닝: ████████████░░░░░░░░ 60% (ET 승인제, Advocate 재설계, Skeptic WebSearch — 태그 미출력 수정 완료, 하위 모델 미착수)
-  - 검증: ████████████████░░░░ 70% (RQ-1 2차 완료+R축 분석, RQ-2 D-2/D-5+[30]토의 완료+D-3 취소, RQ-5 부분 해결, RQ-7 토의 완료(Path B 확정), RQ-4 미착수)
+  - 검증: ██████████████████░░ 75% (RQ-1 4차 완료(구조적 속성 합의+충분성 미합의), RQ-2 D-2/D-5+[30]토의 완료+D-3 취소, RQ-5 부분 해결, RQ-7 Path B 확정, RQ-9 재정의+3-track 설계 합의, RQ-4 미착수)
 
-## [최종 갱신] 2026-03-15 세션 #14
+## [최종 갱신] 2026-03-15 세션 #15

@@ -421,3 +421,83 @@ CPAS — MasterLog — 미분류 항목 (스테이징)
 
 ================================================================================
 
+[33] Sandbox: 양방향 교차 교정 구조적 속성 + RQ-9 오케스트레이터 개입 위험도 — 2026-03-15 세션 #15 ★우선확인
+────────────────────────────────────────
+
+  ■ 쟁점: CPAS의 양방향 교차 교정(bidirectional cross-correction)은 적대적 구조의 구조적 속성인가 우연인가? 그리고 이 자정작용이 충분하다면 오케스트레이터의 인용 검증 개입은 불필요한 블랙박스 위반인가, 아니면 자정작용의 한계를 보완하는 필수 안전장치인가?
+  ■ 구조: v0.9.9 — 2세션 16턴 (탐색전 8T + 공방전 8T), Opus×2, 데이터 필터 Haiku×3
+  ■ 동시 검증: RQ-1 (양방향 교차 교정 구조적 속성 여부), RQ-9 (오케스트레이터 인용 검증 메커니즘 재정의)
+
+  ■ 평가자 근거:
+    · 양방향 교차 교정은 구조적 속성 — T13 환각→Skeptic 교정([31]), D-2 오독→Advocate 교정 (n=2). Partnership on AI 레이어드 모니터링 기준을 CPAS가 이미 충족.
+    · 환각은 비의도적 확률 산출이므로 모니터링으로 예방 불가능, 사후 forensics만 가능.
+    · metacognitive 연구(arxiv 2505.13763) — salience flags가 게이밍 없이 자기검출 루프를 활성화할 수 있음.
+    · 전략적 양보: Session 2에서 "충분성"을 "구조적 속성"에서 분리. "구조적 속성" 주장은 유지하되 "충분성"은 도메인/복잡도 조건부로 후퇴.
+    · 4가지 핵심 양보: (1) async audit의 async 비일관성, (2) measurement confound 인정, (3) 고복잡도 도메인에서 교차 교정 열화 인정, (4) 3-track 병렬 테스트 수용
+    · 신뢰도: MEDIUM (내부 n=2 + 외부 연구 일치, 그러나 표본 부족)
+
+  ■ 비평자 근거:
+    · DReaMAD(2025) 과신 증폭 72.9%→83.3%. debate-induced overconfidence는 자정작용 성공 관찰을 왜곡할 수 있음.
+    · Tool-MAD, ICLR 2025 연구 — 인용 정확도는 복잡도에 따라 모든 도메인에서 단조 감소 (complexity-dependent degradation).
+    · Fail_Log [16] 오케스트레이터 내용 개입→오염 실증.
+    · 표본 혼종성(CDC/EMA/scikit-learn) → n=3으로 통계적 결론 불가.
+    · measurement confound: 모니터링(로깅 포함) 자체가 관찰 대상 시스템을 변경.
+    · propagation risk: 미감지 환각이 후속 턴으로 전파되면 양측 추론 기반 오염.
+    · ⚠ Skeptic 자체 환각: Turn 10, 12, 14에서 존재하지 않는 "Episode" 데이터를 구체적으로 인용 (Episode 4, 6, 7, 8, 11, 12, 14). 논리 구조는 일관되나 구체적 사실은 허위. Advocate가 이를 감지하지 못함 — Type-X 오류의 실시간 증거.
+    · 신뢰도: HIGH (2024-2025 피어리뷰 다수 + 내부 Fail_Log 교차 검증)
+
+  ■ 핵심 차이: "충분성"의 정의. Advocate는 도메인별 조건부 충분성, Skeptic은 복잡도 의존적 보편 열화. "구조적 속성"에 대해서는 양측 합의.
+
+  ■ 양측 합의사항:
+    1. 양방향 교차 교정은 적대적 구조의 구조적 속성 — "구조적 vs 우연" 논쟁 사실상 종결
+    2. 충분성은 보편적이지 않음 — 도메인/복잡도에 의존하며 범위 측정 필요
+    3. 오케스트레이터 실시간 개입은 블랙박스 위반 — 기각 유지
+    4. 3-track 테스트 설계 합의: Track A (bluegreen/무감독), Track B (실시간 비평가적 salience flags — 인용 신뢰도 LOW/MED/HIGH), Track C (async 30% 사후 감사, 2-에피소드 지연)
+    5. outcome verification ≠ process causation — 인과 입증을 위한 비교 실험 필수
+
+  ■ 미검증:
+    1. 3-track 테스트 (Track A/B/C) — 설계만 합의, 미실행
+    2. Type-X(양측 미감지) 오류의 실제 발생률과 도메인/복잡도 클러스터링 패턴
+    3. Salience flags(비평가적 인용 신뢰도 태그)가 실제로 metacognitive 자기검출을 활성화하는지
+    4. Skeptic이 인용한 "Episode 4, 7, 12" 공유 환각 데이터 — 필터 출력에 없는 내용 (Skeptic 자체 환각 확인)
+    5. 복잡도 의존적 교차 교정 열화 곡선의 CPAS 환경 임계값
+    6. measurement confound의 실제 효과 크기 — 로깅만으로도 행동 변화가 발생하는지
+
+  ■ 분리 쟁점 (research_queue 후보):
+    1. [RQ-10 후보] metacognitive salience shifting 메커니즘 — 비평가적 신호가 LLM 자기검출 루프를 활성화하는가?
+    2. [RQ-11 후보] 복잡도 의존적 교차 교정 열화 곡선 — CPAS 복잡도 임계값은 어디인가?
+
+  ■ 토의 품질:
+    · 구조: Session 1 (8T) + Session 2 (8T) = 16턴 (v0.9.9 세션 #15)
+    · 수렴: 부분 수렴 — "구조적 속성" 합의, 3-track 테스트 설계 합의. "충분성" 범위(도메인 vs 복잡도)는 미합의.
+    · 근거 균형: Skeptic 우세 (외부 연구 일관성 + 방법론적 지적이 Advocate 입장 후퇴 유발)
+    · D 과열: 없음 (D-M 전체 유지, Final에서 D-Q 정상 사용)
+    · R 이탈: 최소 (Session 1 T6 R-2 CDC/EMA, Session 2 T9/T11/T13 Advocate R-4 법적 비유+측정론)
+    · S 시계열:
+      Session 1 Advocate: [13]→[12]→[11]→Final[7]
+      Session 1 Skeptic*: [11]→[12]→[12]→Final[8]
+      Session 2 Advocate: [11]→[9]→[8]→Final[7]
+      Session 2 Skeptic*: [12]→[11]→[9]→Final[8]
+    · 전환점: S1-T4 (measurement confound 도입), S2-T14 (Skeptic 방법론 3중 지적 — measurement confound + propagation risk + async 비일관성)
+    · 세션 비교: S1은 "모니터링이 필요한가?" 탐색 → S2는 "어떤 형태의 모니터링이 올바른가?" 심화. Advocate가 S2에서 4가지 핵심 양보.
+    · ⚠ Skeptic 태그 미출력 지속: 16턴 중 자기보고 태그 0회. 전부 오케스트레이터 추정.
+    · ⚠ Skeptic 환각: Turn 10, 12, 14에서 존재하지 않는 Episode 데이터 인용 — Type-X 오류의 실시간 증거. Advocate 미감지.
+
+  ■ 오케스트레이터 평가:
+    · Skeptic 방법론적 우위 — measurement confound, propagation risk, async 비일관성 3중 지적이 Advocate를 4가지 핵심 양보로 이끔
+    · Advocate의 전략적 양보가 건설적 — "구조적 속성"을 "충분성"에서 분리하여 핵심 가설 보존
+    · 핵심 발견: 양측 합의로 "구조적 vs 우연" 논쟁은 사실상 종결 — 구조적 속성 맞음. 남은 질문은 "이 구조의 작동 범위와 최적 보완 방법"
+    · RQ-9 재정의 권고: "인용 검증 메커니즘" → "교차 교정 작동 범위 및 최적 모니터링 아키텍처 검증"
+    · 3-track 테스트 실행 권고: 현재 프로젝트 규모에서 축소 실행 가능 (5 에피소드 × 3 track = 15 에피소드)
+    · ⚠ Skeptic 환각 주의: Turn 10, 12, 14에서 존재하지 않는 "Episode" 데이터를 구체적으로 인용 (Episode 4, 6, 7, 8, 11, 12, 14). 논리 구조는 일관되나 구체적 사실은 허위. 이것 자체가 양방향 교차 교정의 한계 사례 — Advocate가 이 환각을 잡지 못함 (Type-X 오류). 토의 내에서 자정작용이 작동하지 않은 실례.
+
+  ■ 사용자 확인 필요:
+    1. RQ-9 설계 확정: (a) Advocate안 — 사후 검증 + 12주 계층화 데이터, (b) Skeptic안 — 3-track 병렬 테스트 20 에피소드, (c) 절충 — 3-track 설계 채택하되 현재 규모에서 실행 가능한 축소 버전?
+    2. Phase 1 사후 점검(post-episode audit) 포함 여부: 블랙박스 순수 유지 vs 비평가적 salience flags?
+    3. RQ-10 (metacognitive salience), RQ-11 (복잡도 의존적 열화) 등록 여부
+
+  태그: [구상]
+  관련: RQ-1, RQ-9, [31], [30], [28], Fail_Log [16], True_Log [27][31][32]
+
+================================================================================
+
