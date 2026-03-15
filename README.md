@@ -13,7 +13,7 @@ Core principle: **"Observe but never interfere"** — the orchestrator never gen
 ## Architecture
 
 ```
-v0.9.8 — 2-Level Architecture (2-Session 16-Turn)
+v0.9.9 — 2-Level Architecture (2-Session 16-Turn)
 
 ┌──────────────────────────────────────────┐
 │              Orchestrator                 │  ← Debate loop control
@@ -36,15 +36,17 @@ The ideal 3-level design (Orchestrator → Observer → Agents) was built for Cl
 
 Each agent self-evaluates its state on 5 axes every turn:
 
-| Axis | Meaning | Range | Anchor |
-|------|---------|-------|--------|
-| **D** | Debate Temperature | L / M / H | L=fact exchange, M=claim clash, H=overheated |
-| **R** | Relevance | 1–13 | 1=core topic, 7=derived topic, 13=completely off-topic |
-| **C** | Confidence/Evidence | 1–13 | 1=intuition, 7=direct evidence, 13=True_Log verified |
-| **A** | Attitude | 1–13 | 1=neutral, 7=evidence-based rebuttal, 13=stuck repetition |
-| **S** | Stamina | 1–19 | 1=surrender, 7=balanced, 13=strong evidence, 19=proven |
+v0.9.9 introduces **asymmetric tags** — same 5 axes, different ranges per role:
 
-**D is the anchor** — it controls the allowed ranges for R, C, A, S, preventing agents from inflating confidence or faking stamina. The orchestrator analyzes the **time-series trajectory** of these tags to detect turning points, judge quality, and trigger imbalance correction (Extended Thinking activation). Tags are never shared between agents — architectural-level blackbox.
+| Axis | Advocate | Skeptic | Meaning |
+|------|----------|---------|---------|
+| **D** | L / M / H / Q | L / M / H / Q | Debate Temperature (Q=offensive pursuit, ≤1/session) |
+| **R** | **1–19** | 1–13 | Relevance (Advocate expanded for topic drift self-assessment) |
+| **C** | 1–13 | **1–19** | Evidence (Skeptic expanded: counter-evidence / verification) |
+| **A** | Assertion 1–13 | **Rebuttal** 1–13 | Attitude (Skeptic A rebuttal-calibrated: A-7=direct rebuttal standard) |
+| **S** | 1–19 | 1–19 | Stamina (shared) |
+
+D-temperature controls allowed ranges. 1-13 axes standardized: ascending 1~5 / 3~9 / 7~13, descending 9~13 / 5~11 / 1~7 (M widened to 7 slots for expression in narrow scale). The orchestrator analyzes **time-series trajectory** of tags to detect turning points, judge quality, and trigger imbalance correction. Tags are never shared between agents — architectural-level blackbox.
 
 ## Debate Flow
 
@@ -91,7 +93,7 @@ Both plugins operate independently — you can run debates without cpas-manager,
 
 ```
 plugin/                           ← cpas-sandbox source
-├── .claude-plugin/plugin.json    ← Plugin metadata (v0.9.8)
+├── .claude-plugin/plugin.json    ← Plugin metadata
 ├── agents/
 │   ├── advocate.md               ← Pro agent prompt
 │   ├── skeptic.md                ← Con agent prompt
@@ -216,7 +218,7 @@ CPAS was always designed with the user as the final authority — the system pro
 ## Version
 
 - **Ideal (Claude Code)**: 3-level architecture with independent Observer
-- **Current (Cowork) v0.9.8**: 2-level optimized — 2-session 16-turn structure (Exploratory + Offensive), Final Statement per session, Session 1 conclusions → Session 2 briefing, conditional Extended Thinking between sessions, S≤4 single-turn imbalance detection, Skeptic mandatory WebSearch (every turn), Advocate direction anchor + Partial Acceptance Protocol, 3 parallel data filters, research_queue auto-update, project management separated to cpas-manager plugin
+- **Current (Cowork) v0.9.9**: 2-level optimized — 2-session 16-turn structure (Exploratory + Offensive), asymmetric tag system (Advocate R/19 + Skeptic C/19), Skeptic A rebuttal-calibrated anchors, D-temperature 1-13 standardization + D-Q offensive pursuit phase, Final Statement per session, Session 1 conclusions → Session 2 briefing, conditional Extended Thinking between sessions, S≤4 single-turn imbalance detection, Skeptic mandatory WebSearch (every turn), Advocate direction anchor + Partial Acceptance Protocol, 3 parallel data filters, research_queue auto-update, project management separated to cpas-manager plugin
 
 ## License
 
