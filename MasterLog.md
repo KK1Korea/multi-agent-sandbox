@@ -766,7 +766,7 @@ CPAS — MasterLog — 미분류 항목 (스테이징)
 
   ■ 분리 쟁점:
     1. Entropy-based Uncertainty Quantification — CPAS와 별개의 연구 주제
-    2. Monoculture collapse 리스크 — 동일 LLM 기반 다양성 부재, 별도 아키텍처 검토
+    2. Monoculture collapse 리스크 — 동일 LLM 기반 다양성 부재, 별도 아키텍처 검토. 단, MAD 문헌 제약: 이종 모델은 능력 수준이 동등해야 함 (ICLR 2025, arXiv 2502.08788). 약한 모델은 다수 압력에 굴복 → 성능 저하. Opus↔Haiku 부적합, Opus↔동급 외부 모델만 유효.
     3. 비용 효율 기준선 — 품질 비교 기준 미합의
 
   ■ 토의 품질:
