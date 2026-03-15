@@ -179,12 +179,30 @@ The debate produced actionable research items (recorded in `research_queue.md`) 
 
 ### Measured Token Costs
 
-| Benchmark | Sections | Turns | Sub-agent API Tokens | ET Activated | Skeptic WebSearch | Notes |
-|-----------|----------|-------|---------------------|-------------|-------------------|-------|
-| v0.9.2 #1 (external) | 3 | 18 | ~388K | No | Yes | Standard Opus |
-| v0.9.2 #2 (internal) | 3 | 18 | ~524K | Yes (S2/S3) | Yes | Advocate S-4 collapse triggered ET |
-| v0.9.4 #3 (internal, re-run) | 3 | 18 | ~513K | No | **Zero** | Advocate S-7 min, no ET needed |
-| Data Filters (Haiku×3) | — | — | ~50-55K per debate | — | — | Parallel execution |
+#### v0.9.2–v0.9.4: 3-Section 18-Turn Structure
+
+| Benchmark | Sections | Turns | Sub-agent Tokens | Avg/Turn | ET | Notes |
+|-----------|----------|-------|-----------------|----------|-----|-------|
+| v0.9.2 #1 (external) | 3 | 18 | ~388K | ~17K | No | External topic, standard Opus |
+| v0.9.2 #2 (internal) | 3 | 18 | ~353K | ~15K | Yes (S2/S3) | Advocate S-4 collapse triggered ET |
+| v0.9.4 #3 (internal, re-run) | 3 | 18 | ~377K | ~17K | No | Advocate S-7 min, no ET needed |
+
+#### v0.9.8–v0.9.9: 2-Session 16-Turn Structure
+
+| Benchmark | Sessions | Turns | Sub-agent Tokens | Avg/Turn | ET | Notes |
+|-----------|----------|-------|-----------------|----------|-----|-------|
+| v0.9.8 [30] (mixed→clear) | 2 | 16 | ~491K | ~27K | No | v0.9.8 first live test |
+| v0.9.8 [31] (self red-teaming) | 2 | 16 | ~498K | ~27K | No | Advocate T13 hallucination detected by Skeptic T14 |
+| v0.9.9 [33] (cross-correction) | 2 | 16 | ~485K | ~26K | No | Skeptic T10/12/14 hallucination — Type-X error |
+
+| Component | 18-Turn avg | 16-Turn avg | Change |
+|-----------|-------------|-------------|--------|
+| Data Filters (Haiku×3) | ~70K | ~64K | -9% |
+| Debate Turns (Opus×2) | ~262K | ~427K | **+63%** |
+| Total | ~373K | ~491K | **+32%** |
+| Per-Turn Average | ~15–17K | ~26–27K | **+70%** |
+
+**Why did 16-turn debates cost more than 18-turn?** Turning 3 sessions into 2 sessions with fresh agents each session means: (1) each session starts with full system prompts re-injected (no context reuse from prior session), (2) Session 2 agents receive Session 1 final statements as briefing — adding ~30-50K context per agent, (3) v0.9.8+ agents have richer prompts (asymmetric tags, direction anchors, acceptance protocol). The per-turn density increased significantly — agents produce longer, more structured arguments per turn.
 
 **v0.9.4 observation**: Skeptic performed **0 WebSearch calls across all 9 turns**, relying entirely on internal data (True_Log/Fail_Log/MasterLog). This produced strong arguments but created an echo chamber risk — leading to the v0.9.5 mandatory WebSearch rule (O-3-4: minimum 1 search per turn).
 
