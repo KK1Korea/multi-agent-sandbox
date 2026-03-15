@@ -13,11 +13,12 @@ Core principle: **"Observe but never interfere"** — the orchestrator never gen
 ## Architecture
 
 ```
-v0.9.2 — 2-Level Architecture
+v0.9.8 — 2-Level Architecture (2-Session 16-Turn)
 
 ┌──────────────────────────────────────────┐
 │              Orchestrator                 │  ← Debate loop control
 │              (Main Agent)                 │     + observation + judgment
+│                                           │     + cross-session memory
 └──┬──────┬──────┬──────┬──────┬──────────┘
    │      │      │      │      │  spawns directly
 ┌──▼──┐┌──▼──┐┌──▼───┐┌─▼───┐┌─▼───┐
@@ -56,10 +57,11 @@ Phase 1: Pre-Debate Setup
   Step 4 — Load tag protocol (required)
 
 Phase 2: Debate Loop
-  1 Section = 3 Advocate↔Skeptic exchanges (6 turns)
-  Max 3 sections, early termination via cross-section comparison
-  Imbalance detected → Extended Thinking activated for the losing side
-  Each section starts with fresh agents (cross-section memory held by orchestrator only)
+  Session 1 (Exploratory): 3 exchanges (6T) + Final Statement (2T) = 8 turns
+  Session 2 (Offensive):   3 exchanges (6T) + Final Statement (2T) = 8 turns
+  Both sessions always run (straight-through, 16 turns total)
+  Session 1→2: Imbalance check → Extended Thinking for losing side (user approval)
+  Session 2 receives Session 1 final statements as briefing (fresh agents)
 
 Phase 3: Post-Debate Processing
   Generate structured analysis report
@@ -89,7 +91,7 @@ Both plugins operate independently — you can run debates without cpas-manager,
 
 ```
 plugin/                           ← cpas-sandbox source
-├── .claude-plugin/plugin.json    ← Plugin metadata (v0.9.5)
+├── .claude-plugin/plugin.json    ← Plugin metadata (v0.9.8)
 ├── agents/
 │   ├── advocate.md               ← Pro agent prompt
 │   ├── skeptic.md                ← Con agent prompt
@@ -131,10 +133,10 @@ plugin/                           ← cpas-sandbox source
 │       ├── session_log.md        ← Session log
 │       └── research_queue.md     ← Unresolved research items
 └── logs/                         ← Full development logs
-    ├── MasterLog.md              ← Staging area (6 entries: [2][23][24][25][26][27])
-    ├── True_Log.md               ← Verified successes (15 entries)
+    ├── MasterLog.md              ← Staging area (4 entries: [25][26][28][29])
+    ├── True_Log.md               ← Verified successes (19 entries)
     ├── Fail_Log.md               ← Verified failures ([16][18])
-    └── Dummy_Log/                ← Low-value/duplicate ([6][8][9][12])
+    └── Dummy_Log/                ← Low-value/duplicate ([6][8][9][12][29][30])
 ```
 
 ## Why Include Logs?
@@ -214,7 +216,7 @@ CPAS was always designed with the user as the final authority — the system pro
 ## Version
 
 - **Ideal (Claude Code)**: 3-level architecture with independent Observer
-- **Current (Cowork) v0.9.5**: 2-level optimized — orchestrator absorbs Observer functions, 3 parallel data filters, Advocate direction anchor + Partial Acceptance Protocol, Skeptic mandatory WebSearch, research_queue auto-update, project management separated to cpas-manager plugin
+- **Current (Cowork) v0.9.8**: 2-level optimized — 2-session 16-turn structure (Exploratory + Offensive), Final Statement per session, Session 1 conclusions → Session 2 briefing, conditional Extended Thinking between sessions, S≤4 single-turn imbalance detection, Skeptic mandatory WebSearch (every turn), Advocate direction anchor + Partial Acceptance Protocol, 3 parallel data filters, research_queue auto-update, project management separated to cpas-manager plugin
 
 ## License
 
