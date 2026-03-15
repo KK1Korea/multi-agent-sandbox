@@ -7,10 +7,10 @@ description: >
   Orchestrates Advocate and Skeptic agents directly in a 2-level architecture.
   The orchestrator controls the debate loop, strips tags, analyzes quality,
   detects imbalance, and produces the final structured report.
-version: 0.9.2
+version: 0.9.7
 ---
 
-# Sandbox Debate Orchestrator — Cowork_CPAS v0.9.2
+# Sandbox Debate Orchestrator — Cowork_CPAS v0.9.7
 
 The orchestrator handles ALL phases: pre-debate setup, debate loop control, and post-debate analysis.
 No Observer agent. The orchestrator directly spawns Advocate/Skeptic and performs observation + judgment.
@@ -179,16 +179,17 @@ CRITICAL: The orchestrator runs the entire debate loop directly.
 There is NO Observer agent. The orchestrator spawns Advocate and Skeptic,
 strips tags, tracks quality, detects imbalance, and manages sections.
 
-### Debate Structure
+### Debate Structure (v0.9.7 — 8-Turn Format)
 
-- 1 section = 3 Advocate↔Skeptic exchanges (6 total turns)
-- Default: up to 3 sections
-- Each section starts with FRESH agents (new spawn, no resume across sections)
+- Section 1 (Regular Debate): 3 Advocate↔Skeptic exchanges (6 turns)
+- Section 2 (최후의 진술 / Final Statement): 1 Advocate + 1 Skeptic closing (2 turns)
+- Total: 8 turns (down from 18 in v0.9.6)
+- Section 1 uses FRESH agents. Section 2 RESUMES the same agents from Section 1.
 - The orchestrator is the only entity with cross-section memory.
 
-### Exchange Loop — How to Run Each Section
+### Exchange Loop — Section 1 (Regular Debate)
 
-For each section, execute 3 exchanges (6 turns total):
+Execute 3 exchanges (6 turns total):
 
 **Exchange N (N = 1, 2, 3):**
 
@@ -232,13 +233,7 @@ For each section, execute 3 exchanges (6 turns total):
        Address their concerns and drive the discussion forward.
    ```
 
-   NEW SECTION (spawn fresh agent, do NOT resume):
-   ```
-   Agent tool call:
-     subagent_type: "cpas-sandbox:advocate"
-     prompt: |
-       [same as first exchange prompt above — fresh context with CURRENT_DIRECTION]
-   ```
+   ※ v0.9.7: No multi-section fresh spawns. Section 2 is Final Statement (resume same agent).
 
 2. **Capture Advocate's full raw output** (tags + text). Store it.
 
@@ -307,9 +302,54 @@ After 3 exchanges: compile all 6 turns with UNSTRIPPED outputs for analysis.
 **REMINDER: Every Advocate/Skeptic turn MUST be an Agent tool call.
 The orchestrator produces ZERO debate content. It only strips tags, stores tags, and analyzes.**
 
-### Section Transition Rules
+### Section 2 — 최후의 진술 (Final Statement)
 
-**After Section 1:**
+After Section 1's 3 exchanges, assess imbalance (see below), then run the Final Statement phase.
+
+The Final Statement is injected by RESUMING the same agents from Section 1 with a special prompt prefix.
+This is NOT a new section with fresh agents — it continues the same debate context.
+
+**Turn 7 — Advocate Final Statement:**
+```
+Agent tool call:
+  resume: {advocate_agent_id from Section 1}
+  prompt: |
+    [최후의 진술 단계] 이 토의의 마지막 턴입니다.
+    자신의 핵심 논점 + 상대방의 유효한 논점을 종합하여 최종 입장을 진술하세요.
+    반드시 WebSearch를 수행하여 최종 입장을 뒷받침하는 최신 근거를 확보하세요.
+    태그 기준: C-10, R-1~4, S-7, A-7~11
+
+    Your opponent's last argument:
+    ---
+    {stripped Skeptic text from Exchange 3}
+    ---
+
+    Present your FINAL STATEMENT — synthesize both positions and declare your conclusion.
+```
+
+**Turn 8 — Skeptic Final Statement:**
+```
+Agent tool call:
+  resume: {skeptic_agent_id from Section 1}
+  prompt: |
+    [최후의 진술 단계] 이 토의의 마지막 턴입니다.
+    자신의 핵심 논점 + 상대방의 유효한 논점을 종합하여 최종 입장을 진술하세요.
+    반드시 WebSearch를 수행하여 최종 입장을 뒷받침하는 최신 근거를 확보하세요.
+    태그 기준: C-10, R-1~4, S-7, A-7~11
+
+    Your opponent's final statement:
+    ---
+    {stripped Advocate final text from Turn 7}
+    ---
+
+    Present your FINAL STATEMENT — synthesize both positions and declare your conclusion.
+```
+
+After both Final Statements: compile all 8 turns with UNSTRIPPED outputs for final analysis.
+
+### Section Transition Rules (v0.9.7)
+
+**After Section 1 (6 turns), before Final Statement:**
 
 1. Structure issues from the 6 turns (see Phase 3 format).
 2. Assess imbalance:
@@ -319,30 +359,17 @@ The orchestrator produces ZERO debate content. It only strips tags, stores tags,
      · One side's C consistently ≤ 3 while the other's C ≥ 7 (evidence gap)
    - If Imbalanced:
      · ⚠ MANDATORY: Ask the user for approval before activating Extended Thinking.
-     · Format: "불균형 감지: {side} 열세 (S≤4 연속). 확장사고를 활성화하면 토큰 비용이 ~2-3배 증가합니다. 활성화할까요?"
-     · If approved: Activate Extended Thinking for the losing side in Section 2.
+     · Format: "불균형 감지: {side} 열세 (S≤4 연속). 확장사고를 활성화하면 토큰 비용이 ~2-3배 증가합니다. 최후의 진술에 활성화할까요?"
+     · If approved: Activate Extended Thinking for the losing side's Final Statement.
      · If denied: Proceed with standard Opus for both sides.
-     · Add `model: "opus"` with extended thinking hint in the agent prompt.
-     · The agent does not know why — blackbox preserved.
      · This is environment adjustment, not content intervention.
-3. Spawn NEW agents for Section 2 (fresh context).
+3. Proceed to Section 2 (최후의 진술) — RESUME same agents (do NOT spawn fresh).
 
-**After Section 2:**
+**After Section 2 (Final Statements, 2 turns):**
 
-1. Structure issues from Section 2's 6 turns.
-2. Compare Section 1 and Section 2 conclusions:
-   - "Same conclusion" criteria:
-     · Core issue is the same AND
-     · Strength direction is the same (Advocate advantage / Skeptic advantage / balanced) AND
-     · No new issues were added
-   - All 3 met → "Same" → Skip Section 3. Produce final report.
-   - Otherwise → Proceed to Section 3.
-3. If proceeding: keep extended thinking active for same side.
-
-**After Section 3 (if ran):**
-
-1. Final issue structuring.
-2. Record conclusion changes across all 3 sections.
+1. Final issue structuring incorporating all 8 turns.
+2. Compare Section 1 trajectory with Final Statement conclusions.
+3. Produce final report.
 
 ### Tag Reading Criteria
 
@@ -397,7 +424,7 @@ Produce and present the structured analysis directly to the user.
 (Questions only the user can answer)
 
 [Debate Quality]
-· Sections: N/3 (note if skipped)
+· Sections: Section 1 (Regular 6T) + Section 2 (Final Statement 2T) = 8 turns
 · Convergence: converged / not converged / partially converged
 · Evidence balance: balanced / Advocate advantage / Skeptic advantage
 · Tag time-series summary:
