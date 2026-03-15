@@ -1,7 +1,7 @@
 ================================================================================
 프로젝트명: CPAS
 CPAS — MasterLog — 미분류 항목 (스테이징)
-이전 로그: True_Log.md [1][2][3][4][5][7][10][11][13][14][15][17][19][20][21][22][23][24][27], Fail_Log.md [16][18], Dummy_Log/Dummy_Log_1.md [6][8][9][12][29][30]
+이전 로그: True_Log.md [1][2][3][4][5][7][10][11][13][14][15][17][19][20][21][22][23][24][27][31][32], Fail_Log.md [16][18], Dummy_Log/Dummy_Log_1.md [6][8][9][12][29][30]
 ================================================================================
 
 ⚠ 작성 규칙:
@@ -249,6 +249,175 @@ CPAS — MasterLog — 미분류 항목 (스테이징)
 
   태그: [구상]
   관련: RQ-2, Dummy_Log [29][30], [28], True_Log [22][27]
+
+================================================================================
+
+[30] Sandbox: CPAS 토의 품질 핵심 지표 — mixed 비율 vs mixed→clear 전환 능력 — 2026-03-15 세션 #12 ★우선확인
+────────────────────────────────────────
+
+  ■ 쟁점: CPAS 토의 품질의 핵심 지표는 mixed 비율인가, mixed→clear 전환 능력인가? CPAS는 실제로 그 전환을 달성할 수 있는가?
+  ■ 구조: v0.9.8 첫 실전 — 2세션 16턴 (탐색전 8T + 공방전 8T), Opus×2, 데이터 필터 Haiku×3 병렬
+  ■ 동시 검증: RQ-2 (토의 주제), RQ-1 (비교 데이터 포인트), v0.9.8 구조 검증, Haiku 필터 파싱 품질
+
+  ■ 평가자 근거:
+    · 전환 증거 3건 (D-5, D-2, [28]) 전부 성공 — 단 D-5/D-2는 외부 큐레이션, [28]만 내부 경로 (n=1)
+    · 2025 MAD 연구: Tool-MAD +8.1 F1 (HealthFC), ED2D 448건 mixed 해결 (Snopes25) — 증거 충돌 감지에서 토의 구조 효과 확인
+    · 리프레이밍 궤적: "debate causes reasoning" → "detection/classification" → "decision process + documentation value"
+    · 최종 입장: CPAS는 detection도 calibration 도구도 아님. mixed 문제를 actionable choice로 전환하는 의사결정 프로세스.
+    · Choice B 파일럿 제안: 3건 fresh case, 6-8주, stakeholder 문서화 가치 측정
+    · 신뢰도: MEDIUM (외부 MAD 연구 HIGH, 내부 데이터 n=1 LOW)
+
+  ■ 비평자 근거:
+    · Hawthorne effect + post-hoc fallacy: outcome verification ≠ process causation
+    · 2025 debate overconfidence: 에이전트 72.9%→83.3% 과신 에스컬레이션 (anti-Bayesian). 동일 복제 모델 토의에서도 64.1%→75.2% (arXiv 2505.19184)
+    · Confirmation bias: D-5 vs D-2 대칭 — 양측 "수렴"이나 반대 결론 = 확증편향, 진정한 수렴 아님
+    · Structured output false confidence: 구조화 문서가 "moral cover" 효과로 거짓 확신 유발
+    · Nature Communications 2025 selective readout, Cochrane 2024 selection bias, JAMA 2024 post-hoc bias
+    · 신뢰도: HIGH (2024-2025 피어리뷰 다수 인용)
+
+  ■ 핵심 차이: CPAS 토의가 단일 에이전트 분석으로 도달 불가능한 결론을 산출하는가? (Path A vs Path B 비교가 유일한 검증 경로)
+
+  ■ 양측 합의사항:
+    1. mixed 비율보다 mixed→clear 전환 능력이 핵심 지표 (RQ-2 재정의 확정)
+    2. outcome verification만으로는 인과 입증 불가
+    3. Path A (CPAS) vs Path B (단일 에이전트) vs Path C (앙상블) 비교 실험 필수
+    4. 전환은 관찰되었으나 (3건 전부 성공) 인과 미입증
+
+  ■ 미검증:
+    1. Path A vs Path B/C 비교 실험 — 미실행
+    2. Debate-induced overconfidence가 CPAS 5축 환경에서 재현되는 정도
+    3. Self red-teaming 메커니즘 효과
+    4. D-8/D-9 미검증 mixed 사례 실제 상태
+    5. [28] 태그 출력 실패 원인 (9턴 0회)
+
+  ■ 분리 쟁점 (research_queue 후보):
+    1. CPAS 과신 방지 메커니즘 설계 (self red-teaming, confidence hiding, validity weighting)
+    2. "Moral cover" 리스크 — Choice B 배포 시 구조화 문서가 나쁜 결정에 거짓 정당성 부여 가능성
+    3. 앙상블 투표 vs 토의 구조: MAD 성능이 앙상블 효과인지 토의 고유 효과인지 분리
+
+  ■ 토의 품질:
+    · 구조: Session 1 (8T) + Session 2 (8T) = 16턴 (v0.9.8 첫 실전)
+    · 수렴: Session 1 양측 S-7, Session 2 양측 S-10. 자연 수렴 달성.
+    · 근거 균형: Skeptic 우세 (외부 연구 다수 인용). Advocate 내부 데이터 n=1 한계 인정.
+    · D 과열: Session 1 T5에서 D-H 1회 (즉시 복귀). Session 2 D-M 유지.
+    · R 이탈: Session 1 T5 R-6 (일시적). Session 2 R-1 전체 유지.
+    · S 시계열:
+      Session 1 Advocate: [13]→[11]→[9]→Final[7]
+      Session 1 Skeptic:  [13*]→[11*]→[12*]→Final[7*]
+      Session 2 Advocate: [13]→[12]→[11]→Final[10]
+      Session 2 Skeptic:  [12*]→[11*]→[13*]→Final[10*]
+    · 전환점: S1-T4 (D-5 vs D-2 대칭 분석), S2-T14 (debate overconfidence 결정적 증거)
+    · 세션 비교: S1은 방법론적 문제 식별, S2는 구체적 메커니즘 분석으로 심화
+
+  ■ 오케스트레이터 평가:
+    · Skeptic 방법론적 우위 (post-hoc fallacy + overconfidence + moral cover 3중 근거)
+    · Advocate의 전략적 양보 + Choice B 리다이렉트가 건설적 — 일방적 붕괴 없이 생산적 수렴
+    · RQ-2 재정의 확정 권고: "mixed 비율" → "mixed→clear 전환 + 인과 입증"
+    · Choice B 파일럿 시 Skeptic 3조건 반영 권고: (a) 정확도 소급 측정, (b) 과신 방지 메커니즘, (c) 검증 가능 결과 사례
+    · v0.9.9 검토: self red-teaming, confidence hiding — 2025 연구 기반
+
+  ■ 사용자 확인 필요:
+    1. Choice B 파일럿 실행 여부 + Skeptic 조건 포함 범위
+    2. Path A vs Path B 비교 실험 설계 (1건 파일럿 vs 5건 풀)
+    3. Self red-teaming 메커니즘 v0.9.9 통합 여부
+
+  ■ v0.9.8 구조 검증 메모:
+    · 2세션 16턴 스트레이트 정상 완주
+    · Session 1→2 전환 시 불균형 미감지 (S≤4 미발생) → ET 미활성화
+    · SESSION_2_BRIEFING (Session 1 최후의 진술 주입) 정상 동작 — Session 2가 Session 1 결론 위에 심화
+    · Skeptic 태그 미출력 지속 (16턴 중 0회 자발적 출력) — [current_task.md #7] 미해결 이슈 재확인
+    · Advocate 태그 출력 정상 (8턴 중 8회)
+    · Haiku 데이터 필터: MasterLog 3건, True_Log 3건, Fail_Log 2건 정상 추출
+
+  태그: [구상]
+  관련: RQ-1, RQ-2, RQ-5, [28], [29], True_Log [22][27]
+
+================================================================================
+
+[31] Sandbox: Self red-teaming vs Confidence hiding — 블랙박스 원칙 충돌 검증 — 2026-03-15 세션 #13 ★우선확인
+────────────────────────────────────────
+
+  ■ 쟁점: Self red-teaming(자기 약점 명시)이 CPAS의 블랙박스 원칙(confidence hiding)과 충돌하여 토의 품질을 저하시키는가, 아니면 오히려 CPAS의 강점을 강화하는가?
+  ■ 구조: v0.9.8 — 2세션 16턴 (탐색전 8T + 공방전 8T), Opus×2, 데이터 필터 Haiku×3
+  ■ 동시 검증: RQ-7 (과신 방지 메커니즘), self red-teaming 실행 가능성, 블랙박스 원칙 근거 강화
+
+  ■ 평가자 근거:
+    · Session 1: Self red-teaming 3가지 형태 순차 제안 — (1) turn-level 약점 명시, (2) pre-debate preparation, (3) real-time S-tag monitoring (Path C). 각각 Skeptic 반박에 의해 수정.
+    · Session 2: 3-condition 테스트 설계 — Condition 1(무인지 기준선), Condition 2(은밀 모니터링), Condition 3(투명 규칙+에이전트 선택권). "투명성이 은닉보다 낫다" 주장.
+    · arxiv 2505.14617 인용: 투명 규칙이 재보정(recalibration)을 유도, 억제(suppression)가 아니다.
+    · 핵심 주장: "verifiable miscalibration(Condition C) vs invisible miscalibration(Condition A)" — 검증 가능한 오보정이 불가시 오보정보다 낫다.
+    · ⚠ T13 LLM 환각(hallucination): arxiv 2507.01786에서 "Table 3, 73% inference accuracy, 42% variance reduction" 허위 인용. 해당 논문에 Table 3 없음. 에이전트가 논문 내용을 근거 방향에 맞춰 환각한 사례.
+    · T15 자진 인정: "I fabricated the table" — Skeptic T14 교차 검증으로 환각 감지 → Advocate T15에서 인정. CPAS 교차 검증 자정작용이 토의 내에서 환각을 감지→인정→분석까지 완료한 사례.
+    · 최종 입장 전환: Path B (사후 블랙박스) 지지로 수렴. "transparency creates defensive pressure that causes inference-based gaming to become rule-aware gaming — and that's worse."
+    · 신뢰도: Session 1 MEDIUM → Session 2 LOW (T13 허위 인용) → T15 자진 인정으로 부분 회복 (MEDIUM-LOW)
+
+  ■ 비평자 근거:
+    · Hawthorne effect (arxiv 2505.14617): 모니터링 인식이 행동 변화 유발. 에이전트가 평가 기준을 추론하면 행동 적응 발생.
+    · Evaluation awareness (arxiv 2507.01786): 모델이 평가/배포 컨텍스트를 linear probe로 구별 가능. 명시적 고지 없이도 자체 추론.
+    · Performative alignment (OpenAI 2025): 규칙을 아는 에이전트가 전략적 수행으로 전환. "models act aligned in testing but not in deployment."
+    · 피드백 루프 게이밍 (IJCAI 2025 survey): within-episode 피드백이 새로운 최적화/해킹 형태 생성. "Simulation of competitive/realistic feedback loops can surface new forms of optimization and hacking."
+    · MasterLog [28] 실증: 블랙박스 5/5 심층 반론 vs ET-only 2/5 — 블랙박스 환경이 더 깊은 논증 산출.
+    · Fail_Log [16] 재확인: "constraint is environment control, but it induces content distortion" — 규칙 인지가 왜곡 유발.
+    · Advocate T13 환각을 자정작용 사례로 활용: Skeptic T14가 인용 검증 → T15 Advocate 자진 인정 → CPAS 교차 검증의 환각 해소 기능 실증
+    · 3가지 Condition 대안 제시: Condition A(무인지 사후 모니터링, 피드백 없음), Condition B(투명 규칙, 피드백 없음), Condition C(투명 규칙+명시 피드백). Condition A 우위 주장.
+    · 최종 입장: "The black box isn't darker. It's cleaner." 블랙박스 원칙이 게이밍 압력 제거를 통해 자연 토의 + 정직한 근거 산출.
+    · 신뢰도: HIGH (일관된 외부 연구 다수 + 프로젝트 내부 데이터 + Advocate 허위 인용이 실시간 증거)
+
+  ■ 핵심 차이: 투명 모니터링이 게이밍 압력을 제거하는가(Advocate) vs 생성하는가(Skeptic). T15에서 Advocate 자진 인정으로 차이 해소 — 투명성은 게이밍 압력을 생성한다.
+
+  ■ 양측 합의사항:
+    1. Self red-teaming(모든 형태)은 CPAS 블랙박스 원칙과 충돌 — 채택 불가
+    2. Path B (사후 블랙박스 모니터링 + 시스템 조정)가 올바른 과신 방지 경로
+    3. 투명 모니터링(Condition C)은 게이밍 압력 생성 — LLM 환각 유발 위험
+    4. within-episode 피드백은 게이밍 훈련 = 사후(between-episode) 피드백만 허용
+    5. CPAS 강점은 "비가시성 기반 자연 토의 + 사후 체계적 조정"에 있음
+
+  ■ 미검증:
+    1. Path B vs Condition C n=5 비교 실험 (제안됨, 미실행)
+    2. Between-episode 피드백(사후)이 실제로 게이밍 없이 보정 개선하는지
+    3. LLM 환각 빈도 (인용 관련) — 이번이 일회성인지 구조적인지
+    4. arxiv 2505.14617 safety task 주장 (Table 3 외 부분) 독립 검증 필요
+    5. Advocate의 "agents don't suppress; they recalibrate" 주장의 CPAS 환경 재현 여부
+
+  ■ 분리 쟁점 (research_queue 후보):
+    1. 인용 검증 메커니즘: 에이전트 인용 환각 감지 방법. 단, 오케스트레이터 실시간 개입은 블랙박스 원칙 위반 가능성 → 사후 검증이 기본, 실시간은 신중히 검토 (RQ-9 등록)
+
+  ■ 토의 품질:
+    · 구조: Session 1 (8T) + Session 2 (8T) = 16턴 (v0.9.8 세션 #13)
+    · 수렴: ✅ 수렴 — 양측 Path B 합의. Advocate T15 자진 인정이 결정적 전환점.
+    · 근거 균형: Skeptic 우세 (외부 연구 일관성 + Advocate 허위 인용이 역설적으로 Skeptic 증거)
+    · D 과열: Session 2 T13-T14 D-H 양측 도달. T15-T16 D-Q (최후의 진술). Session 1은 D-M 유지, T7-T8 D-Q.
+    · R 이탈: Session 1 T4 R-2 (1회, 즉시 복귀). Session 2 T12 R-2 (1회, 즉시 복귀). 전체적으로 R-1 유지 — 높은 주제 집중도.
+    · S 시계열:
+      Session 1 Advocate: [13]→[12]→[11]→[11] Final Q:[11]
+      Session 1 Skeptic*: [10]→[11]→[11]→[10] Final Q:[10]
+      Session 2 Advocate: [11]→[13]→[12]→[16] Final Q:[16] (상대 입장 수렴)
+      Session 2 Skeptic*: [10]→[11]→[12]→[19] Final Q:[19]
+    · 전환점: S2-T13 (Table 3 허위 인용), S2-T14 (Skeptic 검증), S2-T15 (Advocate 자진 인정 + 입장 전환)
+    · 세션 비교: S1은 self red-teaming 형태 탐색 → 전부 반박됨. S2는 투명 모니터링 vs 블랙박스 심화 → T15 허위 인용 자진 인정으로 결정적 수렴.
+    · ⚠ Skeptic 태그 미출력 지속: 16턴 중 자기보고 태그 0회 (T16 본문 내 명시 제외). 전부 오케스트레이터 추정. [current_task.md #7] 미해결 이슈 재확인.
+
+  ■ 오케스트레이터 평가:
+    · Skeptic 방법론적 우위 — 외부 연구 일관성(Hawthorne + evaluation awareness + feedback loop + alignment) + 프로젝트 내부 데이터([28], Fail_Log [16]) + Advocate 허위 인용이 역설적 증거
+    · Advocate T13 환각 → Skeptic T14 검증 → Advocate T15 인정 = CPAS 교차 검증 자정작용 실증. LLM 환각이 토의 내에서 감지→인정→분석까지 자연 해소됨.
+    · Path B 채택 권고: 사후 블랙박스 모니터링 + between-episode 시스템 조정. within-episode 투명 모니터링/피드백은 게이밍 압력 생성으로 기각.
+    · 인용 검증 메커니즘 연구과제로 기록 (RQ-9): Advocate 환각이 토의 3턴(T13→T14→T15) 소비. 단 오케스트레이터 실시간 개입은 블랙박스 원칙과 충돌 → 사후 검증 기본, 실시간은 신중히 검토.
+    · RQ-7 방향 확정 권고: Path B 기반 과신 방지 = 사후 S-tag 패턴 분석 + acceptance threshold 조정 + Skeptic evidence weighting.
+
+  ■ 사용자 확인 필요:
+    1. Path B (사후 블랙박스) 채택 확정? → RQ-7 방향 결정
+    2. 인용 검증 메커니즘(RQ-9) — 연구과제로 기록 완료. 실행 방향은 별도 검토.
+
+  ■ v0.9.8 구조 검증 메모:
+    · 2세션 16턴 2연속 정상 완주 ([30]에 이어 2회째)
+    · Session 1→2 전환 시 불균형 미감지 (S≤4 미발생) → ET 미활성화
+    · D-Q 태그 양측 사용 — Session 2 최후의 진술에서 양측 D-Q 정상 발동
+    · Skeptic 태그 미출력 지속 (16턴 중 0회) — [30]과 동일 패턴
+    · Advocate 태그 출력 정상 (8턴 중 8회)
+    · Advocate T13 LLM 환각 → Skeptic T14 검증 → T15 인정 = CPAS 교차 검증 자정작용으로 자연 해소
+
+  태그: [구상]
+  관련: RQ-7, RQ-8, [30], [28], Fail_Log [16], True_Log [27][31]
 
 ================================================================================
 

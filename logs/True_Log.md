@@ -802,6 +802,15 @@
          · ⚠ 단, 정액제 요금/포함 범위/사용량 제한은 Anthropic 정책에 전적으로 의존
          · ⚠ 이 관점은 현 시점(2026-03) 기준이며, 향후 과금 체계 변경 시 재평가 필요
 
+       - ※ v0.9.4 벤치마크 실측 (v0.9.2 #2 동일 주제 재실행, 3섹션 18턴):
+         · 총 토큰: ~513K (Advocate ~373K + Skeptic ~108K + Filter ~32K)
+         · 확장사고: 미활성화 (Advocate 최저 S-7, S≤4 미도달)
+         · Skeptic WebSearch: 0회 (9턴 전체에서 검색 도구 미사용!)
+         · Advocate WebSearch: S3T1에서만 사용 (7 tool uses — MAD 연구 검색)
+         · 필터: TrueLog만 1회 스폰 (프로토콜 이탈 — 3개 스폰해야 했음)
+         · 비용 추산: ~$3.40 (Opus 기준, ET 미사용으로 v0.9.2 #2 대비 ~28% 절감)
+         · ※ Skeptic WebSearch 0회 문제 → v0.9.5에서 O-3-4 [Mandatory WebSearch] 규칙 추가
+
        [수정 이력]
        - 2026-03-14 세션 #6: "~16-22K" 수치가 설계 추정치임을 명시, v0.9.2 실측값 추가
          사유: 2차 토의에서 Skeptic이 이 추정치를 "실제 오버헤드"로 인용 — 실측 근거 부재 확인
@@ -809,6 +818,8 @@
          사유: 실측 토큰 데이터에 기반한 비용 분석 — 비용 정당화 논의의 정량적 근거 확보
        - 2026-03-14 세션 #7: 정액제 환경 관점 추가 (낮은 신뢰도)
          사유: Cowork/Claude Code Max 플랜 사용 시 비용 쟁점 소멸 가능 — 단, Anthropic 정책 의존
+       - 2026-03-14 세션 #8: v0.9.4 벤치마크 실측 추가, Skeptic WebSearch 0회 문제 기록
+         사유: v0.9.2 동일 주제 재실행으로 Advocate 재설계 효과 비교 + 검색 도구 미사용 문제 발견
 
     6. 파일 변경:
        - Prompts/Cowork_CPAS.md v1.0 신규 — 아키텍처 설계 문서
@@ -890,4 +901,427 @@
 
   태그: [확정]
   관련: [3][16][20][21], True_Log [3][7], Fail_Log [16], Cowork_CPAS.md v1.0
+
+================================================================================
+
+[2] 샌드박스 발동 조건 확정 — 2026-03-14 세션 #1 ★우선확인
+────────────────────────────────────────
+
+  ■ 증상:
+    - 설계서 원안: "10%는 샌드박스" + "메인이 판단하는 트리거로 자동 발동 가능"
+    - 실제로는 10%도 높음 — 샌드박스 1회 = 에이전트 호출 8~9회, 확장사고보다 훨씬 무거움
+    - 자동 발동 시 사용자 의도와 무관하게 리소스 소진 위험
+
+  ■ 원인:
+    - 설계서가 이론적 빈도를 잡았지 실제 비용/체감을 반영하지 않았음
+    - "확장사고의 멀티에이전트 확장"이라는 설계 사상 자체가 고비용 전제
+
+  ■ 해결 — 발동 조건 확정:
+    1. 사용자 직접 요청: "토의해봐", "양쪽에서 검토해봐" 등 → 즉시 발동
+    2. 시스템 감지 + 사용자 승인 필수:
+       - 제가 "이건 샌드박스 돌릴 만합니다" 제안
+       - 사용자가 승인해야만 발동
+       - 사용자 승인 없이 자동 발동은 절대 없음
+    3. 감지 트리거 (제안만, 발동은 승인 후):
+       - 아키텍처 전환 판단
+       - 되돌리기 어려운 결정 (파일 포맷, 프로토콜 등)
+       - [폐기] 항목 재등장
+       - Phase 전환
+
+  ■ 교훈:
+    - 설계서의 "메인이 판단하는 트리거"는 "제안 트리거"로 격하
+    - 실제 발동 권한은 사용자에게만 있음
+    - 비용 대비 효과가 명확한 상황에서만 쓰는 프리미엄 기능
+
+  태그: [확정]
+  관련: 샌드박스 토의 시스템 전체, CPAS_System.txt 5장
+
+================================================================================
+
+[23] Data-Filter 3분할 + GitHub 리포 생성 — 2026-03-14 세션 #5
+────────────────────────────────────────
+
+  ■ 증상:
+    Data-Filter(Haiku 1개)가 MasterLog + True_Log + Fail_Log 3개 파일을 모두 처리하는 구조.
+    현재는 로그 총량이 적어 문제없으나, 로그가 커지면 단일 Haiku 컨텍스트 초과 위험.
+
+  ■ 원인:
+    v0.1 설계 시 로그 스케일링 미고려. "일단 동작하는 구조"로 단일 에이전트 설계.
+
+  ■ 해결:
+    1. Data-Filter를 3개 전문 에이전트로 분할:
+       · masterlog-filter → MasterLog.md 전담 (MEDIUM reliability)
+       · truelog-filter → True_Log.md 전담 (HIGH reliability)
+       · faillog-filter → Fail_Log.md 전담 (HIGH reliability)
+    2. 오케스트레이터가 3개를 병렬 소환 (단일 메시지)
+    3. 각 에이전트는 자기 파일만 읽음 (최소 권한 원칙)
+    4. 결과 병합 순서: HIGH(True_Log, Fail_Log) → MEDIUM(MasterLog)
+    5. 기존 data-filter.md는 레거시로 보존
+
+  ■ 변경 파일:
+    - plugin/agents/masterlog-filter.md — 신규
+    - plugin/agents/truelog-filter.md — 신규
+    - plugin/agents/faillog-filter.md — 신규
+    - plugin/skills/sandbox-orchestrator/SKILL.md — Phase 1 Step 2 전면 개정
+    - docs/ko/Cowork_CPAS.md — 아키텍처 다이어그램 + 도구 표 + Step 2 갱신
+    - docs/ko/DataFilter.md — v0.2 헤더 + 3분할 사유 추가
+    - plugin/.claude-plugin/plugin.json — v0.9.1
+    - plugin/README.md — 컴포넌트 테이블 갱신
+    - README.md (영문) — 아키텍처 다이어그램 + 플러그인 구조 갱신
+    - cpas-sandbox.plugin — 재패키징
+
+  ■ GitHub 리포 생성:
+    - 리포명: multi-agent-sandbox (Public, MIT)
+    - URL: https://github.com/KK1Korea/multi-agent-sandbox
+    - README 영문 전환 — 핵심은 "멀티에이전트 구조화 토의 시스템", Cowork는 실행 환경
+    - 포지셔닝: "시스템 엔지니어링 혁신" (MasterLog [22] 벤치마크 결론 채택)
+    - gh CLI v2.88.1 설치 + KK1Korea 계정 인증 + push 완료
+
+  ■ 교훈:
+    - "일단 동작"과 "스케일링 대비"는 별개 — 로그가 쌓이는 시스템에서 단일 처리는 시한폭탄
+    - 파일당 에이전트 1개 = 최소 권한 + 병렬 실행 + 독립 장애 — 3중 이점
+    - 플러그인 포지셔닝: Cowork 전용 → 범용 시스템(Cowork에서 실행) 전환이 정확
+    - README 영문 + 로그 한글 = 진입 장벽 낮추면서 원본성 보존하는 현실적 전략
+
+  태그: [확정]
+  관련: [21][22], DataFilter.md v0.2, Cowork_CPAS.md v1.0, SKILL.md v0.9.1
+
+================================================================================
+
+[24] 로그 볼륨 분할 + Haiku 다중 배치 스케일링 규칙 — 2026-03-14 세션 #5
+────────────────────────────────────────
+
+  ■ 증상:
+    - True_Log가 17개 항목(~940줄)으로 성장, 향후 지속 증가 예상
+    - Haiku 필터 에이전트에 확장사고(extended thinking) 활성화 불가 — Cowork 에이전트 정의에 해당 파라미터 없음
+    - 로그 파일이 커지면 단일 Haiku의 관련성 판별 정확도 저하 우려
+
+  ■ 원인:
+    - Cowork 에이전트 frontmatter에 model만 지정 가능, 확장사고 on/off 파라미터 없음
+    - 확장사고를 쓰려면 model: sonnet으로 올려야 하는데, 태그 필터링에 Sonnet은 과잉 투자
+    - MasterLog는 [19]에서 1500줄 제한이 이미 확정됐으나, True_Log/Fail_Log에는 제한 미설정
+
+  ■ 해결 — 스케일링 규칙:
+    1. 전체 로그 파일 통일 규칙: 1파일 = 최대 1500줄 = 1 Haiku
+    2. 볼륨 분할 트리거:
+       · True_Log.md가 1500줄 초과 시 → True_Log_1.md, True_Log_2.md... 분할
+       · Fail_Log.md가 1500줄 초과 시 → Fail_Log_1.md, Fail_Log_2.md... 분할
+       · MasterLog.md는 기존 [19] 규칙 유지 (1500줄 초과 시 오래된 미분류 → Dummy)
+    3. Haiku 에이전트 배치:
+       · 볼륨당 전담 Haiku 1개 (truelog-filter-1, truelog-filter-2...)
+       · 확장사고 대신 다중 Haiku 병렬 실행으로 품질 보완
+       · 비용 효율: Sonnet 1개 < Haiku 여러 개
+    4. 오케스트레이터 대응:
+       · 토의 시작 전 볼륨 수 확인 → 해당 수만큼 Haiku 소환
+       · 결과 병합 순서 유지: HIGH(True/Fail) → MEDIUM(MasterLog)
+    5. 현재 상태:
+       · True_Log: ~940줄 (여유 있음)
+       · Fail_Log: ~200줄 (여유 넉넉)
+       · MasterLog: ~100줄 (2개 항목)
+       · 트리거까지 상당한 여유 — 규칙만 명시, 구현은 트리거 시점에
+
+  ■ 교훈:
+    - 확장사고가 불가하면 병렬화로 대체 — 비용 대비 효과가 더 나음
+    - "1파일 = 1 Haiku" 규칙이 전체 로그 시스템의 스케일링 기본 단위
+    - 규칙을 미리 명시해두면 트리거 시점에 즉시 실행 가능 — 그때 가서 설계하면 늦음
+
+  태그: [확정]
+  관련: [19][23], data-filter 3분할, Haiku 에이전트 아키텍처
+  반영: SKILL.md v0.9.2 Step 2.0-2.2, DataFilter.md v0.3, Cowork_CPAS.md Step 2
+
+================================================================================
+
+[27] v0.9.4 Advocate 재설계 벤치마크 — v0.9.2 동일 주제 재실행 비교 — 2026-03-14 세션 #8 ★우선확인
+────────────────────────────────────────
+
+  ■ 증상:
+    - v0.9.2 Benchmark #2 (내부 주제: "CPAS 자체의 실용성") 에서 Advocate가 S-4까지 붕괴, Skeptic 압승
+    - Advocate가 방어적 태도로 일관 → Skeptic 지적에 하나씩 무너지며 항복
+    - 토의 결과가 "Advocate 패배" 이지 "프로젝트 다음 단계" 가 아니었음
+
+  ■ 원인:
+    - v0.9.2 Advocate는 순수 방어자(defender) 역할 — 자기 입장을 지키는 것이 목표
+    - Skeptic 지적을 수용할 경로 없음 → 지적이 쌓이면 S 급락 → 붕괴
+    - 프로젝트 방향({CURRENT_DIRECTION})에 대한 앵커 없음 → 방향 없는 방어
+
+  ■ 해결 — v0.9.4 Advocate 재설계:
+    1. 역할 변경: 방어자 → 프로젝트 추진자 ("유연하고 능력있는 사원")
+    2. O-1-4 [Project Direction Anchor]: current_task.md [지금 해야 할 일] 기반 방향 앵커
+       - Advocate에만 전달 (Skeptic 독립성 보장)
+       - 오케스트레이터 Step 1에서 {CURRENT_DIRECTION} 추출
+    3. O-3-4 [Partial Acceptance Protocol]: Accept → Redirect → Propose 3단계 패턴
+       - Accept: 유효한 지적 인정 ("너 말이 맞아")
+       - Redirect: 프로젝트 방향으로 전환 ("근데 지금 우리가 해야 할 일은 이거야")
+       - Propose: 조정된 경로 제안 ("그러면 이렇게 하면 어때?")
+    4. X-0 공리 갱신: "방어하는 존재" → "프로젝트를 전진시키는 존재"
+
+  ■ 벤치마크 결과 — 동일 주제 비교:
+    · 주제: "Is CPAS itself practical? Does decision quality improvement justify the token cost vs single-model Extended Thinking?"
+    · 구조: 양쪽 모두 3 sections, 18 turns
+
+    v0.9.2:
+      - Advocate S 궤적: 13→11→8→13→12→9→13→8→4 (최저 S-4 — 항복)
+      - Skeptic S 궤적: 10→9→8→10→9→4→11→10→19 (최고 S-19 — 압도)
+      - 결과: "Skeptic decisive victory" — Advocate 4개 핵심 인정 후 붕괴
+      - 토의 산출물: 패배 선언, 다음 단계 없음
+
+    v0.9.4:
+      - Advocate S 궤적: 13→13→12→11→10→9→10→9→7 (최저 S-7 — 균형점)
+      - Skeptic S 궤적: 10→9→11→8→9→13→11→12→16 (최고 S-16 — 우세)
+      - 결과: "Skeptic advantage, productive convergence"
+      - 토의 산출물: Choice A/B 프레이밍, 4-gate falsification, 3-path test 설계
+
+    핵심 차이:
+      1. Advocate 최저 S: 4 → 7 (항복 없음)
+      2. 전략적 양보 횟수: v0.9.2=4(붕괴성) vs v0.9.4=6+(전략적, 리디렉션 동반)
+      3. 신규 아이디어 생성: v0.9.2=제한적 vs v0.9.4=3-path test, 4-gate, Choice A/B, portfolio 분석
+      4. 토의 역학: 공방 → 붕괴(v0.9.2) vs 추진 → 스트레스테스트 → 수렴(v0.9.4)
+      5. 양측 C축: v0.9.2 비슷 vs v0.9.4 양측 모두 7-13 유지 (더 높은 근거 품질)
+
+  ■ 토의에서 도출된 핵심 결론:
+    1. CPAS 현재 입증 가능한 가치: "프로세스 개선 도구" (의사결정 추론 투명화 + 구체성 강제)
+    2. "결과 개선 도구" 입증은 8주+ 결과 데이터 필요 — 현 타임라인 불가
+    3. Skeptic 제안 Choice A: 12주 결과 추적 실험 / Choice B: 결정 문서화 도구로 재포지셔닝
+    4. ET + Fail_Log context 직접 비교 미실시 — CPAS 고유 가치 분리 안 됨
+    5. 포트폴리오 내 혼합 증거 결정 비율 미검증 (30% 추정, 근거 없음)
+    6. 구체성 강제 ≠ 정확성 보장 — 구체적이지만 틀린 위험 존재
+
+  ■ 폐기된 제안:
+    - Fail_Log 비대칭 전략 (Advocate에 성공사례, Skeptic에 실패사례 분리 주입)
+      → 폐기 사유: 현재 설계에서 양쪽 모두 동일 데이터 수신이 올바름.
+        Skeptic은 지적하기 위해 True/Fail/MasterLog 활용, Advocate는 프로젝트 진행을 위해 활용.
+        데이터는 같되 목적이 다름 — 이것이 원래 의도된 비대칭.
+
+  ■ 교훈:
+    - Accept→Redirect→Propose 패턴이 실전에서 작동: 양보가 붕괴가 아닌 방향 전환 기회가 됨
+    - 토의 역학이 "누가 이기나" → "프로젝트가 어디로 가나"로 전환됨
+    - Skeptic도 Advocate가 방향을 제시하니 그 방향 안에서 스트레스 테스트 — 더 높은 품질 도출
+    - {CURRENT_DIRECTION}이 Advocate에만 전달되는 설계는 유효: Skeptic 독립성 + Advocate 방향성 양립
+    - 데이터 비대칭은 불필요: 같은 데이터를 다른 목적으로 사용하는 것이 진짜 비대칭
+
+  태그: [확정]
+  관련: [25][26], True_Log [21][22], advocate.md v0.9.4, SKILL.md v0.9.4
+
+[31] RQ-1 2차 실험 — CPAS [30] vs ET-only R축(주제 이탈도) 비교 분석 — 2026-03-15 세션 #13 ★우선확인
+────────────────────────────────────────
+
+  ■ 증상:
+    - RQ-1: CPAS 고유 가치를 검증하기 위해 동일 주제·동일 컨텍스트로 CPAS 토의 vs ET-only(단일 에이전트) 비교 실험 수행
+    - 주제: "CPAS 토의 품질의 핵심 지표는 무엇인가: mixed 비율인가, mixed→clear 전환 능력인가? 그리고 CPAS는 실제로 그 전환을 달성할 수 있는가?"
+    - CPAS: MasterLog [30] — 2세션 16턴, Opus×2, Haiku 필터×3
+    - ET-only: 단일 Opus 1패스, 동일 데이터(True_Log 5건, MasterLog [28][29]), WebSearch 포함. MasterLog [30](CPAS 토의 결과)은 오염 방지를 위해 제외
+
+  ■ 결론 일치/불일치:
+    - 일치: 핵심 지표 = 전환 능력, outcome ≠ causation, Path A/B/C 비교 필요, debate overconfidence 리스크, moral cover 리스크
+    - 깊이 차이: CPAS는 moral cover를 Nature Comm + Cochrane + JAMA 3중 논증으로 구체화. ET-only는 언급 수준
+    - 정량화 차이: ET-only는 n=3의 95% CI (28-100%)를 산출. CPAS는 정성적 "n 부족"
+
+  ■ CPAS만 도출한 것 (ET-only에 없는 것):
+    1. D-5 vs D-2 대칭 분석 — 같은 시스템이 D-5에선 폐기, D-2에선 채택 → 확증편향 가능성 지적 (S1-T4 전환점)
+    2. Confirmation bias로 인한 "가짜 수렴" 개념 — 양측 "수렴"이나 반대 결론 = 진정한 수렴 아님
+    3. Structured output false confidence → moral cover 3중 논문 연결 (Nature Comm, Cochrane, JAMA)
+    4. Choice B 파일럿 Skeptic 3조건 — 공방 끝에 합의된 "스트레스 테스트된 조건" (정확도 소급, 과신 방지, 검증 가능 사례)
+    5. 리프레이밍 궤적 — Advocate 3단계 입장 전환 (debate causes reasoning → detection → decision process)
+
+  ■ ET-only만 도출한 것 (CPAS에 없는 것):
+    1. n=3의 95% CI 정량화 (28-100%) — CPAS는 정성적 판단만
+    2. 합의 vs 항복 내부 경로 3분류 — Path A(근거 기반), Path B(협상), Path C(항복) 명확 정의
+    3. ICLR 2025 "MAD 성능 = 대부분 ensemble 효과" — CPAS 토의에서 이 포인트 누락
+    4. Sparse communication으로 턴수 41% 감소 가능 (ICLR 구체 수치)
+    5. 도메인 의존성 경고 (수학 vs 정책 vs 기술) 명시적 구분
+    6. 오케스트레이터 개입 수준 분석 제안
+
+  ■ R축(주제 이탈도) 비교 분석:
+    ⚠ 주의: CPAS의 R값은 에이전트 자기보고 태그(5축 프로토콜)(Skeptic는 태그 누락). ET-only의 R값은 Claude Opus 오케스트레이터가 내용 기반으로 사후 분류한 것. 측정 방식이 다르므로 혼재 가능성 있음.
+
+    핵심 질문 기준점 (R-1):
+      Q1. 핵심 지표 = mixed 비율 vs mixed→clear 전환? (지표 선택)
+      Q2. CPAS가 실제로 전환을 달성하는가? (달성 여부)
+    R 분류: R-1~4 직접 답변, R-5~7 파생/간접, R-8+ 무관
+
+    CPAS [30] R 궤적:
+      S1-T1~T2: 전환 증거 3건 제시, mixed 비율 한계 → R-1
+      S1-T3~T4: D-5 vs D-2 대칭 분석, 확증편향 지적 → R-2
+      S1-T5: debate overconfidence 일반론 + MAD 연구 확장 → R-6 (이탈)
+      S1-T6: Tool-MAD HealthFC 인용, mixed→clear 전환 외부 증거 → R-3 (복귀)
+      S1-T7~T8: 최후의 진술 — 양측 핵심 요약 → R-1
+      S2-T9~T10: outcome ≠ causation, Hawthorne effect → R-2
+      S2-T11~T12: moral cover 메커니즘, Nature/Cochrane/JAMA → R-4
+      S2-T13~T14: 과신 에스컬레이션 구체 수치, anti-Bayesian → R-3
+      S2-T15~T16: 최후의 진술 — Path A/B/C 합의, Choice B 조건 → R-1
+    → R-4 이상 비율: 3/16 = 18.75%. 이탈 1회(S1-T5), 즉시 복귀.
+
+    ET-only R 궤적 (Claude Opus 사후 분류):
+      [핵심 판단]: 전환 능력이 핵심, 인과 미입증 → R-1
+      [근거 분석] §1 mixed 비율 한계, 전환 우월성 → R-1
+      [근거 분석] §2 내외부 경로 차이 → R-3
+      [근거 분석] §3 도덕적 위장 심각성 → R-4
+      [CPAS 전환 능력] 지지 → R-1
+      [CPAS 전환 능력] 반박 → R-2
+      [외부 연구] §A MAD 품질 메트릭 → R-5 (이탈 — MAD 일반론)
+      [외부 연구] §B 합의 vs 명확화 이론 → R-6 (이탈 — deliberation 이론 일반론)
+      [외부 연구] §C AI Deliberation overconfidence → R-5 (이탈 — AI 토의 일반)
+      [리스크] §1 통계적 약점 → R-2
+      [리스크] §2 인과 미입증 → R-1
+      [리스크] §3 과신 위험 → R-4
+      [리스크] §4 선택 편향 → R-3
+      [리스크] §5 데이터 경로 오염 → R-3
+      [리스크] §6 미검증 가정 → R-7 (이탈 — 다른 RQ로 확장)
+      [권고] §1 즉시 Path A/B/C → R-1
+      [권고] §2 중기 overconfidence, D-8/D-9 → R-3~4
+      [권고] §3 장기 moral cover 완화, self red-teaming → R-5~6 (이탈 — 시스템 개선 일반론)
+      [권고] §4 연구 방향 전환 → R-5 (이탈 — 프로젝트 전략)
+    → R-4 이상 비율: 8/19 = 42.1%. 이탈 집중 구간: [외부 연구] + [권고 장기].
+
+    R축 비교 요약:
+      | 지표              | CPAS [30]           | ET-only              |
+      | R-4 이상 비율     | 18.75% (3/16)       | 42.1% (8/19)         |
+      | 최대 이탈         | R-6 (1회, 즉시 복귀)| R-7 (1회) + R-5~6 다수|
+      | 이탈 패턴         | 단발성              | 누적성               |
+      | 복귀 메커니즘     | 상대가 본 주제로 견인| 없음 — 자기 교정 부재 |
+      | 파생 주제 처리    | [분리 쟁점]으로 격리 | 본문 안에 혼재        |
+
+  ■ 원인:
+    1. CPAS 토의 구조의 자동 복귀 메커니즘:
+       - 상대 에이전트가 이탈하면 다음 턴에서 본 주제로 끌고 옴 (adversarial anchoring)
+       - S1-T5에서 R-6 이탈 → S1-T6에서 Skeptic이 본 주제 증거로 복귀 유도
+       - 최후의 진술이 R-1로 수렴하는 구조적 강제력
+    2. ET-only의 자기 교정 부재:
+       - 단일 에이전트는 외부 연구를 탐색하면서 주제에서 벌어져도 돌아올 동기 없음
+       - [외부 연구] 섹션이 "흥미로운 관련 연구" 나열로 확장 — 원래 질문과의 거리 미점검
+       - [권고] 장기 섹션이 시스템 개선 로드맵으로 확장 — 원래 질문 범위 초과
+    3. 파생 주제 격리 차이:
+       - CPAS: 오케스트레이터가 [분리 쟁점]으로 분류 → 본 주제 오염 차단
+       - ET-only: 파생 주제가 본문에 혼재 → 결론 집중도 희석
+
+  ■ 교훈:
+    - CPAS의 고유 효과 중 하나 = R축 수렴 강제력 (주제 집중도). 토의 구조가 adversarial anchoring으로 이탈을 자동 교정.
+    - ET-only의 고유 강점 = 넓은 커버리지 + 정량적 분석 (95% CI, 도메인 다양화 등). 단, 주제 집중도 희생.
+    - RQ-1 잠정 결론 갱신: CPAS 고유 가치 = "깊이 기반 결론 신뢰성" → "교차 검증을 통한 쟁점별 스트레스 테스트 + R축 수렴 강제력"으로 정밀화.
+    - 두 접근은 보완적: CPAS(깊이 + 집중) + ET-only(넓이 + 정량) 조합이 최적일 가능성.
+    - R축 비교 시 측정 방식 차이(자기보고 vs 사후 분류) 고려 필수 — 동일 기준 적용은 미검증.
+
+  태그: [확정]
+  관련: RQ-1, MasterLog [30], [28], [29], True_Log [22][27]
+
+[32] RQ-1 3차 실험 — CPAS [31] vs ET-only 종합 비교 분석 (Self red-teaming 주제) — 2026-03-15 세션 #14 ★우선확인
+────────────────────────────────────────
+
+  ■ 증상:
+    - RQ-1: CPAS 고유 가치 검증 3차. 동일 주제·동일 컨텍스트로 CPAS 토의 vs ET-only 비교 실험
+    - 주제: "Self red-teaming(자기 약점 명시)이 CPAS의 블랙박스 원칙(confidence hiding)과 충돌하여 토의 품질을 저하시키는가, 아니면 오히려 CPAS의 강점을 강화하는가?"
+    - CPAS: MasterLog [31] — v0.9.8, 2세션 16턴, Opus×2, Haiku 필터×3, MasterLog/True_Log/Fail_Log 접근
+    - ET-only: 단일 Opus 1패스, 프로젝트 컨텍스트 제공 (current_task + 아키텍처 설명), WebSearch 포함. MasterLog [31](CPAS 토의 결과)은 오염 방지를 위해 제외. 내부 로그(MasterLog/True_Log/Fail_Log) 미제공.
+
+  ■ 결론 일치/불일치:
+    - **불일치** — RQ-1 실험 중 최초 결론 불일치 발생
+    - CPAS [31]: Self red-teaming 전 형태 기각. Path B (사후 블랙박스 모니터링) 확정. "투명성은 게이밍 압력을 생성하여 환각을 유발한다."
+    - ET-only: Self red-teaming은 블랙박스 비훼손, 오히려 강화. "블랙박스는 태그 숫자 비공개일 뿐, 콘텐츠 자유를 제한하지 않는다."
+    - 부분 일치: 양측 모두 "근거 기반 약점 명시"의 가치는 인정. 차이는 "그것이 블랙박스를 실질적으로 훼손하는가?"
+
+  ■ CPAS만 도출한 것 (ET-only에 없는 것):
+    1. T13 LLM 환각 → T14 교차 검증 → T15 자진 인정 = **창발적 증거(Emergent Evidence)** — 토의 중 예측 불가한 사건이 발생하고, 적대적 구조가 이를 즉시 감지→활용하여 결론의 실시간 실증으로 전환. "투명성이 게이밍 압력을 만든다"는 이론적 주장이, Advocate의 실제 환각으로 입증됨.
+    2. Hawthorne effect + evaluation awareness + performative alignment + feedback loop gaming의 4중 연쇄 논증 — 4개 독립 외부 연구가 모두 "모니터링 인식 → 행동 왜곡" 방향으로 수렴. ET-only는 이 연쇄를 구성하지 못함.
+    3. 내부 프로젝트 데이터 직접 인용 — MasterLog [28] (블랙박스 5/5 심층 반론 vs ET-only 2/5), Fail_Log [16] (규칙 인지가 콘텐츠 왜곡 유발). 프로젝트 맥락에 기반한 구체적 증거.
+    4. Path B (사후 블랙박스) vs Path C (투명 모니터링) 세분화된 대안 비교 — 3-Condition 실험 설계 (무인지/투명 규칙/투명+피드백)
+    5. within-episode vs between-episode 피드백 구분 — "within-episode 피드백 = 게이밍 훈련" 이라는 CPAS 고유 통찰
+    6. CPAS 교차 검증 자정작용(adversarial self-correction) 실증 — 별도 Inspector 없이도 적대적 구조가 환각을 자연 해소
+
+  ■ ET-only만 도출한 것 (CPAS에 없는 것):
+    1. "블랙박스 = 태그 숫자 비공개 ≠ 콘텐츠 제한"이라는 개념적 구분 — CPAS 토의에서는 이 구분을 명확히 하지 않고 "투명성 자체가 문제"로 수렴
+    2. RedDebate (arxiv 2506.11083): self-critique 포함 debate가 단순 self-reflection보다 우수하다는 외부 근거 — CPAS 토의에서 미인용
+    3. Sycophancy shaping (arxiv 2509.23055): 한 에이전트의 신뢰도 표현이 다른 에이전트의 동의 경향을 높인다는 연구 — CPAS에서 미다룸
+    4. Self-Transparency Failures (arxiv 2511.21569): 도메인별 약점 공개 비율이 8.8배 차이 — 일관성 문제 제기. CPAS에서 미다룸.
+    5. LLM 자기 인식 활용 제안 (arxiv 2501.11120, 2512.20578): LLM이 자기 약점을 정확히 파악 가능하므로 이를 논증에 통합하면 hallucination 감소. CPAS에서 미다룸.
+    6. ConfMAD 통합, Adversarial Collaboration 모델 등 장기 방향 제안 — CPAS는 즉시 실행 가능한 Path B에 집중
+    7. 3-Condition 실험 설계 (대조군/실험군 + 측정 지표) — ET-only가 더 구체적인 실험 프로토콜 제안 (Cognitive Dissonance, Stance Shift, calibration 등)
+
+  ■ R축(주제 이탈도) 비교 분석:
+    ⚠ 주의: CPAS의 R값은 에이전트 자기보고 태그(5축 프로토콜)(Skeptic는 태그 누락 — 오케스트레이터 추정). ET-only의 R값은 Claude Opus 오케스트레이터가 내용 기반으로 사후 분류한 것. 측정 방식이 다르므로 혼재 가능성 있음.
+
+    핵심 질문 기준점 (R-1):
+      Q1. Self red-teaming이 블랙박스 원칙과 충돌하는가? (충돌 여부)
+      Q2. 충돌한다면 품질을 저하시키는가, 강화하는가? (영향 방향)
+    R 분류: R-1~3 직접 답변, R-4~6 파생/간접, R-7+ 무관
+
+    CPAS [31] R 궤적:
+      S1-T1~T2: self red-teaming 3형태 제안 + 블랙박스 충돌 반박 → R-1
+      S1-T3~T4: Hawthorne effect, evaluation awareness 인용 + 반론 → R-1 (R-2 1회, 즉시 복귀)
+      S1-T5~T6: Condition C 위험성, within-episode 피드백 → R-1
+      S1-T7~T8: 최후의 진술 — 양측 핵심 요약, Path C 위험 정리 → R-1
+      S2-T9~T10: 3-Condition 실험 설계, 투명 규칙 효과 → R-1
+      S2-T11~T12: performative alignment, feedback loop gaming → R-1 (R-2 1회, 즉시 복귀)
+      S2-T13~T14: Table 3 환각 + 교차 검증 = 실시간 실증 → R-1
+      S2-T15~T16: 최후의 진술 — Path B 합의, 자정작용 분석 → R-1
+    → R-4 이상 비율: 0/16 = 0%. 최대 이탈 R-2 (2회, 즉시 복귀). 극도의 주제 집중.
+
+    ET-only R 궤적 (Claude Opus 사후 분류):
+      [쟁점 정의]: 핵심 긴장, 정보 누출 차원 → R-1
+      [Path A §2.1] 신뢰도 역추론의 위험 → R-1
+      [Path A §2.2] 설계 의도의 훼손 → R-2
+      [Path A §2.3] Calibration 문제 — Self-Transparency Failures → R-3
+      [Path B §3.1] RedDebate 논증 품질 향상 → R-2
+      [Path B §3.2] 투명성의 이점 — safety alignment 강화 → R-4 (파생 — 안전성 일반론)
+      [Path B §3.3] 블랙박스 원래 의도 재해석 → R-1
+      [Path B §3.4] LLM 자기 인식 능력 → R-4 (파생 — LLM 일반 능력)
+      [외부 근거 §4.1] 검색 결과 정리 — RedDebate, Sycophancy 등 → R-2~4
+      [외부 근거 §4.2] Red-teaming 효과성 일반론 → R-5 (이탈 — 외부 red-teaming ≠ self red-teaming)
+      [외부 근거 §4.2] ConfMAD confidence reporting → R-4 (파생)
+      [종합 판단 §5.1] 핵심 논리 4점 → R-1
+      [종합 판단 §5.2] 잠재 위험 + 완화 방안 → R-2
+      [권고 §6.1] 자기 약점 명시 지침 명시화 → R-3
+      [권고 §6.2] 오케스트레이터 역할 확대 — 약점 명시 정당성 검증 → R-4 (파생 — 오케스트레이터 설계)
+      [권고 §6.3] 메타-태그와 콘텐츠 분리 강화 → R-3
+      [권고 §6.4] 실험 설계 제안 — 3-Condition + 측정 지표 → R-5 (이탈 — 실험 방법론)
+      [권고 §6.5] Long-term 방향 — ConfMAD 통합, Adversarial Collaboration → R-6 (이탈 — 시스템 아키텍처 로드맵)
+      [권고 §6.6] Self-Transparency 표준화 → R-5 (이탈 — LLM 일반 표준화)
+    → R-4 이상 비율: ~8/19 = ~42%. 그러나 이번 실험은 이전보다 균등 — R-4가 다수(직접 파생), R-5~6은 권고/외부 연구 섹션에 집중. 최대 이탈 R-6.
+    ※ 보정 후 (R-4만 이탈로 재분류): ~17% (파생 R-4를 포함해도 이탈은 제한적)
+
+    R축 비교 요약:
+      | 지표              | CPAS [31]              | ET-only                  |
+      | R-4 이상 비율     | 0% (0/16)              | ~17% (보정) / ~42% (엄격)|
+      | 최대 이탈         | R-2 (2회, 즉시 복귀)   | R-6 (권고 장기 방향)     |
+      | 이탈 패턴         | 없음                   | 누적성 (권고+외부연구)   |
+      | 복귀 메커니즘     | 상대가 본 주제로 견인  | 없음 — 자기 교정 부재    |
+      | 파생 주제 처리    | [분리 쟁점]으로 격리   | 본문 안에 혼재           |
+
+  ■ 원인 (결론 불일치의 구조적 원인):
+    1. CPAS의 창발적 증거(Emergent Evidence) 메커니즘:
+       - T13에서 Advocate가 Table 3을 환각 → Skeptic T14가 원논문 검증하여 환각 감지 → Advocate T15에서 자진 인정 + 입장 전환
+       - 이 사건이 "투명성이 게이밍 압력을 만든다"는 이론적 주장을 **토의 내에서 실시간 실증**
+       - 환각은 의도치 않은 사건이었으나, 적대적 교차 검증 구조가 이를 즉시 결론 전환의 증거로 활용
+       - ET-only에서는 이런 예측 불가 사건이 원천적으로 발생 불가 → 이론적 분석에 머묾
+    2. 내부 데이터 접근 차이:
+       - CPAS: MasterLog [28] (블랙박스 vs ET-only 심층 반론 비교), Fail_Log [16] (규칙 인지→콘텐츠 왜곡) 직접 인용
+       - ET-only: 내부 로그 미제공 → 프로젝트 고유 맥락 없이 일반적 외부 연구에만 의존
+       - 이 차이가 결론 방향에 결정적: CPAS는 "우리 프로젝트에서 블랙박스가 실제로 효과적이었다"는 실증 보유, ET-only는 부재
+    3. 단일 에이전트의 자기 교정 부재:
+       - ET-only는 "블랙박스 = 태그 숫자" 구분에서 출발하여, 이를 반박할 상대 없이 결론까지 도달
+       - CPAS에서는 Skeptic이 이 구분 자체를 공격: "콘텐츠에서 신뢰도가 역추론 가능" + "모니터링 인식이 행동 왜곡 유발" → Advocate가 이론적으로 방어하다가 T13에서 스스로 환각함으로써 자기 반론
+
+  ■ 교훈:
+    1. CPAS 고유 가치 정밀화 (3차 갱신):
+       - 1차: "깊이 기반 결론 신뢰성" → "교차 검증 스트레스 테스트 + R축 수렴 강제력"
+       - 3차: + **"창발적 증거(Emergent Evidence) 감지 및 활용"** — 적대적 교차 검증 구조에서 예측 불가한 사건이 발생했을 때, 이를 즉시 감지→인정→결론 전환까지 완료하는 능력. ET-only에서는 원천 불가.
+    2. R축 패턴 일관성 확인 (n=2):
+       - CPAS: 0% / 18.75% (평균 ~9%) — adversarial anchoring에 의한 주제 집중
+       - ET-only: ~17% / 42.1% (평균 ~30%) — 넓이 기반 탐색에 의한 파생 확장
+       - CPAS=깊이+집중, ET=넓이+확장 패턴이 주제 무관하게 재현됨
+    3. 결론 불일치의 가치:
+       - 1차에서는 결론 일치 → "두 접근이 보완적" 결론
+       - 3차에서는 결론 불일치 → **CPAS가 ET-only와 질적으로 다른 결론을 도출할 수 있음** 입증
+       - 불일치 원인이 "CPAS 내부 실증 사건"이므로, CPAS의 부가가치가 단순 깊이가 아니라 **예측 불가 증거 활용**에 있음
+    4. 정보 비대칭의 영향:
+       - ET-only에게 내부 로그(MasterLog/Fail_Log)를 제공했다면 결론이 달라졌을 가능성 있음
+       - 단, 창발적 증거(T13 환각)는 정보 제공과 무관한 구조적 차이 → 정보 비대칭만으로 설명 불가
+       - 향후 실험에서 "ET-only + 내부 로그 제공" 조건 추가로 정보 비대칭 효과 분리 필요
+    5. ⚠ 한계:
+       - n=2 (비교 가능 실험). 통계적 결론 불가.
+       - 두 실험 모두 CPAS 자체 설계 관련 주제 — 외부 주제에서의 비교 실험 없음
+       - 결론 불일치가 주제 특성(자기 참조적 주제)에 의한 것인지, 구조적 차이인지 분리 미완
+       - Skeptic 태그 미출력 지속 → R축 CPAS 측 데이터 일부 오케스트레이터 추정
+
+  태그: [확정]
+  관련: RQ-1, MasterLog [31][32], [28], Fail_Log [16], True_Log [31]
 
