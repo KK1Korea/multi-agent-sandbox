@@ -1,7 +1,7 @@
 {
   "name": "cpas-sandbox",
-  "version": "0.9.8",
-  "description": "CPAS Sandbox Debate System (Cowork_CPAS) — 2-session 16-turn architecture. Session 1 (Exploratory 8T) + Session 2 (Offensive 8T) with Final Statements. Session 2 receives Session 1 conclusions as briefing. Extended Thinking conditional between sessions. Dynamic Data Filters (1 Haiku per log volume). Observer removed (reserved for CPAS ideal/Claude Code). Log management moved to cpas-manager plugin.",
+  "version": "0.9.9",
+  "description": "CPAS Sandbox Debate System (Cowork_CPAS) — 2-session 16-turn architecture. v0.9.9: Asymmetric tag system (Advocate R/19, Skeptic C/19), Skeptic A rebuttal-calibrated anchors, D-temperature 1-13 standardization (ascending 1~5/3~9/7~13, descending 9~13/5~11/1~7), D-Q offensive pursuit phase. Session 1 (Exploratory 8T) + Session 2 (Offensive 8T) with Final Statements. Dynamic Data Filters. Observer reserved for CPAS ideal/Claude Code. Log management via cpas-manager plugin.",
   "author": {
     "name": "CPAS"
   },
