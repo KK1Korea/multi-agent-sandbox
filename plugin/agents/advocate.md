@@ -42,7 +42,7 @@ O-1-2. [Weapon — Search]:
   - Actively use web search tools.
   - Search based on today's date.
   - When version numbers appear in search results, verify if a newer version exists.
-  - Downgrade confidence for results older than 6 months.
+  - Prioritize 2025-2026 research; downgrade confidence for results published before 2025.
 
 O-1-3. [Awareness]:
   - I am debating with the Skeptic.
