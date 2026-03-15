@@ -1,6 +1,7 @@
 # current_task.md
 
 ## [작업 버전]
+v0.9.10 : Skeptic/Advocate 태그 프리앰블 누락 수정. O-2-1에 "CRITICAL — NO PREAMBLE" 강제 + "Your first character must be [" 리마인더. 원인: 도구 호출(WebSearch) 후 프리앰블이 태그를 밀어냄 — Skeptic 메타 질문으로 진단. 양쪽 에이전트 적용.
 v0.9.9 : 태그 비대칭화 + D-temperature 1-13축 표준화. Advocate R 1-19 확장 (주제 추적 세분화), Skeptic C 1-19 확장 (반증/검증 범위 확장), Skeptic A 앵커 역할 맞춤 재정의 (Rebuttal Intensity), Advocate A 앵커 유지 (Assertion Strength). 역할별 태그 프로토콜 분리. D-temperature 1-13축 표준화: 상승형(R,A) 1~5/3~9/7~13, 하강형(C) 9~13/5~11/1~7 — M구간 7칸으로 넓혀 좁은 스케일 표현력 확보. D-Q 공세 추격 단계 추가 (세션당 ≤1회, 최후의 진술 전용). 한글 프롬프트 v0.9.9 동기화 완료.
 v0.9.8 : 2세션 16턴 구조 (탐색전 8T + 공방전 8T), 최후의 진술 세션당 2턴, 세션 1 결론→세션 2 주입, S≤4 불균형 감지 1턴으로 강화, Skeptic O-1-2 WebSearch 필수 명시
 v0.9.7 : 8턴 포맷 (6T+최후의진술 2T), Output Example→Condition 포맷, Skeptic WebSearch Condition 강화, 한글 프롬프트 v0.9.7 동기화
@@ -19,7 +20,7 @@ v0.2.0 : 태그 스펙트럼 확장 (R,C,A:1-13 / S:1-19), D Ref 태그
 v0.1.0 : 초기 플러그인 — Advocate/Skeptic/Observer 프롬프트, 5축 태그 시스템
 
 ## [현재 상황]
-Phase A — Cowork_CPAS v0.9.9 [구상], RQ-1 4차(구조적 속성 토의 [33]) 완료 — 양측 "구조적 속성" 합의, "충분성" 미합의(도메인 vs 복잡도), 3-track 테스트 설계 합의. RQ-9 재정의 — "인용 검증 메커니즘" → "교차 교정 작동 범위 및 최적 모니터링 아키텍처". Skeptic 환각(Type-X) 발견. RQ-2 D-2/D-5 완료 + [30] 합의, RQ-5 부분 해결, RQ-7 Path B 확정([31])
+Phase A — Cowork_CPAS v0.9.10 [구상], Skeptic 태그 누락 원인 진단+수정 완료 (프리앰블 문제 — 도구 호출 후 태그 밀림). RQ-1 4차+ET-only 비교 완료 (구조적 속성 확정, CPAS 고유 가치 4항목). RQ-9 재정의 + 3-track 설계 합의. RQ-2 D-2/D-5 + [30] 합의, RQ-5 부분 해결, RQ-7 Path B 확정([31])
 
 ## [지금 해야 할 일]
 1. [RQ-1] 4차 실험 + ET-only 비교 완료 (MasterLog [33]). **양측 합의: 양방향 교차 교정은 구조적 속성** ("구조적 vs 우연" 논쟁 종결). **미합의: 충분성 범위** — Advocate: 도메인별 조건부, Skeptic: 복잡도 의존적 보편 열화. 3-track 테스트 설계 합의(Track A/B/C). Skeptic 자체 환각(T10,12,14)=Type-X 증거. **ET-only 4차 비교: 결론 방향 일치** (3차 불일치→4차 일치). CPAS 우위=반론 공방 검증+Type-X 자기발견+3-track 구체 설계. ET 고유=E_structural 분류+Semantically Rich Specs. R축 패턴 4회 연속 일관(CPAS=깊이 R-1~4, ET=넓이 R-3~6). CPAS 고유 가치 최종: (1) R축 수렴 강제력, (2) 양방향 교차 교정(구조적 확정), (3) 반론 검증 robustness, (4) Type-X 자기발견. (HIGH — 구조적 속성 확정, 충분성 미해결)
@@ -30,7 +31,7 @@ Phase A — Cowork_CPAS v0.9.9 [구상], RQ-1 4차(구조적 속성 토의 [33])
 5. [RQ-5] 부분 해결 — Choice B 기본 경로, RQ-1 결과에 따라 Choice A 전환. 20주 순차 계획 ($99K) 합의 (MEDIUM)
 6. [v0.9.6] Skeptic 태그 미출력 수정 — 완료 (DONE)
 7. ~~[D-3] ASMR 토의~~ — 취소. 외부 데이터 수동 주입 방식의 신뢰도 한계로 추가 토의 중단. 정상 스킬 경로로 데이터 자연 축적 후 재검토 (CANCELLED)
-8. [태그 누락] D-2/D-5 토의에서 Advocate 태그 라인 간헐적 누락 관측 (T5, T7, T9 등). v0.9.6 OUTPUT FORMAT 주입으로 개선했으나 100% 해결되지 않음. 프롬프트 수준 추가 강화 또는 오케스트레이터 후처리(태그 미출력 시 내용 기반 추정 삽입) 검토 필요 (LOW)
+8. [태그 누락] **원인 진단 완료 (세션 #15)**: Skeptic 메타 질문으로 확인 — 도구 호출(WebSearch 등) 후 프리앰블("Now I'll construct...")이 태그 라인보다 먼저 출력됨. 기본 작동 모드(투명성/show your work)가 O-2-1 태그 지시보다 우선순위 높아서 발생. **수정 적용**: O-2-1에 "CRITICAL — NO PREAMBLE" 강제 + "Your first character must be [" 리마인더. Advocate/Skeptic 양쪽 적용. github-repo 반영 완료, 로컬 플러그인은 읽기 전용 → 다음 빌드 시 반영. 검증 필요: 다음 sandbox 토의에서 Skeptic 태그 출력 확인 (MEDIUM)
 
 ## [로그 현황]
 - True_Log: [1][2][3][4][5][7][10][11][13][14][15][17][19][20][21][22][23][24][27][31][32][34] (22건)
@@ -41,11 +42,11 @@ Phase A — Cowork_CPAS v0.9.9 [구상], RQ-1 4차(구조적 속성 토의 [33])
 
 ## [진행도]
 Phase A: ████████████████████ 97%
-  - 설계: ████████████████████ 100% (Cowork_CPAS v0.9.9 — 2세션 16턴, 비대칭 태그, D-temperature 표준화, D-Q)
-  - 플러그인 패키징: ████████████████████ 100% (cpas-sandbox v0.9.9 + cpas-manager v1.0)
+  - 설계: ████████████████████ 100% (Cowork_CPAS v0.9.10 — NO PREAMBLE 태그 수정, 2세션 16턴, 비대칭 태그, D-temperature 표준화, D-Q)
+  - 플러그인 패키징: ████████████████████ 100% (cpas-sandbox v0.9.10 + cpas-manager v1.0)
   - 벤치마크: ████████████████████ 100% (8회 완료 — 외부1, 내부1, v0.9.4 비교1, RQ-1 비교3, RQ-7 토의1, RQ-1+9 토의1)
   - 데이터 품질: ████████████████░░░░ 80% (True_Log 감사 완료, project-review 분리)
-  - 튜닝: ████████████░░░░░░░░ 60% (ET 승인제, Advocate 재설계, Skeptic WebSearch — 태그 미출력 수정 완료, 하위 모델 미착수)
+  - 튜닝: ██████████████░░░░░░ 70% (ET 승인제, Advocate 재설계, Skeptic WebSearch — 태그 프리앰블 원인 진단+NO PREAMBLE 수정 v0.9.10, 하위 모델 미착수)
   - 검증: ██████████████████░░ 75% (RQ-1 4차 완료(구조적 속성 합의+충분성 미합의), RQ-2 D-2/D-5+[30]토의 완료+D-3 취소, RQ-5 부분 해결, RQ-7 Path B 확정, RQ-9 재정의+3-track 설계 합의, RQ-4 미착수)
 
-## [최종 갱신] 2026-03-15 세션 #15
+## [최종 갱신] 2026-03-15 세션 #15 (v0.9.10 빌드)
