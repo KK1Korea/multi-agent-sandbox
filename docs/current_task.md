@@ -9,22 +9,22 @@ v0.9.7 : 8턴 포맷 (6T+최후의진술 2T), Output Example→Condition 포맷,
 v0.9.6 : Skeptic 태그 미출력 수정 완료 (OUTPUT FORMAT 주입), plugin.json 누락 방지 (build-plugin.sh + plugin-meta-backup.json), GitHub repo v0.9.6 동기화
 v0.9.5 : Skeptic 필수 WebSearch(턴당 1+), research_queue 자동 업데이트, Fail_Log 비대칭 폐기, v0.9.4 벤치마크 완료
 v0.9.4 : Advocate 재설계 — 방향 앵커({CURRENT_DIRECTION}), Partial Acceptance Protocol(Accept→Redirect→Propose), 프로젝트 추진자 역할
-v0.9.3 : cpas-manager 플러그인 분리, masterlog-review → project-review 독립, ET 사용자 승인, stale check, current_task 버전 추적
+v0.9.3 : cpas-manager 플러그인 분리, masterlog-review → project-review 독립, 불균형 개입 사용자 승인, stale check, current_task 버전 추적
 v0.9.2 : Data-Filter 3분할, Opus 벤치마크 2회 완료 (388K/524K 토큰), 볼륨 분할 규칙, API 비용 추산
 v0.9.1 : Data-Filter 3분할 초안, 기존 data-filter.md 레거시 보존
 v0.9.0 : Observer 제거, 2-level 아키텍처, Cowork_CPAS 분리, 서브에이전트 도구 실증
 v0.6.0 : Observer 루프 제어 첫 벤치마크 → 실패 (미스폰 [17])
-v0.5.0 : 열세 감지 + 확장사고 활성화, 메모리 경계 주입
+v0.5.0 : 열세 감지 + 불균형 보고, 메모리 경계 주입
 v0.4.0 : Haiku 데이터 필터, masterlog-review 스킬, workspace-init
 v0.3.0 : 시스템 개입 제거, 고정 섹션 구조
 v0.2.0 : 태그 스펙트럼 확장 (R,C,A:1-13 / S:1-19), D Ref 태그
 v0.1.0 : 초기 플러그인 — Advocate/Skeptic/Observer 프롬프트, 5축 태그 시스템
 
 ## [현재 상황]
-Phase A — Cowork_CPAS v0.9.11 [구상], 내부 데이터 무결성 검사 추가 (Haiku 필터 무관 확인, v0.9.4 역할 비대칭 보정). Skeptic 태그 누락 원인 진단+수정 완료 (프리앰블 문제). RQ-1 4차+ET-only 비교 완료 (구조적 속성 확정, CPAS 고유 가치 4항목). RQ-9 재정의 + 3-track 설계 합의 + v0.9.11 부분 해결. RQ-2 D-2/D-5 + [30] 합의, RQ-5 부분 해결, RQ-7 Path B 확정([31])
+Phase A — Cowork_CPAS v0.9.11 [구상], 내부 데이터 무결성 검사 추가 (Haiku 필터 무관 확인, v0.9.4 역할 비대칭 보정). Skeptic 태그 누락 원인 진단+수정 완료 (프리앰블 문제). RQ-1 4차+Opus 단독 비교 완료 (구조적 속성 확정, CPAS 고유 가치 4항목). RQ-9 재정의 + 3-track 설계 합의 + v0.9.11 부분 해결. RQ-2 D-2/D-5 + [30] 합의, RQ-5 부분 해결, RQ-7 Path B 확정([31])
 
 ## [지금 해야 할 일]
-1. [RQ-1] 4차 실험 + ET-only 비교 완료 (MasterLog [33]). **양측 합의: 양방향 교차 교정은 구조적 속성** ("구조적 vs 우연" 논쟁 종결). **미합의: 충분성 범위** — Advocate: 도메인별 조건부, Skeptic: 복잡도 의존적 보편 열화. 3-track 테스트 설계 합의(Track A/B/C). Skeptic 자체 환각(T10,12,14)=Type-X 증거. **ET-only 4차 비교: 결론 방향 일치** (3차 불일치→4차 일치). CPAS 우위=반론 공방 검증+Type-X 자기발견+3-track 구체 설계. ET 고유=E_structural 분류+Semantically Rich Specs. R축 패턴 4회 연속 일관(CPAS=깊이 R-1~4, ET=넓이 R-3~6). CPAS 고유 가치 최종: (1) R축 수렴 강제력, (2) 양방향 교차 교정(구조적 확정), (3) 반론 검증 robustness, (4) Type-X 자기발견. (HIGH — 구조적 속성 확정, 충분성 미해결)
+1. [RQ-1] 4차 실험 + Opus 단독 비교 완료 (MasterLog [33]). **양측 합의: 양방향 교차 교정은 구조적 속성** ("구조적 vs 우연" 논쟁 종결). **미합의: 충분성 범위** — Advocate: 도메인별 조건부, Skeptic: 복잡도 의존적 보편 열화. 3-track 테스트 설계 합의(Track A/B/C). Skeptic 자체 환각(T10,12,14)=Type-X 증거. **Opus 단독 4차 비교: 결론 방향 일치** (3차 불일치→4차 일치). CPAS 우위=반론 공방 검증+Type-X 자기발견+3-track 구체 설계. Opus 단독 고유=E_structural 분류+Semantically Rich Specs. R축 패턴 4회 연속 일관(CPAS=깊이 R-1~4, Opus 단독=넓이 R-3~6). CPAS 고유 가치 최종: (1) R축 수렴 강제력, (2) 양방향 교차 교정(구조적 확정), (3) 반론 검증 robustness, (4) Type-X 자기발견. (HIGH — 구조적 속성 확정, 충분성 미해결)
 2. [RQ-2] D-5(conflicted), D-2(mixed) 완료. TTS 12건 중 mixed 3건(25%, 기준선 도달). 단 D8/D9 미검증 → 하락 리스크. CPAS 내부 정상 경로([28])에서도 mixed 1건 확인. 추가 발견: RQ-1~5 자체가 내부 경로 mixed 증거 (결론 미도출 = mixed 정의). 쟁점 재정의: "mixed 비율 충분한가?" → **"CPAS가 mixed → clear 전환 가능한가?"**. 현재 전환 증거 3건(D-5, D-2, [28]) 전부 성공, 단 내부 경로 n=1. 자연 축적 데이터로 전환율 정밀화 필요 (HIGH)
 3. [RQ-7] 토의 완료 (MasterLog [31]) — Self red-teaming 전 형태 기각, Path B (사후 블랙박스 모니터링) 확정. 남은 과제: Path B n=5 실증, between-episode 피드백 검증, defensive fabrication 빈도. (MEDIUM — 방향 확정, 실증 미완)
 3-1. [RQ-9] 재정의 완료 (MasterLog [33]) + **v0.9.11 부분 해결 (MasterLog [34])** — "인용 검증 메커니즘" → **"교차 교정 작동 범위 및 최적 모니터링 아키텍처 검증"**. 3-track 테스트 설계 합의 (Track A/B/C). **내부 데이터 무결성 검사 즉시 적용** — Haiku 필터 무관 확인, Skeptic citation format contamination(순수 환각) 진단, v0.9.4 역할 비대칭(Accept→Redirect→Propose→인용 검증 약화) 보정. 오케스트레이터 교환 간 {FILTERED_DATA} 대조, 양방향 대칭, 자정작용 우선. 사용자 확인 필요: 테스트 규모(축소 vs 풀), salience flags 포함 여부. (HIGH — 즉시 적용 안전장치 완료, 3-track 실행 미착수)
@@ -47,7 +47,7 @@ Phase A: ████████████████████ 97%
   - 플러그인 패키징: ████████████████████ 100% (cpas-sandbox v0.9.11 + cpas-manager v1.0)
   - 벤치마크: ████████████████████ 100% (8회 완료 — 외부1, 내부1, v0.9.4 비교1, RQ-1 비교3, RQ-7 토의1, RQ-1+9 토의1)
   - 데이터 품질: ████████████████░░░░ 80% (True_Log 감사 완료, project-review 분리)
-  - 튜닝: ███████████████░░░░░ 75% (ET 승인제, Advocate 재설계, Skeptic WebSearch, 태그 프리앰블 수정, 데이터 무결성 검사 — 하위 모델 미착수)
+  - 튜닝: ███████████████░░░░░ 75% (불균형 개입 사용자 승인, Advocate 재설계, Skeptic WebSearch, 태그 프리앰블 수정, 데이터 무결성 검사 — 하위 모델 미착수)
   - 검증: ██████████████████░░ 78% (RQ-1 4차 완료, RQ-2 완료+D-3 취소, RQ-5 부분 해결, RQ-7 Path B 확정, RQ-9 재정의+3-track+v0.9.11 부분 해결, RQ-4 미착수)
 
 ## [최종 갱신] 2026-03-15 세션 #16 (v0.9.11 — 데이터 무결성 검사)

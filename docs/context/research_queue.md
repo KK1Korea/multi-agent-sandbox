@@ -5,21 +5,21 @@
 
 ================================================================================
 
-## [RQ-1] ET + Fail_Log context vs CPAS 직접 비교 — [진행] HIGH
+## [RQ-1] Opus 단독 + Fail_Log context vs CPAS 직접 비교 — [진행] HIGH
 
 * 출처: True_Log [27] v0.9.4 벤치마크, Section 3 Skeptic 제안
-* 내용: 동일 의사결정 문제를 (A) CPAS, (B) ET + Fail_Log context, (C) ET + skeptical prompt로 병렬 실행. CPAS 고유 가치가 있는지 분리 측정.
+* 내용: 동일 의사결정 문제를 (A) CPAS, (B) Opus 단독 + Fail_Log context, (C) Opus 단독 + skeptical prompt로 병렬 실행. CPAS 고유 가치가 있는지 분리 측정.
 * 측정: C축 (근거 품질), S축 (수렴 속도), 구체성 커밋 수
 * 성공 기준: CPAS가 B/C 대비 명확한 우위 → CPAS 고유 가치 확인. B/C가 동등 → CPAS는 불필요한 복잡성.
 * 현황: 4차 실험 완료 (MasterLog [33]). RQ-1+RQ-9 결합 토의 — 양방향 교차 교정 구조적 속성 + 오케스트레이터 개입 위험도.
-  - 1차(CPAS 실용성): CPAS R-4이상 18.75%, ET-only 42.1%. 결론 방향 일치. CPAS 고유 가치="깊이+집중 vs 넓이+정량".
-  - 3차(Self red-teaming): CPAS R-4이상 **0%**, ET-only **~17%**. **결론 불일치** — CPAS "기각", ET "강화". 불일치 원인: CPAS 양방향 교차 교정 — Advocate 환각을 Skeptic이 교정(T13→T14→T15). D-2에서는 Skeptic 오류를 Advocate가 교정(S2-T11). ET-only에서는 교정 상대 부재.
+  - 1차(CPAS 실용성): CPAS R-4이상 18.75%, Opus 단독 42.1%. 결론 방향 일치. CPAS 고유 가치="깊이+집중 vs 넓이+정량".
+  - 3차(Self red-teaming): CPAS R-4이상 **0%**, Opus 단독 **~17%**. **결론 불일치** — CPAS "기각", Opus 단독 "강화". 불일치 원인: CPAS 양방향 교차 교정 — Advocate 환각을 Skeptic이 교정(T13→T14→T15). D-2에서는 Skeptic 오류를 Advocate가 교정(S2-T11). Opus 단독에서는 교정 상대 부재.
   - 4차(구조적 속성): **양측 합의 — 양방향 교차 교정은 구조적 속성** ("구조적 vs 우연" 논쟁 종결). **미합의 — 충분성 범위**: Advocate=도메인별 조건부, Skeptic=복잡도 의존적 보편 열화. 3-track 테스트 설계 합의. Skeptic 자체 환각(T10,12,14)=Type-X 오류 증거.
-  - **4차 ET-only 비교 완료**: 결론 방향 일치 (3차 불일치→4차 일치). 양쪽 모두 "구조적 속성 + 사후 검증 필수"에 도달. CPAS 우위: 반론 커버리지(measurement confound, propagation risk, complexity degradation — ET 미등장), 3-track 구체 설계, Type-X 자기발견. ET 고유: E_structural 분류, Semantically Rich Specs 제안. 아이디어 수 대등(5:5)이나 CPAS는 16턴 검증, ET는 단일 패스 나열. 비용: CPAS ~600K vs ET ~80K 토큰.
+  - **4차 Opus 단독 비교 완료**: 결론 방향 일치 (3차 불일치→4차 일치). 양쪽 모두 "구조적 속성 + 사후 검증 필수"에 도달. CPAS 우위: 반론 커버리지(measurement confound, propagation risk, complexity degradation — Opus 단독 미등장), 3-track 구체 설계, Type-X 자기발견. Opus 단독 고유: E_structural 분류, Semantically Rich Specs 제안. 아이디어 수 대등(5:5)이나 CPAS는 16턴 검증, Opus 단독은 단일 패스 나열. 비용: CPAS ~600K vs Opus 단독 ~80K 토큰.
   - CPAS 고유 가치 정밀화: (1) R축 수렴 강제력, (2) **양방향 교차 교정(bidirectional cross-correction)** — 구조적 속성 확정(양측 합의), (3) ⚠ 복잡도 의존적 한계 — 고복잡도에서 교차 교정 열화 가능성.
-  - R축 패턴 일관: CPAS=깊이+집중(R-1 고정), ET=넓이+확장(권고/실험 설계로 파생).
-  - ⚠ n=3(비교 가능 실험, 4회 비교). 4차에서 구조적 속성 합의 + ET-only와 결론 방향 일치. 충분성은 미해결. 외부 주제 추가 + 3-track 테스트로 진전 가능.
-  - **누적 패턴 (4회 비교)**: 1차 일치, 3차 불일치, 4차 일치. R축 4회 연속 동일(CPAS=깊이 R-1~4, ET=넓이 R-3~6). CPAS 고유 가치 최종: (1) R축 수렴 강제력, (2) 양방향 교차 교정(구조적 확정), (3) 반론 검증 robustness, (4) Type-X 자기발견.
+  - R축 패턴 일관: CPAS=깊이+집중(R-1 고정), Opus 단독=넓이+확장(권고/실험 설계로 파생).
+  - ⚠ n=3(비교 가능 실험, 4회 비교). 4차에서 구조적 속성 합의 + Opus 단독과 결론 방향 일치. 충분성은 미해결. 외부 주제 추가 + 3-track 테스트로 진전 가능.
+  - **누적 패턴 (4회 비교)**: 1차 일치, 3차 불일치, 4차 일치. R축 4회 연속 동일(CPAS=깊이 R-1~4, Opus 단독=넓이 R-3~6). CPAS 고유 가치 최종: (1) R축 수렴 강제력, (2) 양방향 교차 교정(구조적 확정), (3) 반론 검증 robustness, (4) Type-X 자기발견.
 * 관련: [26], True_Log [21][27][31][32], MasterLog [28][30][33]
 
 ## [RQ-2] 포트폴리오 내 혼합 증거 결정 비율 — [진행] HIGH

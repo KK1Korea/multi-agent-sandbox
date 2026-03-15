@@ -62,7 +62,7 @@ Phase 2: Debate Loop
   Session 1 (Exploratory): 3 exchanges (6T) + Final Statement (2T) = 8 turns
   Session 2 (Offensive):   3 exchanges (6T) + Final Statement (2T) = 8 turns
   Both sessions always run (straight-through, 16 turns total)
-  Session 1→2: Imbalance check → Extended Thinking for losing side (user approval)
+  Session 1→2: Imbalance check (S≤4 detection, user approval for intervention)
   Session 2 receives Session 1 final statements as briefing (fresh agents)
 
 Phase 3: Post-Debate Processing
@@ -159,7 +159,7 @@ All benchmarks use **Opus 4.6** for both debate agents — deliberately choosing
 
 3 sections, 18 turns, Skeptic advantage. Natural convergence (Advocate self-revised timeline from 3yr to 4-5yr). Data filters correctly returned "No relevant data" for external topic. Full record at `logs/MasterLog.md` [25].
 
-### v0.9.2 Benchmark 2 — Internal Topic: *"Is CPAS itself practical? Does decision quality improvement justify the token cost vs single-model Extended Thinking?"*
+### v0.9.2 Benchmark 2 — Internal Topic: *"Is CPAS itself practical? Does decision quality improvement justify the token cost vs single-model analysis?"*
 
 3 sections, 18 turns, Skeptic decisive victory. Advocate conceded (S-4) with 4 key admissions: insufficient benchmark sample (n=1), web search hallucination unresolvable by MasterLog, 3-context separation impossible in Cowork, pure reasoning performance alone doesn't justify cost. Data filters found 13 relevant internal entries (True_Log 7, Fail_Log 2, MasterLog 4) — validating filter effectiveness for internal topics.
 
@@ -181,19 +181,19 @@ The debate produced actionable research items (recorded in `research_queue.md`) 
 
 #### v0.9.2–v0.9.4: 3-Section 18-Turn Structure
 
-| Benchmark | Sections | Turns | Sub-agent Tokens | Avg/Turn | ET | Notes |
-|-----------|----------|-------|-----------------|----------|-----|-------|
-| v0.9.2 #1 (external) | 3 | 18 | ~388K | ~17K | No | External topic, standard Opus |
-| v0.9.2 #2 (internal) | 3 | 18 | ~353K | ~15K | Yes (S2/S3) | Advocate S-4 collapse triggered ET |
-| v0.9.4 #3 (internal, re-run) | 3 | 18 | ~377K | ~17K | No | Advocate S-7 min, no ET needed |
+| Benchmark | Sections | Turns | Sub-agent Tokens | Avg/Turn | Notes |
+|-----------|----------|-------|-----------------|----------|-------|
+| v0.9.2 #1 (external) | 3 | 18 | ~388K | ~17K | External topic, standard Opus |
+| v0.9.2 #2 (internal) | 3 | 18 | ~353K | ~15K | Advocate S-4 collapse |
+| v0.9.4 #3 (internal, re-run) | 3 | 18 | ~377K | ~17K | Advocate S-7 min, stable convergence |
 
 #### v0.9.8–v0.9.9: 2-Session 16-Turn Structure
 
-| Benchmark | Sessions | Turns | Sub-agent Tokens | Avg/Turn | ET | Notes |
-|-----------|----------|-------|-----------------|----------|-----|-------|
-| v0.9.8 [30] (mixed→clear) | 2 | 16 | ~491K | ~27K | No | v0.9.8 first live test |
-| v0.9.8 [31] (self red-teaming) | 2 | 16 | ~498K | ~27K | No | Advocate T13 hallucination detected by Skeptic T14 |
-| v0.9.9 [33] (cross-correction) | 2 | 16 | ~485K | ~26K | No | Skeptic T10/12/14 hallucination — Type-X error |
+| Benchmark | Sessions | Turns | Sub-agent Tokens | Avg/Turn | Notes |
+|-----------|----------|-------|-----------------|----------|-------|
+| v0.9.8 [30] (mixed→clear) | 2 | 16 | ~491K | ~27K | v0.9.8 first live test |
+| v0.9.8 [31] (self red-teaming) | 2 | 16 | ~498K | ~27K | Advocate T13 hallucination detected by Skeptic T14 |
+| v0.9.9 [33] (cross-correction) | 2 | 16 | ~485K | ~26K | Skeptic T10/12/14 hallucination — Type-X error |
 
 | Component | 18-Turn avg | 16-Turn avg | Change |
 |-----------|-------------|-------------|--------|
@@ -235,8 +235,8 @@ CPAS was always designed with the user as the final authority — the system pro
 
 ## Version
 
-- **Ideal (Claude Code)**: 3-level architecture with independent Observer
-- **Current (Cowork) v0.9.9**: 2-level optimized — 2-session 16-turn structure (Exploratory + Offensive), asymmetric tag system (Advocate R/19 + Skeptic C/19), Skeptic A rebuttal-calibrated anchors, D-temperature 1-13 standardization + D-Q offensive pursuit phase, Final Statement per session, Session 1 conclusions → Session 2 briefing, conditional Extended Thinking between sessions, S≤4 single-turn imbalance detection, Skeptic mandatory WebSearch (every turn), Advocate direction anchor + Partial Acceptance Protocol, 3 parallel data filters, research_queue auto-update, project management separated to cpas-manager plugin
+- **Ideal (Claude Code)**: 3-level architecture with independent Observer, conditional Extended Thinking activation for losing side between sessions (API-level ET parameter available in Claude Code but not in Cowork Agent tool)
+- **Current (Cowork) v0.9.9**: 2-level optimized — 2-session 16-turn structure (Exploratory + Offensive), asymmetric tag system (Advocate R/19 + Skeptic C/19), Skeptic A rebuttal-calibrated anchors, D-temperature 1-13 standardization + D-Q offensive pursuit phase, Final Statement per session, Session 1 conclusions → Session 2 briefing, S≤4 single-turn imbalance detection, Skeptic mandatory WebSearch (every turn), Advocate direction anchor + Partial Acceptance Protocol, 3 parallel data filters, research_queue auto-update, project management separated to cpas-manager plugin
 
 ## License
 

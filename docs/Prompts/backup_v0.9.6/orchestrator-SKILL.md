@@ -318,12 +318,12 @@ The orchestrator produces ZERO debate content. It only strips tags, stores tags,
      · One side reached S-1 or S-2 (surrender/near-surrender)
      · One side's C consistently ≤ 3 while the other's C ≥ 7 (evidence gap)
    - If Imbalanced:
-     · ⚠ MANDATORY: Ask the user for approval before activating Extended Thinking.
-     · Format: "불균형 감지: {side} 열세 (S≤4 연속). 확장사고를 활성화하면 토큰 비용이 ~2-3배 증가합니다. 활성화할까요?"
-     · If approved: Activate Extended Thinking for the losing side in Section 2.
-     · If denied: Proceed with standard Opus for both sides.
-     · Add `model: "opus"` with extended thinking hint in the agent prompt.
-     · The agent does not know why — blackbox preserved.
+     · ⚠ MANDATORY: Report imbalance to user for Session 2 intervention.
+     · Format: "불균형 감지: {side} 열세 (S≤4 연속). 세션 2에서 추가 개입이 필요할까요?"
+     · The user may approve additional environment adjustments if deemed necessary.
+     · If approved: Apply adjustments for the losing side in Section 2.
+     · If denied: Proceed with standard configuration for both sides.
+     · The agent does not know about user decisions — blackbox preserved.
      · This is environment adjustment, not content intervention.
 3. Spawn NEW agents for Section 2 (fresh context).
 
@@ -337,7 +337,7 @@ The orchestrator produces ZERO debate content. It only strips tags, stores tags,
      · No new issues were added
    - All 3 met → "Same" → Skip Section 3. Produce final report.
    - Otherwise → Proceed to Section 3.
-3. If proceeding: keep extended thinking active for same side.
+3. If proceeding: maintain any user-approved adjustments for same side.
 
 **After Section 3 (if ran):**
 
@@ -405,7 +405,7 @@ Produce and present the structured analysis directly to the user.
   Skeptic S trajectory: [S-10] → [S-8] → [S-4]
 
 [Balance]
-· Balanced / Imbalanced — {side} losing → Extended Thinking activated
+· Balanced / Imbalanced — {side} losing (S≤4 detected)
 · Reason: {specific tag evidence}
 
 [Orchestrator Assessment]

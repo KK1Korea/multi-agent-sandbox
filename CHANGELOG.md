@@ -22,8 +22,7 @@
 - 세션 간 결론 주입: Session 1 최후의 진술 → Session 2 초기 컨텍스트 (SESSION_2_BRIEFING)
   - Session 2 에이전트는 FRESH spawn (동조 편향 리셋)
   - "Build on these conclusions. Go deeper — do not repeat Session 1 arguments."
-- 확장사고(ET) 조건부 활성화: 세션 1 → 세션 2 전환 시에만 판단
-  - 승인 시 열세 측 세션 2 전체에 ET 적용
+- 불균형 감지 시 사용자 보고: 세션 1 → 세션 2 전환 시 판단 후 승인 요청
 - 불균형 감지 기준 강화: S ≤ 4 "2턴 연속" → "1턴이라도" 감지
 - Skeptic O-1-2 [Weapons/Search]: "Can use web search tools" → "MANDATORY every turn" 명시
 - Phase 3 보고서: [Session Comparison] 섹션 추가 (세션 간 궤적/결론 비교)
@@ -66,7 +65,7 @@
 
 ## cpas-sandbox v0.9.3 — 2026-03-14 세션 #7
 - masterlog-review 스킬 제거 → cpas-manager 플러그인으로 이관
-- sandbox-orchestrator: 확장사고 활성화 → 사용자 승인 필수 (비용 폭발 방지)
+- sandbox-orchestrator: 불균형 감지 → 사용자 보고 (의사결정 투명성)
 - sandbox-orchestrator Step 0.5: stale check → cpas-manager `/review` 권고로 변경
 - sandbox-orchestrator Step 1: `{MEMORY_CONTEXT}`에 `[지금 해야 할 일]`만 포함 (버전/로그 현황 제외)
 
@@ -75,7 +74,7 @@
 - 볼륨 분할 규칙: 1파일 = 최대 1500줄, 초과 시 Haiku 추가 배치
 - sandbox-orchestrator Step 2 전면 개정 (병렬 필터 소환)
 - 1차 벤치마크 (외부 주제): ~388K 토큰, 정상 완주
-- 2차 벤치마크 (내부 주제): ~524K 토큰, ET 활성화 확인
+- 2차 벤치마크 (내부 주제): ~524K 토큰, 불균형 감지 확인
 - plugin.json v0.9.2
 
 ## v0.9.1 — 2026-03-14 세션 #5
@@ -92,11 +91,11 @@
 
 ## v0.6.0 — 2026-03-14 세션 #3
 - Observer 루프 제어 시도 → 실패 ([17] 미스폰)
-- 열세 감지 + 확장사고 활성화 시스템 추가
+- 열세 감지 시스템 추가
 - 메모리 시스템 통합 (경계 조건 주입)
 
 ## v0.5.0 — 2026-03-14 세션 #3
-- 열세 감지(O-3-3-A) + 확장사고 활성화 로직
+- 열세 감지(O-3-3-A) 로직
 - 메모리 → 토의 경계(non-debatable ground truth)로 주입
 - Observer SKILL.md v0.5
 

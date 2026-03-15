@@ -5,10 +5,10 @@
 
 ================================================================================
 
-## [RQ-1] ET + Fail_Log context vs CPAS 직접 비교 — [진행] HIGH
+## [RQ-1] Opus 단독 + Fail_Log context vs CPAS 직접 비교 — [진행] HIGH
 
 * 출처: True_Log [27] v0.9.4 벤치마크, Section 3 Skeptic 제안
-* 내용: 동일 의사결정 문제를 (A) CPAS, (B) ET + Fail_Log context, (C) ET + skeptical prompt로 병렬 실행. CPAS 고유 가치가 있는지 분리 측정.
+* 내용: 동일 의사결정 문제를 (A) CPAS, (B) Opus 단독 + Fail_Log context, (C) Opus 단독 + skeptical prompt로 병렬 실행. CPAS 고유 가치가 있는지 분리 측정.
 * 측정: C축 (근거 품질), S축 (수렴 속도), 구체성 커밋 수
 * 성공 기준: CPAS가 B/C 대비 명확한 우위 → CPAS 고유 가치 확인. B/C가 동등 → CPAS는 불필요한 복잡성.
 * 현황: 초회 실험 완료 (MasterLog [28]). CPAS 고유 가치 = "깊이 기반 결론 신뢰성" 잠정 도출. 추가 주제로 재검증 필요 (n=1 불충분).

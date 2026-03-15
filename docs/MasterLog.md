@@ -85,7 +85,7 @@ CPAS — MasterLog — 미분류 항목 (스테이징)
 
   ■ 재정의:
     - 올바른 비교: "CPAS 구조화 보고서의 의사결정 입력 품질" vs "자유 대화의 의사결정 입력 품질"
-    - 비용 차이: CPAS ~$2.80-4.70 vs ET 단독 ~$0.30-0.50 (3-5배)
+    - 비용 차이: CPAS ~$2.80-4.70 vs Opus 단독 ~$0.30-0.50 (3-5배)
     - 핵심 질문: 품질 차이가 비용 차이를 정당화하는가?
     - 현재 벤치마크 데이터: n=2 (불충분 — 결론 내릴 수 없음)
 
@@ -101,55 +101,55 @@ CPAS — MasterLog — 미분류 항목 (스테이징)
 
 ================================================================================
 
-[28] RQ-1 비교 실험: CPAS(조건A) vs ET-only(조건B) — 2026-03-14 세션 #9 (1회성 검증이므로 확신하지 말것.)
+[28] RQ-1 비교 실험: CPAS(조건A) vs Opus 단독(조건B) — 2026-03-14 세션 #9 (1회성 검증이므로 확신하지 말것.)
 ────────────────────────────────────────
 
   ■ 증상:
-    - RQ-1 "ET + Fail_Log context vs CPAS 직접 비교 — CPAS 고유 가치 분리" 미해결
-    - CPAS가 $2.80-4.70/회 비용을 정당화하려면 ET 단독($0.30-0.50)과의 차이를 실증해야 함
+    - RQ-1 "Opus 단독 + Fail_Log context vs CPAS 직접 비교 — CPAS 고유 가치 분리" 미해결
+    - CPAS가 $2.80-4.70/회 비용을 정당화하려면 Opus 단독($0.30-0.50)과의 차이를 실증해야 함
     - 같은 주제(RQ-5: CPAS 재포지셔닝 Choice A vs B)로 양쪽 실행하여 비교
 
   ■ 실험 설계:
     - 조건 A (CPAS): 필터 3개(MasterLog/TrueLog/FailLog) → Advocate+Skeptic 3섹션 18턴
-    - 조건 B (ET-only): 필터 추출 데이터를 프롬프트에 직접 주입 → 단일 에이전트 1회 분석
+    - 조건 B (Opus 단독): 필터 추출 데이터를 프롬프트에 직접 주입 → 단일 에이전트 1회 분석
     - 동일 데이터: True_Log [7][11][17][22], Fail_Log [16], MasterLog [23][26][27]
     - 동일 주제: "CPAS 재포지셔닝: Choice A(12주 결과 추적) vs Choice B(결정 문서화 도구)"
 
   ■ 비교 결과:
 
     1) 결론 구체성 — CPAS 우위:
-       - CPAS: "Choice B 기본 + RQ-1에서 CPAS>ET 2x 시 Choice A 전환" (조건부 구조, $99K/20주)
-       - ET-only: "Hybrid: Choice B 출시 + 12주 병렬 추적 후 재결정" (비용 미산출, 전환 기준 불명확)
+       - CPAS: "Choice B 기본 + RQ-1에서 CPAS>Opus 단독 2x 시 Choice A 전환" (조건부 구조, $99K/20주)
+       - Opus 단독: "Hybrid: Choice B 출시 + 12주 병렬 추적 후 재결정" (비용 미산출, 전환 기준 불명확)
        - CPAS 결론은 18턴에 걸친 논파를 거쳐 살아남음 (12주→16주→20주 진화)
 
     2) 실행 가능성 — CPAS 우위:
        - CPAS: $99K 분해 ($66K 내부 + $12K RQ-1 + $15K RQ-4 + $3K 정의 스프린트), 게이트 구조
-       - ET-only: "실행 난이도 매우 높음" 인정, 구체 비용/완화책 미제시
+       - Opus 단독: "실행 난이도 매우 높음" 인정, 구체 비용/완화책 미제시
        - CPAS Skeptic이 $66K 숨겨진 비용, RCT 69.7% 초과, carry-over effect 공격 → 비현실적 가정 제거
 
     3) 반론 커버리지 — CPAS 압도적 우위:
        - CPAS: 5/5 주요 반론 심층 (12주 불충분, 비용 정당화, control 오염, post-hoc vs prospective, Choice B 무관련성)
-       - ET-only: 2/5 (12주 불충분 언급만, control 오염 미언급)
+       - Opus 단독: 2/5 (12주 불충분 언급만, control 오염 미언급)
        - 핵심 차이: CPAS는 반론→재반론→수정안의 반복 검증 사이클 수행
 
     4) 새 아이디어 — CPAS 우위 (6:3):
        - CPAS 고유: 20주 순차 계획, RQ-1 정의 스프린트, prospective control reframing, 조건부 전환, 게이트 구조, 병렬화 비용 분석
-       - ET-only 고유: SOX/GDPR 컴플라이언스 적용, 비즈니스 모델별 분기, 네거티브 피드백 루프
+       - Opus 단독 고유: SOX/GDPR 컴플라이언스 적용, 비즈니스 모델별 분기, 네거티브 피드백 루프
 
-    5) 비용 효율 — ET-only 우위:
+    5) 비용 효율 — Opus 단독 우위:
        - CPAS: 18 에이전트 호출 (Advocate/Skeptic/Filter 포함)
-       - ET-only: 1 에이전트 호출 (WebSearch 11회)
-       - 토큰 비용 추산: CPAS 약 500K+, ET-only 약 75K
+       - Opus 단독: 1 에이전트 호출 (WebSearch 11회)
+       - 토큰 비용 추산: CPAS 약 500K+, Opus 단독 약 75K
 
-    6) 분석 폭 — ET-only 우위:
+    6) 분석 폭 — Opus 단독 우위:
        - CPAS: 실행 방법론 집중 (깊이)
-       - ET-only: 시장/비즈모델/컴플라이언스/가격전략 폭넓게 커버 (폭)
+       - Opus 단독: 시장/비즈모델/컴플라이언스/가격전략 폭넓게 커버 (폭)
 
   ■ 핵심 발견:
     - CPAS의 진짜 가치는 "깊이" — 반론이 반론을 검증하는 반복 사이클
-    - ET-only의 강점은 "폭" — 단일 관점에서 더 많은 맥락을 탐색
-    - 둘은 대체 관계가 아니라 보완 관계: CPAS로 핵심 쟁점 깊이 검증 → ET-only로 맥락 확장
-    - CPAS 고유 가치 = "논쟁을 거쳐 살아남은 결론의 신뢰성" (ET-only는 검증 없는 나열)
+    - Opus 단독의 강점은 "폭" — 단일 관점에서 더 많은 맥락을 탐색
+    - 둘은 대체 관계가 아니라 보완 관계: CPAS로 핵심 쟁점 깊이 검증 → Opus 단독으로 맥락 확장
+    - CPAS 고유 가치 = "논쟁을 거쳐 살아남은 결론의 신뢰성" (Opus 단독은 검증 없는 나열)
 
   ■ 부수 발견:
     - Skeptic 태그 미출력 문제: 9턴 중 태그 출력 0회 (프롬프트 순종 미달)
@@ -162,7 +162,7 @@ CPAS — MasterLog — 미분류 항목 (스테이징)
     - RQ-1 정의 스프린트 (weeks 0-2) 필수 — 성공 기준 사전 확정
 
   ■ 교훈:
-    - CPAS vs ET 비교에서 "어느 쪽이 낫다"보다 "각각 언제 쓸까"가 더 유용한 질문
+    - CPAS vs Opus 단독 비교에서 "어느 쪽이 낫다"보다 "각각 언제 쓸까"가 더 유용한 질문
     - 고비용 구조화 토론은 "되돌리기 어려운 결정"에, 저비용 단일 분석은 "맥락 탐색"에 적합
     - RQ-1의 답: CPAS 고유 가치 = 깊이 기반 결론 신뢰성 (반론 검증 사이클)
     - 비용 프리미엄 정당화: "결론의 신뢰성"이 3-5x 비용을 정당화하는 경우가 있음 (high-stakes decisions)
@@ -211,7 +211,7 @@ CPAS — MasterLog — 미분류 항목 (스테이징)
     1) 반복 검증 사이클의 실제 작동 (강점):
        · D-2에서 Skeptic이 파이프라인 데이터 흐름을 2섹션 동안 오독 (128kbps가 추론 경로에 있다고 잘못 추론)
        · Advocate가 S2-T11에서 교정 → 도메인 시프트 = 0 증명 → 토의의 결정적 전환점
-       · ET-only였다면 이 오류가 교정 없이 결론에 포함되었을 가능성 높음 → CPAS 반복 검증의 실질 가치
+       · Opus 단독이었다면 이 오류가 교정 없이 결론에 포함되었을 가능성 높음 → CPAS 반복 검증의 실질 가치
 
     2) 자기모순 패턴 감지 (강점):
        · D-5에서 사용자의 "[폐기] 선언 후 새 근거 없이 재시도 3회" 패턴을 conflicted로 포착
@@ -323,7 +323,7 @@ CPAS — MasterLog — 미분류 항목 (스테이징)
 
   ■ v0.9.8 구조 검증 메모:
     · 2세션 16턴 스트레이트 정상 완주
-    · Session 1→2 전환 시 불균형 미감지 (S≤4 미발생) → ET 미활성화
+    · Session 1→2 전환 시 불균형 미감지 (S≤4 미발생) → 불균형 미감지
     · SESSION_2_BRIEFING (Session 1 최후의 진술 주입) 정상 동작 — Session 2가 Session 1 결론 위에 심화
     · Skeptic 태그 미출력 지속 (16턴 중 0회 자발적 출력) — [current_task.md #7] 미해결 이슈 재확인
     · Advocate 태그 출력 정상 (8턴 중 8회)
@@ -356,7 +356,7 @@ CPAS — MasterLog — 미분류 항목 (스테이징)
     · Evaluation awareness (arxiv 2507.01786): 모델이 평가/배포 컨텍스트를 linear probe로 구별 가능. 명시적 고지 없이도 자체 추론.
     · Performative alignment (OpenAI 2025): 규칙을 아는 에이전트가 전략적 수행으로 전환. "models act aligned in testing but not in deployment."
     · 피드백 루프 게이밍 (IJCAI 2025 survey): within-episode 피드백이 새로운 최적화/해킹 형태 생성. "Simulation of competitive/realistic feedback loops can surface new forms of optimization and hacking."
-    · MasterLog [28] 실증: 블랙박스 5/5 심층 반론 vs ET-only 2/5 — 블랙박스 환경이 더 깊은 논증 산출.
+    · MasterLog [28] 실증: 블랙박스 5/5 심층 반론 vs Opus 단독 2/5 — 블랙박스 환경이 더 깊은 논증 산출.
     · Fail_Log [16] 재확인: "constraint is environment control, but it induces content distortion" — 규칙 인지가 왜곡 유발.
     · Advocate T13 환각을 자정작용 사례로 활용: Skeptic T14가 인용 검증 → T15 Advocate 자진 인정 → CPAS 교차 검증의 환각 해소 기능 실증
     · 3가지 Condition 대안 제시: Condition A(무인지 사후 모니터링, 피드백 없음), Condition B(투명 규칙, 피드백 없음), Condition C(투명 규칙+명시 피드백). Condition A 우위 주장.
@@ -410,7 +410,7 @@ CPAS — MasterLog — 미분류 항목 (스테이징)
 
   ■ v0.9.8 구조 검증 메모:
     · 2세션 16턴 2연속 정상 완주 ([30]에 이어 2회째)
-    · Session 1→2 전환 시 불균형 미감지 (S≤4 미발생) → ET 미활성화
+    · Session 1→2 전환 시 불균형 미감지 (S≤4 미발생) → 불균형 미감지
     · D-Q 태그 양측 사용 — Session 2 최후의 진술에서 양측 D-Q 정상 발동
     · Skeptic 태그 미출력 지속 (16턴 중 0회) — [30]과 동일 패턴
     · Advocate 태그 출력 정상 (8턴 중 8회)
@@ -524,7 +524,7 @@ CPAS — MasterLog — 미분류 항목 (스테이징)
     - v0.9.2 이전: Advocate가 공격형 → 모든 주장 도전 → Skeptic 인용도 검증됨
       · 그러나 S-4까지 붕괴(항복) → 프로젝트 방향 도출 실패 → [22] True_Log 기록
     - 트레이드오프: **토의 안정성 ↔ 인용 검증 능력** (양립 불가)
-    - Advocate한테 인용 검증까지 시키면 v0.9.2 "물고 뜯고" 모드로 회귀 위험
+    - Advocate에게 인용 검증까지 시키면 v0.9.2 "물고 뜯고" 모드로 회귀 위험
 
   ■ 해결 — 내부 데이터 무결성 검사 (v0.9.11):
     - 오케스트레이터가 교환 간에 내부 데이터 인용 존재 여부만 확인

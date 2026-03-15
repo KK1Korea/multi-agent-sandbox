@@ -62,7 +62,7 @@ current_task.md의 `[작업 버전]` 섹션을 읽는다.
 
 ```
 ## [작업 버전]
-v0.9.3 : masterlog-review 모델 고정 제거, ET 사용자 승인, stale check, 프로젝트 관리 분리
+v0.9.3 : masterlog-review 모델 고정 제거, 불균형 개입 사용자 승인, stale check, 프로젝트 관리 분리
 v0.9.2 : Data-Filter 3분할, 벤치마크 2회 완료, 볼륨 분할 규칙
 v0.9.1 : Data-Filter 3분할 초안
 v0.9.0 : Observer 제거, 2-level 아키텍처, Cowork_CPAS 분리

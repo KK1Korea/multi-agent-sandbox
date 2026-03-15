@@ -186,7 +186,6 @@ strips tags, tracks quality, detects imbalance, and manages sessions.
 - Total: 16 turns (both sessions always run)
 - Each session uses FRESH agents. Final Statement RESUMES the same session's agents.
 - Session 2 agents receive Session 1's final statements as initial briefing.
-- Extended Thinking activation: conditional, assessed between Session 1 → Session 2 only.
 - The orchestrator is the only entity with cross-session memory.
 
 ### Exchange Loop (Per Session)
@@ -447,11 +446,8 @@ After Session 1 completes (8 turns total):
      · One side reached S-1 or S-2 (surrender/near-surrender)
      · One side's C consistently ≤ 3 while the other's C ≥ 7 (evidence gap)
    - If Imbalanced:
-     · ⚠ MANDATORY: Ask the user for approval before activating Extended Thinking.
-     · Format: "Session 1 불균형 감지: {side} 열세 (S≤4 연속). Session 2에서 확장사고를 활성화하면 토큰 비용이 ~2-3배 증가합니다. 활성화할까요?"
-     · If approved: Activate Extended Thinking for the losing side in ALL of Session 2.
-     · If denied: Proceed with standard Opus for both sides.
-     · This is environment adjustment, not content intervention.
+     · Report imbalance to user: "Session 1 불균형 감지: {side} 열세 (S≤4 연속). Session 2 진행할까요?"
+     · Proceed with standard Opus for both sides.
 3. **Extract Session 1 Final Statements** — both Advocate and Skeptic final statement texts (stripped of tags).
 4. **Spawn FRESH agents** for Session 2, injecting Session 1 final statements as {SESSION_2_BRIEFING}.
 
@@ -530,7 +526,7 @@ Produce and present the structured analysis directly to the user.
   Session 2 — Skeptic S: [S-12] → [S-10] → [S-7] → Final [S-8]
 
 [Balance]
-· Balanced / Imbalanced — {side} losing → Extended Thinking activated in Session 2
+· Balanced / Imbalanced — {side} losing (S≤4 detected)
 · Reason: {specific tag evidence from Session 1}
 
 [Orchestrator Assessment]

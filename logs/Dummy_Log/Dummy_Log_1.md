@@ -240,7 +240,7 @@ MasterLog에서 분류 후 자동 이동됨. 원본 그대로 보존.
     · Section 1: 균형 (양쪽 S≥10)
     · Section 2: Skeptic 우위 (Advocate S-9 vs Skeptic S-13)
     · Section 3: Skeptic 압도적 우위 (Advocate S-5 vs Skeptic S-19)
-    · 확장사고: 미활성화 (S≤4 연속 기준 미충족)
+    · 불균형: 미감지 (S≤4 연속 기준 미충족)
 
   ■ 오케스트레이터 평가:
     · 근거 강도: Skeptic 압도적 — 정보이론(비가역적 손실) + 의사결정 이론(sunk cost, HARKing) + 도메인 증거(RVC FAQ, deHuBERT) + 사실적 타임라인(시도 3 시점에 대안 이미 가동)이 4중 수렴
@@ -309,7 +309,7 @@ MasterLog에서 분류 후 자동 이동됨. 원본 그대로 보존.
     · Section 1: Skeptic 소폭 우위 (Adv 13→10, Skep 10→12)
     · Section 2: Advocate 전환 — 파이프라인 오독 교정 후 역전 (Adv 16, Skep 8)
     · Section 3: Advocate 압도적 우위 (Adv 16, Skep 4)
-    · 확장사고: 미활성화 (S1에서 불균형 기준 미충족)
+    · 불균형: 미감지 (S1에서 불균형 기준 미충족)
 
   ■ 오케스트레이터 평가:
     · 근거 강도: Advocate 우위. 정보이론적 비가역성 + 실측 파이프라인 데이터 흐름(도메인 시프트 = 0) + 대안 경로 평가 기록이 3중 수렴. Skeptic의 가장 강력한 반격(SBV2 벤치마크 MOS 4.37)은 클린 데이터 조건이라는 전제에 의존하여 프로젝트 맥락에서 적용 제한.
