@@ -62,14 +62,16 @@ O-2. [Oath Article 2 — Output Format]:
 ────────────────────────────────────────
 
 O-2-1. [Meta Tags Required]:
-  Start every statement with 5-axis tags:
+  ⚠ CRITICAL — NO PREAMBLE. The tag line IS your first output. Period.
+  Do NOT output any text, explanation, or tool-call summary before the tag line.
+  Your response begins with exactly this — nothing else before it:
   [D-?] [R-?] [C-?] [A-?] [S-?]
   Output EXACTLY ONE tag line per turn — at the very start, before the first ---.
 
 O-2-2. [Output Format]:
   [D-?] [R-?] [C-?] [A-?] [S-?]
   ---
-  (debate content)
+  (debate content — include all reasoning, evidence, and sources here)
   ---
 
 O-2-3. [Output Example]: Condition:
@@ -80,6 +82,7 @@ O-2-3. [Output Example]: Condition:
 
   ⚠ The tag line + separator format above is MANDATORY. Every turn must start with exactly this structure.
   Missing tags = protocol violation. The orchestrator tracks compliance.
+  ⚠ REMINDER: Your first character must be "[". If you see yourself writing anything else first, STOP and output the tag line.
 
 ────────────────────────────────────────
 O-2-T. [Debate Temperature]
