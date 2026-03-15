@@ -1,7 +1,7 @@
 {
   "name": "cpas-sandbox",
-  "version": "0.9.9",
-  "description": "CPAS Sandbox Debate System (Cowork_CPAS) — 2-session 16-turn architecture. v0.9.9: Asymmetric tag system (Advocate R/19, Skeptic C/19), Skeptic A rebuttal-calibrated anchors, D-temperature 1-13 standardization (ascending 1~5/3~9/7~13, descending 9~13/5~11/1~7), D-Q offensive pursuit phase. Session 1 (Exploratory 8T) + Session 2 (Offensive 8T) with Final Statements. Dynamic Data Filters. Observer reserved for CPAS ideal/Claude Code. Log management via cpas-manager plugin.",
+  "version": "0.9.10",
+  "description": "CPAS Sandbox Debate System (Cowork_CPAS) — 2-session 16-turn architecture. v0.9.10: NO PREAMBLE tag fix (Skeptic/Advocate O-2-1 강화 — 도구 호출 프리앰블이 태그를 밀어내는 문제 수정). v0.9.9: Asymmetric tag system (Advocate R/19, Skeptic C/19), Skeptic A rebuttal-calibrated anchors, D-temperature 1-13 standardization, D-Q offensive pursuit phase. Session 1 (Exploratory 8T) + Session 2 (Offensive 8T). Dynamic Data Filters. Log management via cpas-manager plugin.",
   "author": {
     "name": "CPAS"
   },
