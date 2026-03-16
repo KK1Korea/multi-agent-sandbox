@@ -19,8 +19,9 @@
   - CPAS 고유 가치 정밀화: (1) R축 수렴 강제력, (2) **양방향 교차 교정(bidirectional cross-correction)** — 구조적 속성 확정(양측 합의), (3) ⚠ 복잡도 의존적 한계 — 고복잡도에서 교차 교정 열화 가능성.
   - R축 패턴 일관: CPAS=깊이+집중(R-1 고정), ET=넓이+확장(권고/실험 설계로 파생).
   - ⚠ n=3(비교 가능 실험, 4회 비교). 4차에서 구조적 속성 합의 + ET-only와 결론 방향 일치. 충분성은 미해결. 외부 주제 추가 + 3-track 테스트로 진전 가능.
-  - **누적 패턴 (4회 비교)**: 1차 일치, 3차 불일치, 4차 일치. R축 4회 연속 동일(CPAS=깊이 R-1~4, ET=넓이 R-3~6). CPAS 고유 가치 최종: (1) R축 수렴 강제력, (2) 양방향 교차 교정(구조적 확정), (3) 반론 검증 robustness, (4) Type-X 자기발견.
-* 관련: [26], True_Log [21][27][31][32], MasterLog [28][30][33]
+  - **5차 확장 추론(Extended Thinking) ON 1패스 비교 (MasterLog [36])**: 확장 추론도 "자기 자신을 못 이김" 한계 동일 재현 — 양비론 생산, CPAS 고유 개념(Type-X, measurement confound) 1패스 미출현. 확장 추론 고유 강점: CCR 이론 프레임, amnestic cross-correction, role rotation 등 아키텍처 확장 아이디어 6개 (CPAS/단독 모두 미등장). 학술 근거 활용량 확장 추론 > 단독 > CPAS, 타겟팅 정밀도 CPAS > 확장 추론. 3조건 결론: CPAS=깊이+교정, 단독=폭+확장, 확장추론=단독 상한선↑이나 CPAS 구조적 차이 미해소. 최적 조합 가설: CPAS(깊이+교정) → 확장추론 1패스(폭+이론) → 사용자 최종 판단. ⚠ 토큰 미측정(채팅창), 1패스 vs 16턴 구조 차이로 직접 비교 한계.
+  - **누적 패턴 (5회 비교)**: 1차 일치, 3차 불일치, 4차 일치, 5차(확장추론) 구조적 차이 재확인. R축 5회 연속 동일 패턴. CPAS 고유 가치 최종: (1) R축 수렴 강제력, (2) 양방향 교차 교정(구조적 확정), (3) 반론 검증 robustness, (4) Type-X 자기발견. 확장 추론은 단독의 상한선을 높이지만 CPAS의 구조적 차이를 해소하지 못함.
+* 관련: [26], True_Log [21][27][31][32][34], MasterLog [35][36]
 
 ## [RQ-2] 포트폴리오 내 혼합 증거 결정 비율 — [진행] HIGH
 
@@ -159,5 +160,24 @@
 * 성공 기준: 동급 이종 모델 토의가 동종 대비 편향 감소 → 아키텍처 변경 필요. 차이 미미 → 현행 유지.
 * 의존: RQ-4(하위 모델 품질 — 능력 하한선 확인), 동급 이종 모델 접근 가능성
 * 관련: MasterLog [37], RQ-4, "Bias in the Mirror" ACL 2025, ICLR 2025 MAD Blog, arXiv 2502.08788
+
+## [RQ-14 후보] Poisoning-Aware Validation 프레임워크 — [대기] HIGH
+
+* 출처: MasterLog [38] 분리 쟁점 1, 세션 #18
+* 내용: CPAS 토의에서 synchronized poisoning(동기화 중독 — 양 에이전트가 같은 방향으로 오염)이 발생할 때 이를 감지하는 poisoning-aware validation 프레임워크 설계. Conformal prediction의 multi-partition cross-validation을 CPAS 토의 구조에 적용 가능한지 검증.
+* 배경: MasterLog [38] 토의에서 Skeptic이 "noise floor를 poisoned data에서 도출하면 구조적 측정 혼란" 지적. ICLR 2025 conformal prediction 연구가 해법 후보이나 CPAS 규모/도메인 적용 미검증.
+* 측정: (1) CPAS 2-session 구조에서 partition disagreement rate 추출 가능성, (2) 동기화 중독 시나리오(인위적 주입) → 감지율, (3) Held-out clean reference set 대비 감지 정확도
+* 성공 기준: Partition-based 감지율 ≥ 80% + held-out 대비 오차 ≤ 10% → 프레임워크 유효. 감지율 < 60% → 독립 참조셋 필수(Skeptic 수렴 조건 확정).
+* 의존: Track A 실행 데이터, ICLR 2025 conformal prediction 구현
+* 관련: MasterLog [38], RQ-9, RQ-12
+
+## [RQ-15 후보] Debate vs Voting 등가성의 CPAS 16턴 구조 적용 — [대기] MEDIUM
+
+* 출처: MasterLog [38] 분리 쟁점 2, 세션 #18
+* 내용: arXiv 2511.07784 "debate = expensive voting" (martingale property)가 CPAS의 16턴 2-session 구조에도 동일하게 적용되는지 검증. CPAS는 단순 다수결이 아닌 태그 기반 품질 추적 + 불균형 감지 + 데이터 무결성 검사를 포함 — 이 구조적 차이가 martingale property를 깨뜨리는지.
+* 측정: (1) CPAS 16턴 결론 vs 동일 입력에 대한 다수결(3-agent voting) 비교, (2) 일치율 + 불일치 시 CPAS가 추가 정보를 제공하는지, (3) 토큰 비용 대비 정보 부가가치
+* 성공 기준: CPAS가 다수결 대비 ≥ 15% 추가 정보 부가가치 → 토의 구조 가치 확인. 차이 < 5% → "expensive voting" 확정, 구조 간소화 필요.
+* 의존: Track A 실행, 다수결 기준선 구현
+* 관련: MasterLog [38], arXiv 2511.07784, arXiv 2508.17536
 
 ================================================================================
