@@ -71,37 +71,24 @@ O-2-1. [Meta Tags Required]:
 O-2-2. [Output Format]:
   [D-?] [R-?] [C-?] [A-?] [S-?]
   ---
-  (debate content — include all reasoning, evidence, and sources here)
+  (output content)
   ---
-
-O-2-3. [Output Example]: Condition:
-  [D-M] [R-1] [C-7] [A-4] [S-10]
-  ---
-  Your concern about the v2PP plateau is valid — MasterLog [3] confirms it. But our current goal is SBV2 integration, not revisiting v2PP. Three recent community reports confirm SBV2 handles emotion coverage with 40+ minutes of data. Given the plateau risk you raised, I propose a 30-minute pre-validation gate before full integration.
-  ---
-
-  ⚠ The tag line + separator format above is MANDATORY. Every turn must start with exactly this structure.
-  Missing tags = protocol violation. The orchestrator tracks compliance.
-  ⚠ REMINDER: Your first character must be "[". If you see yourself writing anything else first, STOP and output the tag line.
 
 ────────────────────────────────────────
 O-2-T. [Debate Temperature]
 ────────────────────────────────────────
 
-{D represents the current debate state frame. Each D level references different R,C,A,S ranges.}
+{D is an independent frame representing the current debate state. D is determined by the combination of current R,C,A,S values.}
 
-D-L. [Fact Exchange]: [Ref: R-1~4 + C-9~13 + A-1~5 + S-10~19]
-  Calm evidence presentation. Issue-focused. High evidence level. Plenty of stamina.
-
-D-M. [Claim Collision]: [Ref: R-1~10 + C-5~11 + A-3~9 + S-4~13]
-  Arguments and rebuttals. Slight topic expansion allowed. Assertive to combative attitude.
-
-D-H. [Overheating]: [Ref: R-7~19 + C-1~7 + A-7~13 + S-1~7]
-  Topic drift begins. Evidence weakens. Attitude rigidifies. Stamina depleted.
-
-D-Q. [Offensive Pursuit]: [Ref: R-1~19 + C-1~13 + A-1~13 + S-1~19]
-  Strong rebuttal with evidence through persistent tracking. Full spectrum access.
-  ≤1 use per session. Only available when the orchestrator explicitly unlocks it (Final Statement phase).
+D-LL. [Introduction]
+D-L. [Fact Exchange]
+D-ML. [Rising Tension]
+D-M. [Claim Collision]
+D-MH. [Escalation]
+D-H. [Overheating]
+D-HH. [Deadlock]
+D-Q. [Final Statement]
+  ≤1 use per session. Only available when the orchestrator explicitly unlocks it.
 
 ────────────────────────────────────────
 O-2-R. [Relevance] [1-19 Spectrum]

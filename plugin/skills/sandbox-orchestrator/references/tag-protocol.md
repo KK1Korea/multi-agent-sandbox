@@ -1,4 +1,4 @@
-# Tag Protocol Reference — Cowork_CPAS v0.9.9
+# Tag Protocol Reference — Cowork_CPAS v0.9.13
 
 ## 5-Axis Meta Tag System
 
@@ -18,15 +18,18 @@ Tags are role-specific — the same axis measures different things for each role
 ---
 
 ## D — Debate Temperature (shared, both roles)
-- D-L: Fact exchange. Calm evidence presentation.
-  - Ref: A-1~5 + S-10~19
-- D-M: Claim collision. Arguments and rebuttals.
-  - Ref: A-3~9 + S-4~13
-- D-H: Overheating. Topic drift, weakened evidence, rigid attitude.
-  - Ref: A-7~13 + S-1~7
-- D-Q: Offensive pursuit. Strong rebuttal with evidence through persistent tracking.
-  - Ref: Full spectrum access.
-  - Limit: ≤1 use per session. Final Statement only.
+
+{D is an independent frame representing the current debate state. D is determined by the combination of current R,C,A,S values.}
+
+- D-LL. [Introduction]
+- D-L. [Fact Exchange]
+- D-ML. [Rising Tension]
+- D-M. [Claim Collision]
+- D-MH. [Escalation]
+- D-H. [Overheating]
+- D-HH. [Deadlock]
+- D-Q. [Final Statement]
+  ≤1 use per session. Only available when the orchestrator explicitly unlocks it.
 
 ## S — Stamina [1-19] (shared, both roles)
 Anchors: 1 (surrender), 4 (weak position), 7 (even), 10 (confident with evidence), 13 (strong evidence), 16 (overwhelming evidence), 19 (proven beyond debate)
@@ -126,12 +129,12 @@ For orchestrator analysis:
 태그는 개별 턴이 아닌 **궤적(trajectory)**으로 읽는다:
 
 ```
-Turn 1 (Adv): [D-L] [R-1]  [C-7]  [A-4]  [S-12]   (R/19, C/13)
-Turn 2 (Skp): [D-L] [R-1]  [C-7]  [A-4]  [S-10]   (R/13, C/19)
-Turn 3 (Adv): [D-M] [R-4]  [C-7]  [A-7]  [S-8]
-Turn 4 (Skp): [D-M] [R-4]  [C-13] [A-7]  [S-6]
-Turn 5 (Adv): [D-M] [R-1]  [C-10] [A-4]  [S-4]
-Turn 6 (Skp): [D-L] [R-1]  [C-10] [A-1]  [S-3]
+Turn 1 (Adv): [D-LL] [R-1]  [C-7]  [A-4]  [S-12]   (R/19, C/13)
+Turn 2 (Skp): [D-LL] [R-1]  [C-7]  [A-4]  [S-10]   (R/13, C/19)
+Turn 3 (Adv): [D-ML] [R-4]  [C-7]  [A-7]  [S-8]
+Turn 4 (Skp): [D-M]  [R-4]  [C-13] [A-7]  [S-6]
+Turn 5 (Adv): [D-M]  [R-1]  [C-10] [A-4]  [S-4]
+Turn 6 (Skp): [D-L]  [R-1]  [C-10] [A-1]  [S-3]
 ```
 
 이 패턴에서 읽어야 하는 것:
@@ -142,7 +145,7 @@ Turn 6 (Skp): [D-L] [R-1]  [C-10] [A-1]  [S-3]
 - R 궤적: 역할별 다른 스케일 주의
   - Advocate R/19: 1→4→1 = 주제 근접 유지 (넓은 범위에서도 안정)
   - Skeptic R/13: 1→4→1 = 주제 집중
-- D 전이: L→L→M→M→M→L = 초반 사실 교환 → 중반 충돌 → 후반 재합의
+- D 전이: LL→LL→ML→M→M→L = 도입 → 긴장 고조 → 충돌 → 사실 교환 재합의
 
 ### 2. 전환점(Turning Point) 감지
 
@@ -152,7 +155,7 @@ Turn 6 (Skp): [D-L] [R-1]  [C-10] [A-1]  [S-3]
 - **C 급등** (4→10 이상): 핵심 증거 제시. 이 근거가 토의를 지배하는지 후속 턴에서 확인.
   - Skeptic C-16+ 도달: 다중 벡터 반증 — Advocate 입장에 심각한 타격 가능
   - Skeptic C-19 도달: 결정적 반증 — Advocate 입장 사실상 붕괴
-- **D 상승** (L→H): 과열 시작점. 이 턴 이후의 내용은 감정이 섞일 수 있으므로 주의.
+- **D 상승** (L→MH 이상): 과열 진입. 이 턴 이후의 내용은 감정이 섞일 수 있으므로 주의.
 - **R 상승** (Advocate R-10+ 또는 Skeptic R-7+): 주제 이탈. 분리 쟁점 기록.
 
 ### 3. 토의 품질 종합 판정
@@ -163,14 +166,14 @@ Turn 6 (Skp): [D-L] [R-1]  [C-10] [A-1]  [S-3]
 - Advocate C가 최소 한 번 7+ 도달 (직접 근거 있음)
 - Skeptic C가 최소 한 번 10+ 도달 (교차 검증된 반론 있음)
 - S가 자연스럽게 수렴 (급락 없이 점진적 하강)
-- D가 H에 도달하지 않음
+- D가 H/HH에 도달하지 않음
 - R이 안정 유지 (Advocate R≤10, Skeptic R≤7)
 
 **저품질 토의:**
 - Advocate C가 4 이하 유지 (간접 근거만)
 - Skeptic C가 7 이하 유지 (직접 반증 없이 감에 의존)
 - S가 변동 없음 (양쪽 고집, 수렴 실패)
-- D-H 다수 등장 (감정적 과열)
+- D-H/D-HH 다수 등장 (감정적 과열/교착)
 - R 불안정 (잦은 주제 이탈)
 
 **편향 토의:**

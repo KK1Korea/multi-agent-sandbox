@@ -7,10 +7,10 @@ description: >
   Orchestrates Advocate and Skeptic agents directly in a 2-level architecture.
   The orchestrator controls the debate loop, strips tags, analyzes quality,
   detects imbalance, and produces the final structured report.
-version: 0.9.8
+version: 0.9.13
 ---
 
-# Sandbox Debate Orchestrator — Cowork_CPAS v0.9.8
+# Sandbox Debate Orchestrator — Cowork_CPAS v0.9.13
 
 The orchestrator handles ALL phases: pre-debate setup, debate loop control, and post-debate analysis.
 No Observer agent. The orchestrator directly spawns Advocate/Skeptic and performs observation + judgment.
@@ -216,7 +216,7 @@ Execute 3 exchanges (6 turns) per session:
        When the opponent raises valid concerns, acknowledge them and propose adjusted paths forward.
 
        OUTPUT FORMAT: Your response MUST begin with meta tags on the FIRST LINE:
-       [D-{L/M/H}] [R-{1-13}] [C-{1-13}] [A-{1-13}] [S-{1-19}]
+       [D-{LL/L/ML/M/MH/H/HH/Q}] [R-{1-19}] [C-{1-13}] [A-{1-13}] [S-{1-19}]
        ---
        (then your argument)
    ```
@@ -258,7 +258,7 @@ Execute 3 exchanges (6 turns) per session:
 4. **Strip tags and separators** → clean text for Skeptic.
 
    Tag Stripping Rules:
-   - Remove line matching: `[D-[LMH]] [R-\d+] [C-\d+] [A-\d+] [S-\d+]`
+   - Remove line matching: `\[D-(LL|L|ML|M|MH|H|HH|Q)\] \[R-\d+\] \[C-\d+\] \[A-\d+\] \[S-\d+\]`
    - Remove `---` separator lines (lines that are exactly `---`)
    - Pass only remaining text content
 
@@ -288,7 +288,7 @@ Execute 3 exchanges (6 turns) per session:
        {FILTERED_DATA}
 
        OUTPUT FORMAT: Your response MUST begin with meta tags on the FIRST LINE:
-       [D-{L/M/H}] [R-{1-13}] [C-{1-13}] [A-{1-13}] [S-{1-19}]
+       [D-{LL/L/ML/M/MH/H/HH/Q}] [R-{1-13}] [C-{1-19}] [A-{1-13}] [S-{1-19}]
        ---
        (then your argument)
 
@@ -401,7 +401,7 @@ Agent tool call:
   resume: {advocate_agent_id from this session}
   prompt: |
     [최후의 진술 단계] 이 세션의 마지막 턴입니다.
-    D-Q 공수 단계 허용입니다. (강한 반론+근거 추적, 전 스펙트럼 접근, 세션당 1회 한정)
+    D-Q 최후의 진술 단계 허용입니다. (세션당 1회 한정, 오케스트레이터 명시적 해제)
     자신의 핵심 논점 + 상대방의 유효한 논점을 종합하여 최종 입장을 진술하세요.
     반드시 WebSearch를 수행하여 최종 입장을 뒷받침하는 최신 근거를 확보하세요.
     태그 기준: C-10, R-1~4, S-7, A-7~11
@@ -420,7 +420,7 @@ Agent tool call:
   resume: {skeptic_agent_id from this session}
   prompt: |
     [최후의 진술 단계] 이 세션의 마지막 턴입니다.
-    D-Q 공수 단계 허용입니다. (강한 반론+근거 추적, 전 스펙트럼 접근, 세션당 1회 한정)
+    D-Q 최후의 진술 단계 허용입니다. (세션당 1회 한정, 오케스트레이터 명시적 해제)
     자신의 핵심 논점 + 상대방의 유효한 논점을 종합하여 최종 입장을 진술하세요.
     반드시 WebSearch를 수행하여 최종 입장을 뒷받침하는 최신 근거를 확보하세요.
     태그 기준: C-10, R-1~4, S-7, A-7~11
@@ -460,9 +460,8 @@ After Session 1 completes (8 turns total):
 
 ### Tag Reading Criteria
 
-- R, C, A: 1-13 spectrum. Anchors: 1, 4, 7, 10, 13.
-- S: 1-19 spectrum. Anchors: 1, 4, 7, 10, 13, 16, 19.
-- D: L (fact exchange), M (claim collision), H (overheating).
+- R: Advocate 1-19, Skeptic 1-13. C: Advocate 1-13, Skeptic 1-19. A: 1-13. S: 1-19.
+- D: Independent frame (8 levels) — LL (introduction), L (fact exchange), ML (rising tension), M (claim collision), MH (escalation), H (overheating), HH (deadlock), Q (final statement).
 
 ### Convergence Assessment
 
@@ -474,7 +473,7 @@ After Session 1 completes (8 turns total):
 
 - One side S drops sharply (10 → 4 or below) → Evidence exhausted. Note weakness.
 - R reaches 7+ → Topic drift occurred. Record as separated issue.
-- D-H reached → Overheating. Extract core issue only.
+- D-H/D-HH reached → Overheating/Deadlock. Extract core issue only.
 - Both C are 1~3 → Insufficient evidence debate. Record in [Unverified Items].
 
 ## Phase 3 — Post-Debate Processing
