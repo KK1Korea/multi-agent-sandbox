@@ -2,15 +2,16 @@
 name: project-review
 description: >
   CPAS 프로젝트 관리 스킬 — MasterLog/True/Fail/Dummy 로그 분류 및 이동,
+  research_queue 흡수 (Dummy 이동 전 주요 발견 보존),
   current_task.md 버전 관리 및 갱신, 구형 데이터 정리, 볼륨 분할.
   사용자가 사용 중인 모델이 그대로 실행한다 (모델 고정 없음).
-version: 1.0.0
+version: 1.1.0
 ---
 
 # CPAS Project Review & Data Quality Management
 
 프로젝트 로그 전체를 정리하고, current_task.md를 최신 상태로 유지하는 스킬.
-로그 분류 + 구형 데이터 Dummy 이동 + 버전 추적 + 진행도 갱신을 한 번에 수행한다.
+로그 분류 + research_queue 흡수 + 구형 데이터 Dummy 이동 + 버전 추적 + 진행도 갱신을 한 번에 수행한다.
 
 ## When to Use
 
@@ -28,6 +29,7 @@ Read the following files:
 - `True_Log.md` — 실증 검증된 사실
 - `Dummy_Log/Dummy_Log_*.md` — 최신 Dummy 로그 파일
 - `Fail_Log.md` — 실패 입증된 항목
+- `.context/research_queue.md` — 연구과제 큐 (Dummy 이동 전 흡수 대상)
 - `CLAUDE.md` — 프로젝트 규칙
 
 ## 파일 구조
@@ -38,6 +40,8 @@ CPAS/
 ├── MasterLog.md          ← 미분류 항목만 (스테이징 영역)
 ├── True_Log.md           ← 실증 성공 항목 (자동 승격)
 ├── Fail_Log.md           ← 실패 입증 항목 (자동 이동)
+├── .context/
+│   └── research_queue.md ← 연구과제 큐 (Dummy 이동 전 흡수 대상)
 └── Dummy_Log/
     ├── Dummy_Log_1.md    ← 저가치/중복/구형 항목 (1000줄 로테이션)
     ├── Dummy_Log_2.md    ← 1000줄 초과 시 새 파일
@@ -242,6 +246,38 @@ Fail_Log의 모든 항목에 대해:
 
 ---
 
+## Phase 3.5 — Research Queue 흡수 (Dummy 이동 전 필수)
+
+**★ Dummy 이동 대상 항목의 주요 발견사항을 research_queue에 보존하는 단계 ★**
+
+MasterLog/True_Log/Fail_Log에서 Dummy로 이동 판정된 항목 중, research_queue(RQ-*)에 반영할 내용이 있는지 교차 확인한다.
+Dummy로 보내더라도 주요 발견은 research_queue에 남아있어야 한다.
+
+### Step 3.5.1 — Dummy 판정 항목 × research_queue 교차 대조
+
+Dummy 이동 판정된 각 항목에 대해:
+
+1. **해당 항목이 연관된 RQ가 있는가?** — 항목 내 키워드, 실험 결과, 참조 번호로 판단
+2. **RQ에 아직 반영되지 않은 핵심 발견이 있는가?** — 이미 RQ에 기록된 내용이면 skip
+3. **반영이 필요하면**: 해당 RQ의 현황/관련 참조에 추가 기록
+
+### Step 3.5.2 — research_queue 업데이트
+
+반영할 내용이 있는 경우:
+
+- 해당 RQ 항목의 `현황` 또는 `관련` 필드에 핵심 발견사항 추가
+- 원본 항목 번호를 참조로 명시 (예: `MasterLog [N]에서 흡수`)
+- RQ의 `⚠` 주의사항이나 누적 패턴 업데이트가 필요하면 함께 갱신
+- **주의**: research_queue의 기존 내용은 절대 삭제/수정하지 않는다 (추가만)
+
+### Step 3.5.3 — 흡수 확인 후 Dummy 이동 승인
+
+- research_queue 반영이 완료된 항목 → Phase 4에서 Dummy로 이동
+- 반영할 RQ가 없는 항목 → 그대로 Dummy로 이동
+- **핵심 원칙**: "Dummy로 보내도 주요 발견은 research_queue에 남아있다"
+
+---
+
 ## Phase 4 — 자동 이동 실행
 
 **이 단계가 핵심 — 분류 후 실제 파일 조작을 수행한다.**
@@ -285,6 +321,12 @@ Current Version: v{X.Y.Z}
   → Dummy 이동: {count}건
   → 잔류: {count}건
 
+── RESEARCH QUEUE ABSORPTION ──
+  → research_queue 반영: {count}건
+    [N] → RQ-{X}: {반영 내용 1줄}
+  → 반영 불필요 (이미 기록됨): {count}건
+  → 연관 RQ 없음: {count}건
+
 ── CURRENT_TASK.MD ──
   버전 갱신: {예/아니오}
   라이브 상태 갱신: {예/아니오}
@@ -293,6 +335,7 @@ Current Version: v{X.Y.Z}
 - True_Log: {N}건 추가, {N}건 Dummy 이동
 - Fail_Log: {N}건 추가, {N}건 Dummy 이동
 - Dummy_Log_{X}: {N}건 추가
+- research_queue: {N}건 흡수
 - MasterLog: {N}건 잔류
 - current_task.md: 갱신됨
 === END REPORT ===
@@ -333,7 +376,7 @@ Current Version: v{X.Y.Z}
 
 ## 범위 제한
 
-- 이 스킬의 작업 범위는 **로그 파일 분류/이동 + current_task.md 갱신**만 해당한다.
+- 이 스킬의 작업 범위는 **로그 파일 분류/이동 + research_queue 흡수 + current_task.md 갱신**만 해당한다.
 - GitHub push, 플러그인 재패키징, 외부 동기화 등은 이 스킬의 범위 밖이다.
 - 샌드박스 토의 실행은 이 스킬의 범위 밖이다 (cpas-sandbox 플러그인 담당).
 - 범위 밖 작업이 필요하면 결과 보고에 "추가 작업 필요" 항목으로 명시하고 **실행하지 않는다.**
