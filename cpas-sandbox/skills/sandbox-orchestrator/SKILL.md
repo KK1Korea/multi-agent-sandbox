@@ -10,7 +10,7 @@ description: >
 version: 0.9.14
 ---
 
-# Sandbox Debate Orchestrator — Cowork_CPAS v0.9.14
+# Sandbox Debate Orchestrator — Cowork_CPAS v0.9.15
 
 The orchestrator handles ALL phases: pre-debate setup, debate loop control, and post-debate analysis.
 No Observer agent. The orchestrator directly spawns Advocate/Skeptic and performs observation + judgment.
@@ -22,7 +22,7 @@ Architecture: Main (Orchestrator) → {Advocate, Skeptic, MasterLog-Filter, True
 ### Step 0 — Workspace Structure Check
 
 Check if the CPAS file structure exists in the workspace:
-- Look for: `current_task.md`, `MasterLog.md`, `True_Log.md`, `Fail_Log.md`, `Dummy_Log/`, `.context/research_queue.md`, `CLAUDE.md`
+- Look for: `current_task.md`, `MasterLog.md`, `True_Log.md`, `Fail_Log.md`, `Dummy_Log/`, `.context/research_queue.md`, `.context/sandbox_log.md`, `CLAUDE.md`
 - If ANY of these are missing → run the `workspace-init` skill first
   - Use the debate topic as the project name (ask user to confirm)
   - Wait for initialization to complete before proceeding
@@ -116,7 +116,7 @@ Agent tool call:
     Deliver filtered results in your structured format.
 ```
 
-**Agent 4: research-queue-filter** ★ NEW in v0.9.14
+**Agent 4: research-queue-filter** ★ NEW in v0.9.15
 ```
 Agent tool call:
   subagent_type: "cpas-sandbox:research-queue-filter"
@@ -164,7 +164,7 @@ Capture all outputs and merge into TWO separate data blocks:
 Order: HIGH reliability first (True_Log, Fail_Log), then MEDIUM (MasterLog).
 If multiple volumes exist for a log type, concatenate their outputs in volume order.
 
-**`{RESEARCH_CONTEXT}` — Shared research context (BOTH agents):** ★ NEW in v0.9.14
+**`{RESEARCH_CONTEXT}` — Shared research context (BOTH agents):** ★ NEW in v0.9.15
 ```
 {research-queue-filter output}
 ```
@@ -258,7 +258,7 @@ Execute 3 exchanges (6 turns) per session:
 
    Where {CURRENT_DIRECTION} is extracted from current_task.md `[지금 해야 할 일]` section.
    This gives the Advocate its project direction anchor — it argues not just "for" but "forward."
-   {RESEARCH_CONTEXT} is from research-queue-filter — shared with both sides (v0.9.14).
+   {RESEARCH_CONTEXT} is from research-queue-filter — shared with both sides (v0.9.15).
    If no research context available, omit the RESEARCH CONTEXT block entirely.
 
    {SESSION_2_BRIEFING} for Session 2 Advocate:
@@ -338,7 +338,7 @@ Execute 3 exchanges (6 turns) per session:
        Present your counterargument.
    ```
 
-   {RESEARCH_CONTEXT} is from research-queue-filter — shared with both sides (v0.9.14).
+   {RESEARCH_CONTEXT} is from research-queue-filter — shared with both sides (v0.9.15).
    If no research context available, omit the RESEARCH CONTEXT block entirely.
 
    {SESSION_2_BRIEFING} for Session 2 Skeptic:
@@ -587,11 +587,42 @@ Assess recording worthiness from the analysis:
 - **Skip**: Both sides C≤3 throughout → not worth recording
 - **Ask user**: Ambiguous quality → ask user
 
-### Recording (if approved)
+### Sandbox_Log 자동 저장 (무조건 — Quality Gate 무관) ★ NEW in v0.9.15
+
+**토의 완료 즉시, 사용자 동의 없이 자동 저장한다.**
+Quality Gate 결과와 무관하게 모든 토의를 기록한다.
+
+Append to `.context/sandbox_log.md`:
+```
+[N] {topic} — {date}
+────────────────────────────────────────
+
+  ■ 쟁점: {core issue}
+  ■ Advocate 근거: {summary + source + reliability}
+  ■ Skeptic 근거: {summary + source + reliability}
+  ■ 핵심 차이: {key difference}
+  ■ 미검증: {unverified items}
+  ■ 분리된 쟁점: {separated issues}
+  ■ 세션 비교: {session 1 vs session 2 shift}
+  ■ 토의 품질: {structure, convergence, balance, tag summary}
+  ■ 오케스트레이터 평가: {assessment summary}
+  ■ 사용자 확인 필요: {questions}
+
+```
+
+**Sandbox_Log 규칙:**
+- **영구 기록**: 절대 이동/수정/삭제하지 않는다. /review 대상 아님.
+- **자동 저장**: 사용자 동의 불필요. 토의 완료 즉시 기록.
+- **넘버링**: [1], [2], [3]... 순차 증가. 마지막 번호 확인 후 +1.
+- **언어**: 사용자 언어로 기록 (한국어면 한국어, 영어면 영어).
+- **참조 안정성**: research_queue의 출처 링크는 이 로그를 가리킨다 (이동 없으므로 링크 불변).
+- **볼륨 분할**: 1500줄 초과 시 sandbox_log_2.md, sandbox_log_3.md... 생성.
+
+### Recording (MasterLog — Quality Gate 통과 시)
 
 **Language rule**: Write the MasterLog entry in the **user's language** (the language they used to request the debate). If the user spoke Korean, record in Korean. If English, record in English.
 
-Append to MasterLog.md (unclassified staging area):
+Quality Gate를 통과한 경우에만 MasterLog에도 기록한다 (분류/리뷰 대상):
 ```
 [N] Sandbox: {topic} — {date}
 ────────────────────────────────────────
@@ -604,13 +635,17 @@ Append to MasterLog.md (unclassified staging area):
   ■ 토의 품질: {sections, convergence, balance}
   ■ 오케스트레이터 평가: {assessment summary}
   ■ 사용자 확인 필요: {questions}
+  ■ Sandbox_Log 참조: Sandbox_Log [{N}]
 
   태그: [구상]
 ```
 
-### Research Queue Update (mandatory after recording)
+★ MasterLog 엔트리에 `Sandbox_Log [{N}]` 참조를 포함한다.
+MasterLog 항목이 /review로 이동되더라도, Sandbox_Log 원본은 영구 보존.
 
-After MasterLog recording, update `.context/research_queue.md` with debate-derived items:
+### Research Queue Update (mandatory after Sandbox_Log recording)
+
+After Sandbox_Log recording, update `.context/research_queue.md` with debate-derived items:
 
 1. Extract from the structured report:
    - [Unverified Items] → each becomes a research queue entry
@@ -620,12 +655,15 @@ After MasterLog recording, update `.context/research_queue.md` with debate-deriv
 2. Format per entry:
 ```
 ## [RQ-N] {title} — [대기] {priority: HIGH/MEDIUM/LOW}
-- 출처: MasterLog [{N}] {debate reference}
+- 출처: Sandbox_Log [{N}] {debate reference}
 - 내용: {what needs to be verified/tested}
 - 측정: {how to measure success/failure}
 - 성공 기준: {what constitutes pass/fail}
-- 관련: {related log entries}
+- 관련: Sandbox_Log [{N}], {other related entries}
 ```
+
+★ 출처와 관련 필드에 **Sandbox_Log [N]**을 사용한다 (MasterLog [N] 아님).
+→ /review로 MasterLog 항목이 이동되어도 RQ 링크가 깨지지 않는다.
 
 3. Priority assignment:
    - HIGH: Blocks project progress or invalidates a key assumption

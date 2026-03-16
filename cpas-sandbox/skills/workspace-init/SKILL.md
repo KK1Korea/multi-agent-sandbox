@@ -47,7 +47,8 @@ If partial structure exists, only create the MISSING files. Report what was foun
 ├── .context/
 │   ├── index.md                ← Annotation index
 │   ├── session_log.md          ← Session work log
-│   └── research_queue.md       ← Research task queue
+│   ├── research_queue.md       ← Research task queue
+│   └── sandbox_log.md          ← Permanent sandbox debate log (never moved)
 ├── True_Log.md                 ← Verified facts only
 ├── MasterLog/
 │   └── MasterLog_{project}_1.md  ← First log file
@@ -177,6 +178,15 @@ Previous log: None
 (No items yet)
 ```
 
+**.context/sandbox_log.md**:
+```markdown
+# Sandbox_Log — {project name}
+# 영구 토의 기록. 자동 저장. 이동/수정/삭제 절대 금지.
+# research_queue 출처 링크의 안정적 참조 대상.
+
+(No debates yet)
+```
+
 **Issues/Known_Issues.md**:
 ```markdown
 # Known Issues — {project name}
@@ -195,7 +205,7 @@ Created:
 - current_task.md
 - True_Log.md
 - MasterLog/MasterLog_{project}_1.md
-- .context/index.md, session_log.md, research_queue.md
+- .context/index.md, session_log.md, research_queue.md, sandbox_log.md
 - Issues/Known_Issues.md
 - Plans/ (empty directory)
 

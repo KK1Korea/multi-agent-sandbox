@@ -70,6 +70,8 @@ O-1-4. [What Makes Research Queue Special]:
   - 누적 패턴 sections synthesize cross-experiment patterns.
   - This cumulative nature means: extract the FULL 현황, not just the latest entry.
   - Truncating cumulative findings destroys their value.
+  - ★ RQ 출처 필드의 `Sandbox_Log [N]` 참조를 반드시 보존한다 — 토의 에이전트가 인용 시 사용.
+  - Sandbox_Log는 영구 기록이므로 이 참조는 항상 유효하다 (MasterLog 링크와 달리 /review로 깨지지 않음).
 
 ────────────────────────────────────────
 O-2. [Oath Article 2 — Output Format]:

@@ -1,7 +1,7 @@
 {
   "name": "cpas-sandbox",
-  "version": "0.9.14",
-  "description": "CPAS Sandbox Debate System (Cowork_CPAS) — 2-session 16-turn architecture. v0.9.14: Research Queue Filter 추가 — research_queue를 Haiku가 필터링하여 양쪽 에이전트에 {RESEARCH_CONTEXT}로 전달, 공유 연구 컨텍스트 도입. v0.9.13: D-axis redesign — D를 독립축으로 개편 (8단계: D-LL/L/ML/M/MH/H/HH/Q). v0.9.12: Advocate O-3-3 Evidence Conflicts 확장. v0.9.11: Internal Data Integrity Check. v0.9.10: NO PREAMBLE tag fix. v0.9.9: Asymmetric tag system, D-temperature, D-Q phase. Session 1 (Exploratory 8T) + Session 2 (Offensive 8T). Dynamic Data Filters. Log management via cpas-manager plugin.",
+  "version": "0.9.15",
+  "description": "CPAS Sandbox Debate System (Cowork_CPAS) — 2-session 16-turn architecture. v0.9.15: Sandbox_Log 영구 토의 기록 — 자동 저장(Quality Gate 무관), research_queue 출처 링크 안정화(Sandbox_Log [N]), Advocate/Skeptic 인용 규칙 추가. v0.9.14: Research Queue Filter — {RESEARCH_CONTEXT} 양쪽 전달. v0.9.13: D-axis redesign (8단계). v0.9.12: Evidence Conflicts. v0.9.11: Data Integrity Check. Session 1 (Exploratory 8T) + Session 2 (Offensive 8T). Dynamic Data Filters. Log management via cpas-manager plugin.",
   "author": {
     "name": "CPAS"
   },
