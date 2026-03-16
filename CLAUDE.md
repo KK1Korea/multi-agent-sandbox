@@ -33,6 +33,11 @@
 - True_Log 잔류 기준: 핵심 검증사항 + 계속 참조 가능한 것만. 구버전/대체된 항목 → Dummy, 실패 확인 → Fail
 - current_task.md의 [작업 버전] 히스토리 기반으로 구형 데이터 탐지
 
+## README.md 업데이트 금지
+- `github-repo/README.md`는 **절대 수정하지 않는다.**
+- 사유: 연구 중단 선언 상태 (v0.9.9에서 동결). 개발은 계속하지만 README는 포기.
+- 최신 버전 정보는 `current_task.md` [작업 버전] 및 플러그인 plugin.json 참조.
+
 ## GitHub Push 방법 (Cowork VM 환경)
 Cowork VM은 세션마다 환경이 리셋되므로 gh CLI 설치는 매번 필요.
 단, 인증은 한번 완료된 채팅방(세션) 내에서는 유지됨 — **push/commit 실패 시에만 인증 절차 수행**.
