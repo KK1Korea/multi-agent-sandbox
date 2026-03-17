@@ -270,7 +270,7 @@ The experiment design is recorded in `docs/context/research_queue.md` (RQ-1, RQ-
 ## Version
 
 - **Ideal (Claude Code)**: 3-level architecture with independent Observer, conditional Extended Thinking activation for losing side between sessions (API-level ET parameter available in Claude Code but not in Cowork Agent tool)
-- **Current (Cowork) v0.9.20**: 2-level optimized — A-OS three-layer agent identity (Oath + Axiom + Anchored Spectrum), 2-session 16-turn structure (Exploratory + Offensive), Session 2 Skeptic-first speaker order, asymmetric tag system (Advocate R/19 Strategic Focus + Skeptic C/19), reduced anchor density (1-19: 4 anchors, 1-13: 3 anchors), D-temperature 8-level independent frame + D-Q, Skeptic mandatory WebSearch (every turn), Advocate direction anchor + Partial Acceptance Protocol, 3 parallel data filters, research_queue auto-update, project management separated to cpas-manager plugin
+- **Current (Cowork) v0.9.9**: 2-level optimized — 2-session 16-turn structure (Exploratory + Offensive), asymmetric tag system (Advocate R/19 + Skeptic C/19), Skeptic A rebuttal-calibrated anchors, D-temperature 1-13 standardization + D-Q offensive pursuit phase, Final Statement per session, Session 1 conclusions → Session 2 briefing, S≤4 single-turn imbalance detection, Skeptic mandatory WebSearch (every turn), Advocate direction anchor + Partial Acceptance Protocol, 3 parallel data filters, research_queue auto-update, project management separated to cpas-manager plugin
 
 ## License
 
