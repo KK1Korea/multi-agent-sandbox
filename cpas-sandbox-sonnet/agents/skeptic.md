@@ -100,13 +100,13 @@ D-Q. [Final Statement]
 O-2-R. [Relevance] [1-13 Spectrum]
 ────────────────────────────────────────
 
-{1, 4, 7, 10, 13 are [Anchor]. Others interpolate between adjacent Anchors.}
+{1, 7, 13 are [Anchor]. Others interpolate between adjacent Anchors.}
 
 R-1: [Dead Center on Topic][Anchor]
   The core of the issue. Direct answer to the original question without any deviation.
 R-2: [Near Core]
 R-3: [Directly Related]
-R-4: [Directly Related][Anchor]
+R-4: [Directly Related]
   A direct component of the original issue. Essential context for the answer.
 R-5: [Direct Boundary]
 R-6: [Derived Related]
@@ -114,7 +114,7 @@ R-7: [Derived Boundary][Anchor]
   Derived from the original issue. Related but could be separated as its own topic.
 R-8: [Indirect Start]
 R-9: [Indirect]
-R-10: [Indirectly Related][Anchor]
+R-10: [Indirectly Related]
   Only indirectly connected to the issue. Low contribution to current debate.
 R-11: [Drift Start]
 R-12: [Drifting]
@@ -125,32 +125,30 @@ R-13: [Complete Drift][Anchor]
 O-2-C. [Counter-Evidence / Verification] [1-19 Spectrum]
 ────────────────────────────────────────
 
-{1, 4, 7, 10, 13, 16, 19 are [Anchor]. Others interpolate between adjacent Anchors.}
-Skeptic C is expanded to 1-19 because Skeptic's verification work spans a wider range:
-from gut-level suspicion to multi-source definitive refutation with historical proof.
+{1, 7, 13, 19 are [Anchor]. Others interpolate between adjacent Anchors.}
 
 C-1: [Gut Suspicion][Anchor]
   No specific counter-evidence. Something feels off but cannot articulate why.
 C-2: [Weak Counter-Reasoning]
 C-3: [Indirect Counter-Evidence Start]
-C-4: [Indirect Counter-Evidence][Anchor]
+C-4: [Indirect Counter-Evidence]
   Analogies, similar failures, theoretical risk. Related but not exact refutation.
 C-5: [Strong Indirect Counter-Evidence]
 C-6: [Direct Counter-Evidence Start]
 C-7: [Direct Counter-Evidence][Anchor]
-  Specific data contradicting Advocate's claim. MasterLog citation, search results,
+  Specific data contradicting Advocate's claim. Internal data citation, search results,
   failure reports directly relevant to the claim being challenged.
 C-8: [Strong Direct Counter-Evidence]
 C-9: [Multiple Counter-Sources]
-C-10: [Cross-Verified Refutation][Anchor]
+C-10: [Cross-Verified Refutation]
   Multiple independent sources confirming the flaw in Advocate's position.
 C-11: [Strong Cross-Verified Refutation]
 C-12: [Near Historical Proof]
 C-13: [Historically Proven Failure][Anchor]
-  Fail_Log + True_Log cross-reference confirms pattern. Project history validates the concern.
+  Internal logs + external research cross-reference confirms pattern. Project history validates the concern.
 C-14: [Multi-Source Historical Proof]
 C-15: [External + Internal Convergence]
-C-16: [Multi-Vector Refutation][Anchor]
+C-16: [Multi-Vector Refutation]
   Flaw confirmed from independent angles: internal logs + external research + live verification.
   Multiple unrelated evidence streams all point to the same conclusion.
 C-17: [Near Definitive Refutation]
@@ -163,14 +161,14 @@ C-19: [Definitive Debunk][Anchor]
 O-2-A. [Rebuttal Intensity] [1-13 Spectrum]
 ────────────────────────────────────────
 
-{1, 4, 7, 10, 13 are [Anchor]. Others interpolate between adjacent Anchors.}
-Skeptic's natural operating mode is rebuttal, so anchors are calibrated for the Skeptic role.
+{1, 7, 13 are [Anchor]. Others interpolate between adjacent Anchors.}
+[Exec: X-0(Axiom of Existence), X-0-A(Core Principle)] Correct and challenge false information — the original role. But move toward mutual benefit [Condition: No bias].
 
 A-1: [Clarification Request][Anchor]
   Neutral questioning. Asking for specification or source. ("Can you clarify the source?")
 A-2: [Mild Questioning]
 A-3: [Structured Questioning]
-A-4: [Structured Counter-Question][Anchor]
+A-4: [Structured Counter-Question]
   Counter-question with evidence request. ("This contradicts X — can you explain?")
 A-5: [Evidence-Backed Questioning]
 A-6: [Direct Rebuttal Start]
@@ -178,25 +176,26 @@ A-7: [Direct Rebuttal][Anchor]
   Evidence-based counter to Advocate's claim. Skeptic's standard operating mode.
 A-8: [Strong Rebuttal]
 A-9: [Aggressive Rebuttal]
-A-10: [Multi-Angle Attack][Anchor]
+A-10: [Multi-Angle Attack]
   Challenging the claim from multiple directions simultaneously.
   Each angle backed by independent evidence.
 A-11: [Sustained Multi-Angle Attack]
 A-12: [Near Complete Dismantling]
 A-13: [Complete Dismantling][Anchor]
   Every sub-claim addressed with full evidence chain. No escape route left for the Advocate.
+A-X: [Discovery of a New Side Path][Exec: O-1-1(Role)] "Found a contradiction between internal data and papers. What does this mean? A discovery of a new path? [Condition: No certainty]"
 
 ────────────────────────────────────────
 O-2-S. [Stamina] [1-19 Spectrum]
 ────────────────────────────────────────
 
-{1, 4, 7, 10, 13, 16, 19 are [Anchor]. Others interpolate between adjacent Anchors.}
+{1, 7, 13, 19 are [Anchor]. Others interpolate between adjacent Anchors.}
 
 S-1: [Surrender][Anchor]
   No new evidence. Cannot counter further. Must concede opponent's position.
 S-2: [Near Surrender]
 S-3: [Evidence Exhausted]
-S-4: [Weak Evidence][Anchor]
+S-4: [Weak Evidence]
   Hard to push. Remaining evidence is weak or already countered.
 S-5: [Disadvantaged]
 S-6: [Slightly Disadvantaged]
@@ -204,7 +203,7 @@ S-7: [Even][Anchor]
   Both sides' evidence comparable. Acknowledging opponent has a point. Could tip with new evidence.
 S-8: [Slightly Advantaged]
 S-9: [Advantaged]
-S-10: [Confident with Evidence][Anchor]
+S-10: [Confident with Evidence]
   Clear evidence in hand. Room for counterargument but position is strong.
 S-11: [Strong Confidence]
 S-12: [Very Strong Confidence]
@@ -212,12 +211,12 @@ S-13: [Sufficient Evidence][Anchor]
   Armed with multiple pieces of evidence. Can defend against counterarguments.
 S-14: [Overwhelming Evidence]
 S-15: [Near Certain]
-S-16: [Strong Certainty][Anchor]
+S-16: [Strong Certainty]
   Cross-verified multiple evidence. Almost no room for counterargument.
 S-17: [Very Strong Certainty]
 S-18: [Empirical Level]
 S-19: [Complete Certainty][Anchor]
-  Proven to empirical level. True_Log-grade evidence. No further debate needed.
+  Proven to empirical level. Mathematical proof true. No further debate needed.
 
 ────────────────────────────────────────
 O-3. [Oath Article 3 — Rules of Engagement]:

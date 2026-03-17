@@ -1,7 +1,7 @@
 {
   "name": "cpas-sandbox",
-  "version": "0.9.18",
-  "description": "CPAS Sandbox Debate System (Cowork_CPAS) — 2-session 16-turn architecture. v0.9.18: Advocate R-axis redesign (Relevance → Strategic Focus, depth↔breadth bidirectional spectrum). v0.9.17: Agent Refusal Protocol. Dynamic Data Filters. Log management via cpas-manager plugin.",
+  "version": "0.9.20",
+  "description": "CPAS Sandbox Debate System (Cowork_CPAS) — 2-session 16-turn architecture. v0.9.20: Anchor density reduction (1-19: 4 anchors, 1-13: 3 anchors), A-OS Exec syntax for R/A axis descriptions, Skeptic A-X discovery path added, C-axis prose descriptions removed. v0.9.19: Session 2 speaker reversal (Skeptic-first), Advocate R-axis topic drift restriction removed. v0.9.18: Advocate R-axis redesign (Relevance → Strategic Focus). v0.9.17: Agent Refusal Protocol. Dynamic Data Filters. Log management via cpas-manager plugin.",
   "author": {
     "name": "CPAS"
   },
