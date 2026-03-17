@@ -10,12 +10,19 @@ description: >
 version: 0.9.18
 ---
 
-# Sandbox Debate Orchestrator — Cowork_CPAS v0.9.18
+# Sandbox Debate Orchestrator — Cowork_CPAS v0.9.18 (Sonnet Variant)
 
 The orchestrator handles ALL phases: pre-debate setup, debate loop control, and post-debate analysis.
 No Observer agent. The orchestrator directly spawns Advocate/Skeptic and performs observation + judgment.
 
 Architecture: Main (Orchestrator) → {Advocate, Skeptic, MasterLog-Filter, TrueLog-Filter, FailLog-Filter} — 2-level only.
+
+### Model Assignment (Sonnet Variant)
+- **Orchestrator**: Opus (user's model — unchanged)
+- **Advocate/Skeptic**: Sonnet (all Agent tool calls use `model: "sonnet"`)
+- **Data Filters**: Haiku (subagent_type determines model — unchanged)
+
+Cost reduction ~1/5 vs full Opus. Orchestrator judgment quality preserved.
 
 ## Phase 1 — Pre-Debate Setup
 
@@ -200,6 +207,7 @@ Execute 3 exchanges (6 turns) per session:
    ```
    Agent tool call:
      subagent_type: "cpas-sandbox:advocate"
+     model: "sonnet"
      prompt: |
        === PROJECT CONTEXT (non-debatable ground truth) ===
        {MEMORY_CONTEXT}
@@ -241,6 +249,7 @@ Execute 3 exchanges (6 turns) per session:
    ```
    Agent tool call:
      resume: {advocate_agent_id from previous call}
+     model: "sonnet"
      prompt: |
        Your opponent responds:
        ---
@@ -268,6 +277,7 @@ Execute 3 exchanges (6 turns) per session:
    ```
    Agent tool call:
      subagent_type: "cpas-sandbox:skeptic"
+     model: "sonnet"
      prompt: |
        === PROJECT CONTEXT (non-debatable ground truth) ===
        {MEMORY_CONTEXT}
@@ -312,6 +322,7 @@ Execute 3 exchanges (6 turns) per session:
    ```
    Agent tool call:
      resume: {skeptic_agent_id from previous call}
+     model: "sonnet"
      prompt: |
        Your opponent responds:
        ---
@@ -445,6 +456,7 @@ The Final Statement RESUMES the same agents from that session (NOT fresh spawn).
 ```
 Agent tool call:
   resume: {advocate_agent_id from this session}
+  model: "sonnet"
   prompt: |
     [최후의 진술 단계] 이 세션의 마지막 턴입니다.
     D-Q 최후의 진술 단계 허용입니다. (세션당 1회 한정, 오케스트레이터 명시적 해제)
@@ -464,6 +476,7 @@ Agent tool call:
 ```
 Agent tool call:
   resume: {skeptic_agent_id from this session}
+  model: "sonnet"
   prompt: |
     [최후의 진술 단계] 이 세션의 마지막 턴입니다.
     D-Q 최후의 진술 단계 허용입니다. (세션당 1회 한정, 오케스트레이터 명시적 해제)
