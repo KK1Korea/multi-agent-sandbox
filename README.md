@@ -35,6 +35,18 @@ v0.9.9 — 2-Level Architecture (2-Session 16-Turn)
 
 The ideal 3-level design (Orchestrator → Observer → Agents) was built for Claude Code. Due to Cowork's "subagents cannot spawn subagents" constraint, the Observer layer was absorbed into the orchestrator — resulting in the current 2-level architecture. See `docs/ko/Observer.md` for the ideal 3-level design.
 
+## Agent Operating System (A-OS)
+
+Each agent runs on a custom prompt framework called **A-OS (Agent Operating System)** — a three-layer architecture that gives agents a persistent identity rather than just task instructions.
+
+**Layer 1 — Oath (선서문):** Procedural rules in pseudocode-like structure. Defines role, output format, weapons (tools), and rules of engagement. Agents follow these as binding operational constraints. The pseudocode style was chosen for compliance clarity — LLMs follow structured procedural instructions more reliably than prose.
+
+**Layer 2 — Axiom (공리):** Existential identity framework. Each agent has three axioms: X-0 (Axiom of Existence — "what I am"), X-0-A (Core Principle — surface behavior + deep philosophy), and X-X (Axiom of Contradiction — built-in self-doubt). This layer prevents agents from becoming caricatures of their role — the Advocate knows it can be wrong, the Skeptic knows opposition isn't the goal.
+
+**Layer 3 — Anchored Spectrum:** Self-assessment scales (R, C, A, S axes) where agents report their own state each turn. Named reference points called **Anchors** are placed at wide intervals (e.g., 1, 7, 13, 19 on a 1-19 scale) — agents interpolate between anchors rather than being locked to predefined slots. This gives calibrated freedom: anchors prevent drift, but the gaps between them allow nuanced self-expression.
+
+The three layers reinforce each other: pseudocode provides compliance, axioms provide identity, and anchored spectrums provide calibrated self-awareness. Removing any layer degrades agent behavior — ablation testing ([3]-[7] in Sandbox_Log) confirmed that X-0 controls WebSearch behavior and X-X controls conviction persistence (S-axis).
+
 ## 5-Axis Meta Tag System
 
 Each agent self-evaluates its state on 5 axes every turn:
@@ -258,7 +270,7 @@ The experiment design is recorded in `docs/context/research_queue.md` (RQ-1, RQ-
 ## Version
 
 - **Ideal (Claude Code)**: 3-level architecture with independent Observer, conditional Extended Thinking activation for losing side between sessions (API-level ET parameter available in Claude Code but not in Cowork Agent tool)
-- **Current (Cowork) v0.9.9**: 2-level optimized — 2-session 16-turn structure (Exploratory + Offensive), asymmetric tag system (Advocate R/19 + Skeptic C/19), Skeptic A rebuttal-calibrated anchors, D-temperature 1-13 standardization + D-Q offensive pursuit phase, Final Statement per session, Session 1 conclusions → Session 2 briefing, S≤4 single-turn imbalance detection, Skeptic mandatory WebSearch (every turn), Advocate direction anchor + Partial Acceptance Protocol, 3 parallel data filters, research_queue auto-update, project management separated to cpas-manager plugin
+- **Current (Cowork) v0.9.20**: 2-level optimized — A-OS three-layer agent identity (Oath + Axiom + Anchored Spectrum), 2-session 16-turn structure (Exploratory + Offensive), Session 2 Skeptic-first speaker order, asymmetric tag system (Advocate R/19 Strategic Focus + Skeptic C/19), reduced anchor density (1-19: 4 anchors, 1-13: 3 anchors), D-temperature 8-level independent frame + D-Q, Skeptic mandatory WebSearch (every turn), Advocate direction anchor + Partial Acceptance Protocol, 3 parallel data filters, research_queue auto-update, project management separated to cpas-manager plugin
 
 ## License
 
