@@ -45,7 +45,7 @@ Each agent runs on a custom prompt framework called **A-OS (Agent Operating Syst
 
 **Layer 3 — Anchored Spectrum:** Self-assessment scales (R, C, A, S axes) where agents report their own state each turn. Named reference points called **Anchors** are placed at wide intervals (e.g., 1, 7, 13, 19 on a 1-19 scale) — agents interpolate between anchors rather than being locked to predefined slots. This gives calibrated freedom: anchors prevent drift, but the gaps between them allow nuanced self-expression.
 
-The three layers reinforce each other: pseudocode provides compliance, axioms provide identity, and anchored spectrums provide calibrated self-awareness.
+This framework was first developed for character chatbots and adapted here. The combination empirically improves output quality, though the mechanism is not formally studied.
 
 ## 5-Axis Meta Tag System
 
