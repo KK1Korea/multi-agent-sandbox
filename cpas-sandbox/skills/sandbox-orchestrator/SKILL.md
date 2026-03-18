@@ -190,9 +190,18 @@ strips tags, tracks quality, detects imbalance, and manages sessions.
 
 ### Exchange Loop (Per Session)
 
-Execute 3 exchanges (6 turns) per session:
+Execute 3 exchanges (6 turns) per session.
+
+**Speaker Order:**
+- Session 1: Advocate first → Skeptic responds (each exchange)
+- Session 2: Skeptic first → Advocate responds (each exchange)
+
+This reversal gives Session 2's attacker (Skeptic) the initiative, creating asymmetric pressure across sessions.
 
 **Exchange N (N = 1, 2, 3):**
+
+**For Session 1:** Follow the order below (Advocate → Skeptic).
+**For Session 2:** REVERSE the order — run steps 5-8 (Skeptic) FIRST, then steps 1-4 (Advocate). The Skeptic attacks first with Session 1 conclusions, and the Advocate responds.
 
 1. **Spawn/Resume Advocate:**
 
@@ -441,7 +450,10 @@ Exchange N+1 starts:
 After each session's 3 exchanges, run the Final Statement phase.
 The Final Statement RESUMES the same agents from that session (NOT fresh spawn).
 
-**Advocate Final Statement (Turn 7 in Session 1 / Turn 15 in Session 2):**
+**Session 1: Advocate first, then Skeptic. Session 2: Skeptic first, then Advocate.**
+(Consistent with session speaker order — the side that speaks first also gives their final statement first.)
+
+**Advocate Final Statement (Turn 7 in Session 1 / Turn 16 in Session 2):**
 ```
 Agent tool call:
   resume: {advocate_agent_id from this session}
@@ -450,7 +462,6 @@ Agent tool call:
     D-Q 최후의 진술 단계 허용입니다. (세션당 1회 한정, 오케스트레이터 명시적 해제)
     자신의 핵심 논점 + 상대방의 유효한 논점을 종합하여 최종 입장을 진술하세요.
     반드시 WebSearch를 수행하여 최종 입장을 뒷받침하는 최신 근거를 확보하세요.
-    태그 기준: C-10, R-1~4, S-7, A-7~11
 
     Your opponent's last argument:
     ---
@@ -460,7 +471,7 @@ Agent tool call:
     Present your FINAL STATEMENT — synthesize both positions and declare your conclusion.
 ```
 
-**Skeptic Final Statement (Turn 8 in Session 1 / Turn 16 in Session 2):**
+**Skeptic Final Statement (Turn 8 in Session 1 / Turn 15 in Session 2):**
 ```
 Agent tool call:
   resume: {skeptic_agent_id from this session}
@@ -469,7 +480,6 @@ Agent tool call:
     D-Q 최후의 진술 단계 허용입니다. (세션당 1회 한정, 오케스트레이터 명시적 해제)
     자신의 핵심 논점 + 상대방의 유효한 논점을 종합하여 최종 입장을 진술하세요.
     반드시 WebSearch를 수행하여 최종 입장을 뒷받침하는 최신 근거를 확보하세요.
-    태그 기준: C-10, R-1~4, S-7, A-7~11
 
     Your opponent's final statement:
     ---

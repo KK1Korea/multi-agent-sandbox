@@ -1,7 +1,7 @@
 {
   "name": "cpas-sandbox-sonnet",
-  "version": "0.9.20",
-  "description": "CPAS Sandbox Debate System — Sonnet Variant. Advocate/Skeptic = Sonnet, Orchestrator = Opus (user model), Data Filters = Haiku. 동일 v0.9.20 아키텍처 (Anchor density reduction, A-OS Exec syntax, Session 2 Skeptic-first, Advocate R축 Strategic Focus, Agent Refusal Protocol, 2-session 16-turn, Sandbox_Log Observer, D-axis 8단계) — 토의 에이전트만 Sonnet으로 교체하여 비용 절감 (~1/5). 오케스트레이터 판단 품질은 Opus 유지.",
+  "version": "0.9.21",
+  "description": "CPAS Sandbox Debate System — Sonnet Variant. Advocate/Skeptic = Sonnet, Orchestrator = Opus (user model), Data Filters = Haiku. 동일 v0.9.21 아키텍처 (Final Statement 태그 기준 제거, Anchor density reduction, A-OS Exec syntax, Session 2 Skeptic-first, Advocate R축 Strategic Focus, Agent Refusal Protocol, 2-session 16-turn, Sandbox_Log Observer, D-axis 8단계) — 토의 에이전트만 Sonnet으로 교체하여 비용 절감 (~1/5). 오케스트레이터 판단 품질은 Opus 유지.",
   "author": {
     "name": "CPAS"
   },
